@@ -1,0 +1,9 @@
+galaxy_info:
+  author: Lucas Bickel
+  description: Camac configuration role.
+  company: Adfinis SyGroup AG
+  issue_tracker_url: https://jira.linkyard.ch/projects/EBAUBE/
+  license: As-is
+  min_ansible_version: 2.4
+  galaxy_tags: []
+dependencies: []

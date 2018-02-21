@@ -1,0 +1,15 @@
+---
+# vars file for camac
+
+# Location to store downloaded files
+camac_releasedir: "{{ camac_datadir }}/releases"
+
+# Where to put the downloaded tarball
+camac_tarball: "{{ camac_releasedir }}/camac-be-{{ camac_version }}.tar.gz"
+
+# Directory containing the application entry point (ie. DocumentRoot in apache).
+camac_docroot: "{{ camac_basedir }}/htdocs"
+
+camac_libdir: "{{ camac_basedir }}/lib"
+
+camac_confdir: "{{ camac_basedir }}/configuration"

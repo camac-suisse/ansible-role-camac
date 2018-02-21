@@ -1,0 +1,90 @@
+---
+# tasks file for camac
+
+- name: install memcached server
+  package:
+    name: memcached
+
+- name: create download dir for releases
+  file:
+    state: directory
+    path: "{{ camac_releasedir }}/camac"
+
+- name: download camac release tarball
+  get_url:
+    url: "{{ camac_release }}"
+    dest: "{{ camac_tarball }}"
+    checksum: "sha256:{{ camac_tarball_checksum }}"
+  connection: local
+
+- name: unpack camac tarball
+  unarchive:
+    src: "{{ camac_tarball }}"
+    dest: "{{ camac_releasedir }}/camac"
+
+- name: create directories for camac installation
+  file:
+    state: directory
+    path: "{{ item }}"
+  with_items:
+    - "{{ camac_docroot }}"
+
+- name: copy camac webroot to apache docroot
+  synchronize:
+    src: "{{ camac_releasedir }}/camac/{{ item.src }}"
+    dest: "{{ item.dest }}"
+    delete: yes
+    rsync_opts: "{{ item.rsync_opts | d() }}"
+  delegate_to: "{{ inventory_hostname }}"
+  with_items:
+    - src: "camac/public/"
+      dest: "{{ camac_docroot }}"
+    - src: "camac/"
+      dest: "{{ camac_libdir }}"
+      rsync_opts: "--exclude 'public' --exclude 'composer.*'"
+    - src: "configuration/"
+      dest: "{{ camac_confdir }}"
+      rsync_opts: "--exclude 'composer.*' --filter 'protect prepend.php'"
+
+- name: prepare php prepend file
+  copy:
+    content: |
+      <?php
+      define('APPLICATION_PATH', '{{ camac_libdir }}/application');
+      define('APPLICATION_ENV', '{{ camac_env }}');
+    dest: "{{ camac_confdir }}/prepend.php"
+
+- name: ensure public configuration symlink points to actual config directory
+  file:
+    state: link
+    src: "{{ camac_confdir }}/public"
+    path: "{{ camac_docroot }}/public"
+
+- name: ensure application configuration symlink points to actual config directory
+  file:
+    state: link
+    src: "{{ camac_confdir }}"
+    dest: "{{ camac_libdir }}/configuration"
+
+- name: configure camac php app
+  template:
+    dest: "{{ item }}"
+    src: "application.ini.j2"
+  with_items:
+    - "{{ camac_confdir }}/configs/application.ini"
+
+- name: install camac django app
+  pip:
+    name: "{{ camac_releasedir }}/camac/django/"
+
+- name: configure camac python app
+  template:
+    dest: "/usr/local/lib/python2.7/dist-packages/camac/settings.py"
+    src: "settings.py.j2"
+
+- name: run camac migrations
+  shell: DJANGO_SETTINGS_MODULE=camac.settings django-admin migrate
+
+- name: load initial camac data
+  shell: "DJANGO_SETTINGS_MODULE=camac.settings django-admin loaddata {{ camac_releasedir }}/camac/django/config.json"
+  when: camac_load_data

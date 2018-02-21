@@ -1,0 +1,72 @@
+---
+# defaults file for camac
+
+#################################
+# camac release download config #
+#################################
+
+# Version of camac to install
+camac_version: "master"
+
+# Checksum of the tarball
+camac_tarball_checksum: ~
+
+# URL for fetching camac release tarballs
+# TODO: fixme after we have an enriched tarball available for use
+camac_release: "https://git.adfinis-sygroup.ch/ebaube/camac-be/repository/master/archive.tar.gz"
+
+#############
+# camac env #
+#############
+
+camac_env: "development"
+
+##########################
+# camac base directories #
+##########################
+
+# Base dir for camac that is used as the base of most other paths used in this
+# role.
+camac_basedir: "/usr/share/camac"
+
+# Persistant data dir for camac
+# This is not usually below camac_basedir since it needs to be in /var/lib
+camac_datadir: "/var/lib/camac"
+
+#############################
+# camac cache configuration #
+#############################
+
+camac_load_data: true
+
+########################
+# camac datbase config #
+########################
+
+# PDO adapater to use
+camac_db_adapter: "Pdo_Pgsql"
+
+# Username used for connection to database
+camac_db_username: "camac"
+
+# Password used for connecting to database
+camac_db_password: "camac"
+
+# Database/Schema namespace in database
+camac_db_dbname: "camac"
+
+# Database server hostname
+camac_db_host: "localhost"
+
+# Database server port
+camac_db_port: 5432
+
+# Database charset
+# camac_db_charset: utf8
+
+######################
+# camac cache config #
+######################
+
+camac_cache_host: "localhost"
+camac_cache_port: 11211
