@@ -1,10 +1,6 @@
 ---
 # tasks file for camac
 
-- name: install memcached server
-  package:
-    name: memcached
-
 - name: create download dir for releases
   file:
     state: directory
