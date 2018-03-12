@@ -21,11 +21,16 @@ camac_release: "https://dl.camac.ch/camac-{{ camac_version }}.tar.gz"
 
 camac_env: "development"
 
-########################
-# camac configurations #
-########################
+#######################
+# camac configuration #
+#######################
 
 camac_django_secret: 'rqo23kq9j&clk@ae5f43jhmz&qyan=6j-0ip0xcc5bauq4@$d8'
+
+camac_password_salt: "ds5fsdFd763znsPO"
+
+# Set me to 'true' if you want TLS only cookies
+camac_session_secure: 'false'
 
 ##########################
 # camac base directories #

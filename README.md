@@ -18,7 +18,7 @@ fairly modern of Ansible is recommended.
 | variable | required | default | comments |
 | -------- | -------- | ------- | -------- |
 | `camac_version` | yes | | Full version of Camac Release to install |
-| `camac_tarball_checksum` | yes | | Checksum of Camac |
+| `camac_tarball_checksum` | yes | | SHA256 checksum of Camac |
 | `camac_release` | yes | | URL to Camac download |
 
 ### Directory settings
@@ -29,10 +29,18 @@ fairly modern of Ansible is recommended.
 | `camac_docroot` | no | "{{ camac_basedir}}/htdocs" | This dir contains the appication entry point. |
 | `camac_datadir` | no | "/var/lib/camac" | Storage directory for uploads to camac and other data. |
 
+### Camac Configuration
+
+| variable | required | default| comments |
+| -------- | -------- | ------- | -------- |
+| `camac_django_secret` | yes | | Secret string for django parts, must be set for each environment. |
+| `camac_password_salt` | yes | | Passwort Salt String for Passwords managed by Zend Framework 1 |
+| `camac_session_secure` | yes | 'false' | Set this to true to set the secure flag on camac cookies. |
+
 Dependencies
 ------------
 
-This rol expects most of the system to already be provisioned using other roles
+This role expects most of the system to already be provisioned using other roles
 that are customer specific (ie. there is already a pre-existing apache2 role at
 the customers site).
 
@@ -53,5 +61,5 @@ As is
 Author Information
 ------------------
 
-This role is part of the Camac project. It was created and is maintained 
-by [Adfinis SyGroup AG](https://adfinis-sygroup.ch/).
+This role is part of the [Camac project](http://camac.ch). It was created and
+is maintained by [Adfinis SyGroup AG](https://adfinis-sygroup.ch/).
