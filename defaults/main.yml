@@ -13,7 +13,7 @@ camac_tarball_checksum: ~
 
 # URL for fetching camac release tarballs
 # TODO: fixme after we have an enriched tarball available for use
-camac_release: "https://git.adfinis-sygroup.ch/ebaube/camac-be/repository/master/archive.tar.gz"
+camac_release: "https://dl.camac.ch/camac-{{ camac_version }}.tar.gz"
 
 #############
 # camac env #
