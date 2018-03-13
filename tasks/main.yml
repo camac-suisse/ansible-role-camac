@@ -37,10 +37,8 @@
       dest: "{{ camac_docroot }}"
     - src: "camac/"
       dest: "{{ camac_libdir }}"
-      rsync_opts: "--exclude 'public' --exclude 'composer.*'"
     - src: "configuration/"
       dest: "{{ camac_confdir }}"
-      rsync_opts: "--exclude 'composer.*' --filter 'protect prepend.php'"
 
 - name: prepare php prepend file
   copy:
