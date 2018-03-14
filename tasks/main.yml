@@ -70,6 +70,7 @@
 - name: install camac django app
   pip:
     name: "{{ camac_releasedir }}/camac/django/"
+    extra_args: "--upgrade"
 
 - name: configure camac python app
   template:
