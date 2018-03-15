@@ -12,8 +12,7 @@ camac_version: "master"
 camac_tarball_checksum: ~
 
 # URL for fetching camac release tarballs
-# TODO: fixme after we have an enriched tarball available for use
-camac_release: "https://dl.camac.ch/camac-{{ camac_version }}.tar.gz"
+camac_release: "https://files.adfinis-sygroup.ch/camac-be/camac-be-{{ camac_version | replace('.','-') }}.tar.gz"
 
 #############
 # camac env #
