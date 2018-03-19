@@ -17,6 +17,7 @@
   unarchive:
     src: "{{ camac_tarball }}"
     dest: "{{ camac_releasedir }}/camac"
+    remote_src: "{{ camac_unarchive_remote_src }}"
 
 - name: create directories for camac installation
   file:
