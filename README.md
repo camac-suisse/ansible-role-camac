@@ -13,6 +13,12 @@ fairly modern of Ansible is recommended.
 
 ## Role Variables
 
+### Deployment settings
+
+| variable | required | default | comments |
+| -------- | -------- | ------- | -------- |
+| `camac_customer_variables` | no | null | Path to a yaml file defining additional variables that override role variables |
+
 ### Version settings
 
 | variable | required | default | comments |

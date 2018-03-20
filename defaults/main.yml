@@ -1,6 +1,15 @@
 ---
 # defaults file for camac
 
+###########################
+# camac deployment config #
+###########################
+
+# Extra file containing task variables to be loaded as first task
+# You can override this in you playbook or elsewhere to override
+# any role variables with your own variables.
+camac_customer_variables: ""
+
 #################################
 # camac release download config #
 #################################

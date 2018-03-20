@@ -1,6 +1,11 @@
 ---
 # tasks file for camac
 
+- name: load customer specific variables
+  include_vars:
+    file: "{{ camac_customer_variables }}"
+  when: camac_customer_variables != ""
+
 - name: create download dir for releases
   file:
     state: directory
