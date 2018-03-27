@@ -184,9 +184,19 @@ cache.backendName = Memcached
 cache.backendOptions.servers.server.host = {{ camac_cache_host }}
 cache.backendOptions.servers.server.port = {{ camac_cache_port }}
 
-resources.db.cache.metadata.backendName = Memcached
+resources.db.cache.metadata.backendName = libmemcached
 resources.db.cache.metadata.backendOptions.servers.server.host = {{ camac_cache_host }}
 resources.db.cache.metadata.backendOptions.servers.server.port = {{ camac_cache_port }}
+
+; Keycloak
+keycloak.url = {{ camac_auth_idp_url }}
+keycloak.realm = {{ camac_auth_idp_realm }}
+keycloak.client = {{ camac_auth_sp_client }}
+
+; Custom plugins
+resources.frontController.plugins.AuthenticationValidator = "Custom_Plugin_AuthenticationValidator"
+
+form.addValidationAttributes = true
 
 [staging : production]
 

@@ -13,3 +13,14 @@ camac_docroot: "{{ camac_basedir }}/htdocs"
 camac_libdir: "{{ camac_basedir }}/lib"
 
 camac_confdir: "{{ camac_basedir }}/configuration"
+
+camac_keycloak_datadir: "{{ camac_keycloak_basedir }}/data"
+
+# where to store the downloaded keycloak file
+camac_keycloak_tarball: "{{ camac_keycloak_datadir }}/releases/keycloak-{{ camac_keycloak_version }}.tar.gz"
+
+camac_keycloak_releasedir: "{{ camac_keycloak_datadir }}/releases"
+
+camac_keycloak_bindir: "{{ camac_keycloak_basedir }}/bin"
+
+camac_keycloak_wildfly_confdir: "/etc/wildfly"

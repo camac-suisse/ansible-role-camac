@@ -92,3 +92,41 @@ camac_db_port: 5432
 
 camac_cache_host: "localhost"
 camac_cache_port: 11211
+
+#######################
+# camac IdP/SP Config #
+#######################
+
+camac_auth_idp_url: "http://keycloak.127.0.0.1.nip.io:8080/auth"
+camac_auth_idp_realm: "camac"
+camac_auth_sp_client: "camac"
+
+##########################
+# keycloak configuration #
+##########################
+
+# global enable/disable flag for keycloak install
+camac_keycloak_enable: yes
+
+# Version of keycloak to deploy
+camac_keycloak_version: "3.4.3.Final"
+
+camac_keycloak_tarball_checksum: "c75a6a859173ec7f7566ab64f6edb5bac13908863abda42fc556aba775dca3d2"
+
+# URL for fetching keycloak releases
+camac_keycloak_release: "https://downloads.jboss.org/keycloak/3.4.3.Final/keycloak-{{ camac_keycloak_version}}.tar.gz"
+
+camac_keycloak_admin_user: admin
+camac_keycloak_admin_password: ~
+
+# Default path to unpack keycloak to
+camac_keycloak_basedir: "/usr/share/camac"
+
+camac_keycloak_logdir: "{{ camac_keycloak_basedir }}/log"
+camac_keycloak_tmpdir: "{{ camac_keycloak_basedir }}/tmp"
+camac_keycloak_datadir: "{{ camac_keycloak_datadir }}/data"
+
+# Path where we install keycloak to
+camac_keycloak_appdir: "{{ camac_keycloak_basedir }}/keycloak"
+
+camac_keycloak_unarchive_remote_src: no

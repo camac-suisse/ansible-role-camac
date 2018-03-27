@@ -6,6 +6,9 @@
     file: "{{ camac_customer_variables }}"
   when: camac_customer_variables != ""
 
+- include: keycloak.yml
+  when: camac_keycloak_enable
+
 - name: create download dir for releases
   file:
     state: directory
