@@ -86,6 +86,9 @@ camac_db_port: 5432
 # Database charset
 # camac_db_charset: utf8
 
+# Database session persistence
+# camac_db_persistent: "false"
+
 ######################
 # camac cache config #
 ######################
