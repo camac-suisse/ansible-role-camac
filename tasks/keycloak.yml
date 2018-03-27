@@ -1,0 +1,129 @@
+---
+# keycloak tasks for camac
+
+- name: load customer specific variables
+  include_vars:
+    file: "{{ camac_customer_variables }}"
+  when: camac_customer_variables != ""
+
+- name: create system user account for keycloak
+  user:
+    name: wildfly
+    state: present
+    system: yes
+
+- name: create dirs for keycloak installation
+  file:
+    state: directory
+    path: "{{ item.path }}"
+    owner: "{{ item.owner | d('root') }}"
+  with_items:
+    - path: "{{ camac_keycloak_releasedir }}"
+    - path: "{{ camac_keycloak_wildfly_confdir }}"
+    - path: "{{ camac_keycloak_appdir }}/standalone/configuration/standalone_xml_history"
+      owner: wildfly
+    - path: "{{ camac_keycloak_bindir }}"
+    - path: "{{ camac_keycloak_logdir }}"
+      owner: wildfly
+    - path: "{{ camac_keycloak_datadir }}"
+      owner: wildfly
+    - path: "{{ camac_keycloak_tmpdir }}"
+      owner: wildfly
+
+- name: download keycloak release tarball
+  get_url:
+    url: "{{ camac_keycloak_release }}"
+    dest: "{{ camac_keycloak_tarball }}"
+    checksum: "sha256:{{ camac_keycloak_tarball_checksum }}"
+  connection: local
+
+- name: unpack keycloak tarball
+  unarchive:
+    src: "{{ camac_keycloak_tarball }}"
+    dest: "{{ camac_keycloak_releasedir }}"
+    remote_src: "{{ camac_keycloak_unarchive_remote_src }}"
+
+- name: copy keycloak release to it's final location
+  synchronize:
+    src: "{{ camac_keycloak_releasedir }}/keycloak-{{ camac_keycloak_version }}/"
+    dest: "{{ camac_keycloak_appdir }}"
+    delete: yes
+
+- name: allow wildfly access to properties
+  file:
+    path: "{{ camac_keycloak_appdir }}/standalone/{{ item }}"
+    owner: wildfly
+  with_items:
+    - configuration/application-roles.properties
+    - configuration/application-users.properties
+    - configuration/logging.properties
+    - configuration/mgmt-groups.properties
+    - configuration/mgmt-users.properties
+    # - standalone-ha.xml
+    - configuration/standalone.xml
+    - deployments
+
+- name: create config history directory for wildfly
+  file:
+    state: directory
+    path: "{{ camac_keycloak_appdir }}/standalone/configuration/standalone_xml_history"
+    owner: "wildfly"
+
+- name: copy systemd units for keycloak
+  copy:
+    src: "{{ camac_keycloak_releasedir }}/keycloak-{{ camac_keycloak_version }}/docs/contrib/scripts/systemd/{{ item.src }}"
+    dest: "{{ item.dest }}"
+  with_items:
+  - src: wildfly.service
+    dest: /etc/systemd/system/wildfly.service
+  - src: wildfly.conf
+    dest: "{{ camac_keycloak_wildfly_confdir }}/wildfly.conf"
+  - src: launch.sh
+    dest: "{{ camac_keycloak_bindir }}/launch.sh"
+
+- name: adapt launch script
+  lineinfile:
+    dest: "{{ camac_keycloak_bindir }}/launch.sh"
+    regexp: '^    \$WILDFLY_HOME/bin/standalone.sh -c \$2 -b \$3'
+    line: "    $WILDFLY_HOME/bin/standalone.sh -c $2 -b $3 -Djboss.server.data.dir={{ camac_keycloak_datadir }} -Djboss.server.log.dir={{ camac_keycloak_logdir }} -Djboss.server.temp.dir={{ camac_keycloak_tmpdir }}"
+
+- name: configure wildfly config dir
+  lineinfile:
+    dest: "{{ camac_keycloak_wildfly_confdir }}/wildfly.conf"
+    regexp: "^WILDFLY_HOME="
+    line: "WILDFLY_HOME={{ camac_keycloak_appdir }}"
+
+- name: adapt systemd unit
+  lineinfile:
+    dest: "/etc/systemd/system/wildfly.service"
+    state: "{{ item.state | d('present') }}"
+    regexp: "{{ item.regexp }}"
+    line: "{{ item.line | d() }}"
+  with_items:
+    - regexp: "^EnvironmentFile=-"
+      line: "EnvironmentFile=-{{ camac_keycloak_wildfly_confdir }}/wildfly.conf"
+    - regexp: "^ExecStart="
+      line: "ExecStart=/bin/bash {{ camac_keycloak_bindir }}/launch.sh $WILDFLY_MODE $WILDFLY_CONFIG $WILDFLY_BIND"
+    - regexp: "^StandardOutput="
+      state: "absent"
+
+- name: configure keycloak xml
+  xml:
+    path: "{{ camac_keycloak_appdir }}/standalone/configuration/standalone.xml"
+    namespaces:
+      domain: "urn:jboss:domain:5.0"
+      undertow: "urn:jboss:domain:undertow:3.0"
+    xpath: "/domain:server/domain:profile/undertow:subsystem/undertow:server/undertow:http-listener"
+    attribute: "undertow:proxy-address-forwarding"
+    value: "true"
+
+- name: create admin user
+  command: "{{ camac_keycloak_appdir }}/bin/add-user-keycloak.sh  --user {{ camac_keycloak_admin_user }} --password {{ camac_keycloak_admin_password }}"
+  args:
+    creates: "{{ camac_keycloak_appdir }}/standalone/configuration/keycloak-add-user.json"
+
+- name: enable and start wildfly systemd unit for keycloak
+  systemd:
+    name: wildfly
+    state: started
+    enabled: True
