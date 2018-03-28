@@ -112,7 +112,7 @@
     path: "{{ camac_keycloak_appdir }}/standalone/configuration/standalone.xml"
     namespaces:
       domain: "urn:jboss:domain:5.0"
-      undertow: "urn:jboss:domain:undertow:3.0"
+      undertow: "urn:jboss:domain:undertow:4.0"
     xpath: "/domain:server/domain:profile/undertow:subsystem/undertow:server/undertow:http-listener"
     attribute: "undertow:proxy-address-forwarding"
     value: "true"
