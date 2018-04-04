@@ -49,6 +49,7 @@ fairly modern of Ansible is recommended.
 | variable | required | default| comments |
 | -------- | -------- | ------- | -------- |
 | `camac_keycloak_enable` | yes | yes | Enable keycloak install and configuration, set to false to disable both. |
+| `camac_keycloak_java_home` | no | null | Uses the java on $PATH if not specified. |
 | `camac_auth_idp_url` | yes | `http://keycloak.127.0.0.1.nip.io:8080/auth` | External URL of IdP, camac needs to be abel to reach this IdP through this URL but it must also match the URL being used by the end-user. |
 | `camac_auth_idp_realm` | yes | `ebau` | |
 | `camac_auth_sp_client` | yes | camac | |

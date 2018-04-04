@@ -121,6 +121,8 @@
   command: "{{ camac_keycloak_appdir }}/bin/add-user-keycloak.sh  --user {{ camac_keycloak_admin_user }} --password {{ camac_keycloak_admin_password }}"
   args:
     creates: "{{ camac_keycloak_appdir }}/standalone/configuration/keycloak-add-user.json"
+  environment:
+    JAVA_HOME: "{{ camac_keycloak_java_home }}"
 
 - name: enable and start wildfly systemd unit for keycloak
   systemd:
