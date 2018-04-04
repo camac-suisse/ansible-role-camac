@@ -43,6 +43,10 @@ camac_password_salt: "ds5fsdFd763znsPO"
 # Set me to 'true' if you want TLS only cookies
 camac_session_secure: 'false'
 
+# Set me to 'true' if your app is only reachable through TLS due to a
+# load-balancer or reverse proxy that terminates TLS.
+camac_mock_tls: false
+
 ##########################
 # camac base directories #
 ##########################

@@ -55,6 +55,9 @@
       <?php
       define('APPLICATION_PATH', '{{ camac_libdir }}/application');
       define('APPLICATION_ENV', '{{ camac_env }}');
+      {% if camac_mock_tls %}
+      $_SERVER['HTTPS'] = true;
+      {% endif %}
     dest: "{{ camac_confdir }}/prepend.php"
 
 - name: ensure public configuration symlink points to actual config directory
