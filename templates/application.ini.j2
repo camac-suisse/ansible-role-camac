@@ -2,150 +2,9 @@
 
 [production]
 
-; Version
-version = 5.3.0
-versionDate = 28.07.2017
-
-; PHP settings
-phpSettings.display_startup_errors = 0
-phpSettings.display_errors = 0
-phpSettings.date.timezone = "Europe/Zurich"
-
-; Zend settings
-includePaths.library = APPLICATION_PATH "/../library"
-bootstrap.path = APPLICATION_PATH "/Bootstrap.php"
-bootstrap.class = "Bootstrap"
-appnamespace = "Application"
-resources.frontController.controllerDirectory = APPLICATION_PATH "/controllers"
-resources.frontController.params.displayExceptions = 0
-
-; Layout
-resources.layout.layoutPath[] = APPLICATION_PATH "/layouts/scripts"
-resources.layout.layoutPath[] = APPLICATION_PATH "/../configuration/layouts/scripts"
-resources.layout.layoutPath[] = APPLICATION_PATH "/modules/admin/layouts/scripts"
-resources.layout.layout = "layout"
-
-; View
-resources.view.escape = "htmlentities"
-resources.view.doctype = "HTML5"
-resources.view.encoding = "UTF-8"
-resources.view.scriptPath[] = APPLICATION_PATH "/views/scripts/"
-resources.view.scriptPath[] = APPLICATION_PATH "/../configuration/views/scripts/"
-
-; View helpers
-resources.view.helperPath.Camac_View_Helper = APPLICATION_PATH "/../library/Camac/View/Helper"
-resources.view.helperPath.Application_View_Helper = APPLICATION_PATH "/views/helpers"
-resources.view.helperPath.Configuration_View_Helper = APPLICATION_PATH "/../configuration/views/helpers"
-
-; Action helpers
-resources.frontController.actionhelperpaths.Camac_Controller_Action_Helper = APPLICATION_PATH "/../library/Camac/Controller/Action/Helper"
-resources.frontController.actionhelperpaths.Admin_Controller_Action_Helper = APPLICATION_PATH "/modules/admin/controllers/helpers"
-resources.frontController.actionhelperpaths.Custom_Helper = APPLICATION_PATH "/../configuration/Custom/Helpers"
-
-; Module
-resources.frontController.moduleDirectory[] = APPLICATION_PATH "/modules"
-resources.frontController.moduleDirectory[] = APPLICATION_PATH "/../configuration/Custom/modules"
-resources.modules[] =
-
-; Plugins
-resources.frontController.plugins.PluginLoader = "Camac_Plugin_PluginLoader"
-
-; Autoload libraries
-autoloadernamespaces[] = Camac_
-autoloadernamespaces[] = Custom_
-
-; Metadata cache plugin (database)
-pluginPaths.Camac_Application_Resource = "Camac/Application/Resource"
-
-; Cache (Acl)
-cache.frontendName = "Core"
-cache.frontendOptions.caching = true
-cache.frontendOptions.lifetime = 7200
-cache.frontendOptions.automatic_serialization = true
-cache.backendName = "File"
-cache.backendOptions.cache_dir = APPLICATION_PATH "/../cache/files"
-
-; Metadata cache (database)
-resources.db.cache.metadata.frontendName = Core
-resources.db.cache.metadata.frontendOptions.caching = true
-resources.db.cache.metadata.frontendOptions.lifetime = 7200
-resources.db.cache.metadata.frontendOptions.automatic_serialization = true
-resources.db.cache.metadata.backendName = File
-resources.db.cache.metadata.backendOptions.cache_dir = APPLICATION_PATH "/../cache/metadata"
-
-; Log
-resources.log.stream.writerName = "Stream" ; Change "Stream" with "Null" to disable log
-resources.log.stream.writerParams.stream = APPLICATION_PATH "/../logs/application.log"
-resources.log.stream.writerParams.mode = "a"
-; Log level
-resources.log.stream.filterName = "Priority"
-resources.log.stream.filterParams.priority = 999
-
-; Session
-resources.session.cookie_httponly = true
 resources.session.cookie_secure = {{ camac_session_secure }}
 
-; Database configuration
-; Db numeric characters format
-numeric.db.charactersFormat = '. '
-; Db date format
-date.db.dbFormat = 'DD.MM.RR HH24:MI:SS'
-; Php date format matching db date format
-date.db.phpFormat = 'd.m.y H:i:s'
-; Javascript date format used in the application
-date.application.jsFormat = 'dd.mm.y'
-; Php date format matching javascript date format
-date.application.phpFormat = 'd.m.y'
-
-; Question types
-; Date
-question.type.date.class = 'date'
-question.type.date.dateFormat = 'd.m.y'
-; Amount
-question.type.amount.decimals = 2
-question.type.amount.decimalsSeparator = '.'
-question.type.amount.thousandsSeparator = "'"
-
-; Context switch
-contextswitch.extensions[] = "pdf"
-
-; Login
-login.redirect = false
-login.timeout = 60
-login.enabled = true
-login.maxAttempts = 20
-login.attemptTimespan = 3600
-login.sessionLifeTime = 14400
-
-; Hash for prevent CSRF
-hash.timeout = 14400
-
-; Paginator
-paginator.list.itemsPerPage = 10
-paginator.search.itemsPerPage = 10
-
-; Breadcrumbs
-breadcrumbs.number = 5
-
-; CSS live.js library
-library.css.live = false
-
-; ZFDebug
-zfdebug.enabled = false
-
-; Admin Languages
-admin.languages[] = de
-admin.languages[] = fr
-
-; Upload directory
-upload.path = "/tmp"
-upload.extensions[] = "image/jpeg"
-upload.extensions[] = "image/png"
-upload.extensions[] = "application/pdf"
-
 resources.db.adapter = "{{ camac_db_adapter }}"
-resources.db.params.adapterNamespace = "Camac_Db_Adapter"
-resources.db.isDefaultTableAdapter = true
 resources.db.params.username = "{{ camac_db_username }}"
 resources.db.params.password = "{{ camac_db_password }}"
 resources.db.params.persistent = {{ camac_db_persistent | d(true) }}
@@ -154,37 +13,11 @@ resources.db.params.host = "{{ camac_db_host }}"
 resources.db.params.port = "{{ camac_db_port }}"
 resources.db.params.charset = "{{ camac_db_charset | d('utf8') }}"
 
-; Php date format for PostgreSQL (overwrites core)
-date.db.phpFormat = 'Y-m-d H:i:sP'
-
-; Password salt
 password.salt = "{{ camac_password_salt }}"
 
-; Captcha (Image)
-captcha.type = Image
-captcha.wordLen = 8
-captcha.font = APPLICATION_PATH "/../configuration/captcha/Vera.ttf"
-captcha.imgDir = APPLICATION_PATH "/../public/public/tmp/"
-captcha.imgUrl = /camac/public/public/tmp/
-captcha.timeout = 300
-
-; Captcha (Recaptcha)
-;captcha.type = ReCaptcha
-;captcha.privateKey =
-;captcha.publicKey =
-;captcha.timeout = 300
-
-
-; Frontend Languages
-frontend.languages[] = de
-frontend.languages[] = fr
-
-; Cache settings
-cache.backendName = Memcached
 cache.backendOptions.servers.server.host = {{ camac_cache_host }}
 cache.backendOptions.servers.server.port = {{ camac_cache_port }}
 
-resources.db.cache.metadata.backendName = libmemcached
 resources.db.cache.metadata.backendOptions.servers.server.host = {{ camac_cache_host }}
 resources.db.cache.metadata.backendOptions.servers.server.port = {{ camac_cache_port }}
 
@@ -200,33 +33,8 @@ resources.frontController.plugins.AuthenticationValidator = "Custom_Plugin_Authe
 
 form.addValidationAttributes = true
 
+login.redirect = false
+
 [staging : production]
-
 [testing : production]
-phpSettings.display_startup_errors = 0
-phpSettings.display_errors = 0
-login.redirect = true
-
-
 [development : production]
-resources.log.stream.filterParams.priority = 8
-
-phpSettings.display_startup_errors = 1
-phpSettings.display_errors = 1
-resources.frontController.params.displayExceptions = 1
-
-; Login
-login.redirect = true
-
-; ZFDebug
-zfdebug.enabled = true
-
-; Database profiler
-resources.db.params.profiler.enabled = true
-resources.db.params.profiler.class = Zend_Db_Profiler
-
-; CSS live.js library
-library.css.live = false
-
-; Session
-resources.session.cookie_secure = {{ camac_session_secure }}

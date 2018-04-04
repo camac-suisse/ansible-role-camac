@@ -74,7 +74,7 @@
     dest: "{{ item }}"
     src: "application.ini.j2"
   with_items:
-    - "{{ camac_confdir }}/configs/application.ini"
+    - "{{ camac_confdir }}/configs/application.local.ini"
 
 - name: install camac django app
   pip:
