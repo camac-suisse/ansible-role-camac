@@ -90,8 +90,13 @@
 - name: configure wildfly config dir
   lineinfile:
     dest: "{{ camac_keycloak_wildfly_confdir }}/wildfly.conf"
-    regexp: "^WILDFLY_HOME="
-    line: "WILDFLY_HOME={{ camac_keycloak_appdir }}"
+    regexp: "^{{ item.var }}="
+    line: "{{ item.var }}={{ item.value }}"
+  with_items:
+    - var: WILDFLY_HOME
+      value: "{{ camac_keycloak_appdir }}"
+    - var: JAVA_HOME
+      value: "{{ camac_keycloak_java_home | d() }}"
 
 - name: adapt systemd unit
   lineinfile:
@@ -122,7 +127,7 @@
   args:
     creates: "{{ camac_keycloak_appdir }}/standalone/configuration/keycloak-add-user.json"
   environment:
-    JAVA_HOME: "{{ camac_keycloak_java_home }}"
+    JAVA_HOME: "{{ camac_keycloak_java_home | d() }}"
 
 - name: enable and start wildfly systemd unit for keycloak
   systemd:
