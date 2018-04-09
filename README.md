@@ -18,6 +18,7 @@ fairly modern of Ansible is recommended.
 | variable | required | default | comments |
 | -------- | -------- | ------- | -------- |
 | `camac_customer_variables` | no | null | Path to a yaml file defining additional variables that override role variables |
+| `camac_download_connection` | no | | If set this value is set on all `connection` attributes on `get_url` calls |
 
 ### Version settings
 

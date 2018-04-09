@@ -10,6 +10,9 @@
 # any role variables with your own variables.
 camac_customer_variables: ""
 
+# download connection
+camac_download_connection: ~
+
 #################################
 # camac release download config #
 #################################

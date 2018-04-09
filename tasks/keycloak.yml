@@ -35,7 +35,7 @@
     url: "{{ camac_keycloak_release }}"
     dest: "{{ camac_keycloak_tarball }}"
     checksum: "sha256:{{ camac_keycloak_tarball_checksum }}"
-  connection: local
+  connection: "{{ camac_download_connection }}"
 
 - name: unpack keycloak tarball
   unarchive:
