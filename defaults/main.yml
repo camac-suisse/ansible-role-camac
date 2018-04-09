@@ -47,6 +47,13 @@ camac_session_secure: 'false'
 # load-balancer or reverse proxy that terminates TLS.
 camac_mock_tls: false
 
+# CA Chain for php (mostly used to verify TLS connections to keykloak
+# and others).
+# Override this with a multiline string if you need to use you own ca.
+# camac_ca_chain: |
+#   -----BEGIN CERTIFICATE-----
+camac_ca_chain: ~
+
 ##########################
 # camac base directories #
 ##########################

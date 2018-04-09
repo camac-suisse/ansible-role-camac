@@ -49,6 +49,20 @@
     - src: "configuration/"
       dest: "{{ camac_confdir }}"
 
+- name: copy CA chain to config path
+  copy:
+    content: "{{ camac_ca_chain }}"
+    dest: "{{ camac_confdir }}/ca.pem"
+  when: camac_ca_chain | d(false)
+
+- name: configure php for CA chain
+  copy:
+    content: |
+      ; config for camac CA chain
+      openssl.cafile = "{{ camac_confdir }}/ca.pem"
+    dest: "/etc/php/7.0/apache2/conf.d/99-quovadis-ssl-chain.ini"
+  when: camac_ca_chain | d(false)
+
 - name: prepare php prepend file
   copy:
     content: |
