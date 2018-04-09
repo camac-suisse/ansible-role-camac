@@ -19,6 +19,7 @@
     owner: "{{ item.owner | d('root') }}"
   with_items:
     - path: "{{ camac_keycloak_releasedir }}"
+      owner: wildfly
     - path: "{{ camac_keycloak_wildfly_confdir }}"
     - path: "{{ camac_keycloak_appdir }}/standalone/configuration/standalone_xml_history"
       owner: wildfly
