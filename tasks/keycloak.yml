@@ -49,6 +49,7 @@
     src: "{{ camac_keycloak_releasedir }}/keycloak-{{ camac_keycloak_version }}/"
     dest: "{{ camac_keycloak_appdir }}"
     delete: yes
+  delegate_to: "{{ inventory_hostname }}"
 
 - name: allow wildfly access to properties
   file:
