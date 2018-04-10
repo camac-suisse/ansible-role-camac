@@ -74,7 +74,7 @@
   copy:
     src: "{{ camac_keycloak_releasedir }}/keycloak-{{ camac_keycloak_version }}/docs/contrib/scripts/systemd/{{ item.src }}"
     dest: "{{ item.dest }}"
-    remote_src: "{{ camac_keycloak_systemd_units_remote_src | d(yes) }}"
+    remote_src: "{{ camac_keycloak_systemd_units_remote_src | d(true) }}"
   with_items:
   - src: wildfly.service
     dest: /etc/systemd/system/wildfly.service
