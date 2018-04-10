@@ -98,14 +98,25 @@
     name: "{{ camac_releasedir }}/camac/django/"
     extra_args: "--upgrade"
 
-- name: configure camac python app
-  template:
-    dest: "/usr/local/lib/python2.7/dist-packages/camac/settings.py"
-    src: "settings.py.j2"
-
 - name: run camac migrations
-  shell: DJANGO_SETTINGS_MODULE=camac.settings django-admin migrate
+  shell: django-admin migrate
+  environment:
+    DJANGO_SETTINGS_MODULE: "camac.settings"
+    DJANGO_DATABASE_ENGINE: "django.db.backends.postgresql_psycopg2"
+    DJANGO_DATABASE_NAME: "{{ camac_db_dbname }}"
+    DJANGO_DATABASE_USER: "{{ camac_db_username }}"
+    DJANGO_DATABASE_PASSWORD: "{{ camac_db_password }}"
+    DJANGO_DATABASE_HOST: "{{ camac_db_host }}"
+    DJANGO_DATABASE_PORT: "{{ camac_db_port }}"
 
 - name: load initial camac data
-  shell: "DJANGO_SETTINGS_MODULE=camac.settings django-admin loaddata {{ camac_releasedir }}/camac/django/config.json"
+  shell: "django-admin loaddata {{ camac_releasedir }}/camac/django/config.json"
   when: camac_load_data
+  environment:
+    DJANGO_SETTINGS_MODULE: "camac.settings"
+    DJANGO_DATABASE_ENGINE: "django.db.backends.postgresql_psycopg2"
+    DJANGO_DATABASE_NAME: "{{ camac_db_dbname }}"
+    DJANGO_DATABASE_USER: "{{ camac_db_username }}"
+    DJANGO_DATABASE_PASSWORD: "{{ camac_db_password }}"
+    DJANGO_DATABASE_HOST: "{{ camac_db_host }}"
+    DJANGO_DATABASE_PORT: "{{ camac_db_port }}"
