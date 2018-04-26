@@ -110,7 +110,7 @@
     DJANGO_DATABASE_PORT: "{{ camac_db_port }}"
 
 - name: load initial camac data
-  shell: "django-admin loaddata {{ camac_releasedir }}/camac/django/config.json"
+  shell: "python {{ camac_releasedir }}/camac/django/manage.py loadconfig"
   when: camac_load_data
   environment:
     DJANGO_SETTINGS_MODULE: "camac.settings"
