@@ -86,6 +86,12 @@
     src: "{{ camac_confdir }}"
     dest: "{{ camac_libdir }}/configuration"
 
+- name: make mpdf tmp dir writable
+  file:
+    state: directory
+    owner: www-data
+    dest: "{{ camac_libdir }}/configuration/vendor/mpdf/mpdf/tmp"
+
 - name: configure camac php app
   template:
     dest: "{{ item }}"
