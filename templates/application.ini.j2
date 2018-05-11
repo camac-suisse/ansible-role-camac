@@ -26,6 +26,9 @@ resources.db.cache.metadata.backendOptions.servers.server.port = {{ camac_cache_
 keycloak.url = {{ camac_auth_idp_url }}
 keycloak.realm = {{ camac_auth_idp_realm }}
 keycloak.client = {{ camac_auth_sp_client }}
+{% if camac_auth_proxy %}
+keycloak.proxy = {{ camac_auth_proxy }}
+{% endif %}
 
 ; Custom plugins
 resources.frontController.plugins.AuthenticationValidator = "Custom_Plugin_AuthenticationValidator"
