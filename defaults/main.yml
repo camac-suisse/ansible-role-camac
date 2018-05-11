@@ -137,7 +137,7 @@ camac_keycloak_admin_user: admin
 camac_keycloak_admin_password: ~
 
 # Default path to unpack keycloak to
-camac_keycloak_basedir: "/usr/share/camac"
+camac_keycloak_basedir: "/usr/share/keycloak"
 
 camac_keycloak_logdir: "{{ camac_keycloak_basedir }}/log"
 camac_keycloak_tmpdir: "{{ camac_keycloak_basedir }}/tmp"
