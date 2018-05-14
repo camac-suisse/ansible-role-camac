@@ -41,6 +41,8 @@ login.redirect = false
 phpSettings.display_startup_errors = 0
 phpSettings.display_errors = 0
 
+resources.log.stream.writerParams.stream = "{{ camac_logdir }}/application.log"
+
 [staging : production]
 [testing : production]
 [development : production]

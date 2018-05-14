@@ -66,6 +66,13 @@ camac_basedir: "/usr/share/camac"
 # This is not usually below camac_basedir since it needs to be in /var/lib
 camac_datadir: "/var/lib/camac"
 
+#################
+# camac logging #
+#################
+
+# directory to write logfiles to
+camac_logdir: "{{ camac_basedir }}/log"
+
 #############################
 # camac cache configuration #
 #############################

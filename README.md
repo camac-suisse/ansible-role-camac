@@ -35,6 +35,7 @@ fairly modern of Ansible is recommended.
 | `camac_docroot` | no | "{{ camac_basedir}}/htdocs" | This dir contains the appication entry point. |
 | `camac_datadir` | no | "/var/lib/camac" | Storage directory for uploads to camac and other data. |
 | `camac_releasedir` | no | "/tmp" | Directory to place the unpacked staging directory "camac" into. |
+| `camac_logdir` | no | "{{ camac_basedir }}/log" | This dir contains application logs. |
 
 ### Camac Configuration
 
