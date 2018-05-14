@@ -54,6 +54,10 @@ camac_mock_tls: false
 #   -----BEGIN CERTIFICATE-----
 camac_ca_chain: ~
 
+# Camac Apache user
+# Set this to the Apache user
+camac_apache_user: www-data
+
 ##########################
 # camac base directories #
 ##########################
