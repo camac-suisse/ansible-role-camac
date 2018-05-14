@@ -90,7 +90,7 @@
   file:
     state: directory
     owner: www-data
-    dest: "{{ camac_libdir }}/configuration/vendor/mpdf/mpdf/tmp"
+    dest: "{{ camac_libdir }}/config/vendor/mpdf/mpdf/tmp"
 
 - name: configure camac php app
   template:
