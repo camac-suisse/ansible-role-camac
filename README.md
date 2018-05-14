@@ -45,6 +45,7 @@ fairly modern of Ansible is recommended.
 | `camac_password_salt` | yes | | Passwort Salt String for Passwords managed by Zend Framework 1 |
 | `camac_session_secure` | yes | 'false' | Set this to true to set the secure flag on camac cookies. |
 | `camac_ca_chain` | no | | If set this value is used to create a PEM file that is configured as `openssl.cafile` in PHP |
+| `camac_apache_user` | no | www-data | Set this to the Apache user on the target system. |
 
 ### Keycloak Configuration
 
