@@ -92,7 +92,7 @@
     owner: "{{ camac_apache_user }}"
     dest: "{{ item }}"
   with_items:
-    - "{{ camac_libdir }}/config/vendor/mpdf/mpdf/tmp"
+    - "{{ camac_confdir }}/vendor/mpdf/mpdf/tmp"
     - "{{ camac_logdir }}"
 
 - name: configure camac php app
