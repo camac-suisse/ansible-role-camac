@@ -19,7 +19,6 @@
     url: "{{ camac_release }}"
     dest: "{{ camac_tarball }}"
     checksum: "{% if camac_tarball_checksum %}sha256:{{ camac_tarball_checksum }}{% endif %}"
-  connection: local
 
 - name: unpack camac tarball
   unarchive:
