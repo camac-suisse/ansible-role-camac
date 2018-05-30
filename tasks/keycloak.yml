@@ -130,6 +130,7 @@
     creates: "{{ camac_keycloak_appdir }}/standalone/configuration/keycloak-add-user.json"
   environment:
     JAVA_HOME: "{{ camac_keycloak_java_home | d() }}"
+  when: camac_keycloak_create_admin_user
 
 - name: enable and start wildfly systemd unit for keycloak
   systemd:
