@@ -132,8 +132,20 @@
     JAVA_HOME: "{{ camac_keycloak_java_home | d() }}"
   when: camac_keycloak_create_admin_user
 
+- name: Check if we need to start and enable keycloak
+  set_fact:
+    camac_keycloak_systemd_state: "started"
+    camac_keycloak_systemd_enabled: True
+  when: camac_master
+
+- name: Check if we need to stop and disable keycloak
+  set_fact:
+    camac_keycloak_systemd_state: "stopped"
+    camac_keycloak_systemd_enabled: False
+  when: not camac_master
+
 - name: enable and start wildfly systemd unit for keycloak
   systemd:
     name: wildfly
-    state: started
-    enabled: True
+    state: "{{ camac_keycloak_systemd_state }}"
+    enabled: "{{ camac_keycloak_systemd_enabled }}"

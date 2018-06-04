@@ -32,6 +32,8 @@ camac_unarchive_remote_src: yes
 
 camac_env: "development"
 
+camac_master: True
+
 #######################
 # camac configuration #
 #######################
