@@ -146,6 +146,11 @@ camac_keycloak_tarball_checksum: "c75a6a859173ec7f7566ab64f6edb5bac13908863abda4
 # URL for fetching keycloak releases
 camac_keycloak_release: "https://downloads.jboss.org/keycloak/3.4.3.Final/keycloak-{{ camac_keycloak_version}}.tar.gz"
 
+camac_keycloak_theme_version: "master"
+camac_keycloak_theme_tarball_checksum: "e35752818e3c9586e61f7a7740f18240b23144cc19fcbc53b67589e8875a489e"
+
+camac_keycloak_theme_release: "https://files.adfinis-sygroup.ch/camac-be/keycloak-theme-ebau-be-{{ camac_keycloak_theme_version | replace('.','-') }}.jar"
+
 camac_keycloak_create_admin_user: False
 camac_keycloak_admin_user: admin
 camac_keycloak_admin_password: ~

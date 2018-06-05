@@ -31,11 +31,18 @@
     - path: "{{ camac_keycloak_tmpdir }}"
       owner: wildfly
 
-- name: download keycloak release tarball
+- name: download keycloak artifacts
   get_url:
-    url: "{{ camac_keycloak_release }}"
-    dest: "{{ camac_keycloak_tarball }}"
-    checksum: "sha256:{{ camac_keycloak_tarball_checksum }}"
+    url: "{{ item.url }}"
+    dest: "{{ item.dest }}"
+    checksum: "sha256:{{ item.checksum }}"
+  with_items:
+    - url: "{{ camac_keycloak_release }}"
+      dest: "{{ camac_keycloak_tarball }}"
+      checksum: "{{ camac_keycloak_tarball_checksum }}"
+    - url: "{{ camac_keycloak_theme_release }}"
+      dest: "{{ camac_keycloak_theme_tarball }}"
+      checksum: "{{ camac_keycloak_theme_tarball_checksum }}"
 
 - name: unpack keycloak tarball
   unarchive:
