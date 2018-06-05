@@ -37,6 +37,13 @@ fairly modern of Ansible is recommended.
 | `camac_releasedir` | no | "/tmp" | Directory to place the unpacked staging directory "camac" into. |
 | `camac_logdir` | no | "{{ camac_basedir }}/log" | This dir contains application logs. |
 
+### Camac Environment
+
+| variable | required | default| comments |
+| -------- | -------- | ------- | -------- |
+| `camac_env` | no | "development" | Environment for Camac (may be "development", "testing" or, "production" |
+| `camac_master` | no | True | Define if the current server is a master in the camac master/slave concept |
+
 ### Camac Configuration
 
 | variable | required | default| comments |
