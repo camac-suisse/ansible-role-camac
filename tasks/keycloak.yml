@@ -41,8 +41,8 @@
       dest: "{{ camac_keycloak_tarball }}"
       checksum: "{{ camac_keycloak_tarball_checksum }}"
     - url: "{{ camac_keycloak_theme_release }}"
-      dest: "{{ camac_keycloak_theme_tarball }}"
-      checksum: "{{ camac_keycloak_theme_tarball_checksum }}"
+      dest: "{{ camac_keycloak_theme_jarfile }}"
+      checksum: "{{ camac_keycloak_theme_jarfile_checksum }}"
 
 - name: unpack keycloak tarball
   unarchive:
@@ -138,6 +138,13 @@
   environment:
     JAVA_HOME: "{{ camac_keycloak_java_home | d() }}"
   when: camac_keycloak_create_admin_user
+
+- name: install keycloak theme
+  command: "{{ camac_keycloak_appdir }}/bin/jboss-cli.sh --command='module add --name=ch.linkyard.ebau.be.theme.keycloak-theme-ebau-be --resources={{ camac_keycloak_theme_jarfile }}'"
+  args:
+    creates: "{{ camac_keycloak_appdir }}/modules/ch/linkyard/ebau/be/theme/keycloak-theme-ebau-be/main/module.xml"
+  environment:
+    JAVA_HOME: "{{ camac_keycloak_java_home | d() }}"
 
 - name: Check if we need to start and enable keycloak
   set_fact:
