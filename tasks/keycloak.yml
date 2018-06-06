@@ -168,6 +168,8 @@
     xpath: "/domain:server/domain:profile/keycloak-server:subsystem/keycloak-server:theme/keycloak-server:modules"
     set_children:
       - module: "ch.linkyard.ebau.be.theme.keycloak-theme-ebau-be"
+  notify:
+    - restart wildfly
 
 - name: Check if we need to start and enable keycloak
   set_fact:
