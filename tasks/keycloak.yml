@@ -121,7 +121,7 @@
     - regexp: "^StandardOutput="
       state: "absent"
 
-- name: configure keycloak xml
+- name: configure undertow
   xml:
     path: "{{ camac_keycloak_appdir }}/standalone/configuration/standalone.xml"
     namespaces:
@@ -145,6 +145,29 @@
     creates: "{{ camac_keycloak_appdir }}/modules/ch/linkyard/ebau/be/theme/keycloak-theme-ebau-be/main/module.xml"
   environment:
     JAVA_HOME: "{{ camac_keycloak_java_home | d() }}"
+
+- name: configure keycloak theme modules
+  xml:
+    path: "{{ camac_keycloak_appdir }}/standalone/configuration/standalone.xml"
+    namespaces:
+      domain: "urn:jboss:domain:5.0"
+      keycloak-server: "urn:jboss:domain:keycloak-server:1.1"
+    xpath: "/domain:server/domain:profile/keycloak-server:subsystem/keycloak-server:theme"
+    add_children:
+      - modules: ""
+
+# the following is it's own task since ansible is being petty and assuming
+# items from with_items to be unicode string which leads to lxml breakage
+# please stop assuming my codepage ansible
+- name: configure keycloak theme modules/module
+  xml:
+    path: "{{ camac_keycloak_appdir }}/standalone/configuration/standalone.xml"
+    namespaces:
+      domain: "urn:jboss:domain:5.0"
+      keycloak-server: "urn:jboss:domain:keycloak-server:1.1"
+    xpath: "/domain:server/domain:profile/keycloak-server:subsystem/keycloak-server:theme/keycloak-server:modules"
+    set_children:
+      - module: "ch.linkyard.ebau.be.theme.keycloak-theme-ebau-be"
 
 - name: Check if we need to start and enable keycloak
   set_fact:
