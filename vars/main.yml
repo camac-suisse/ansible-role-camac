@@ -18,6 +18,7 @@ camac_keycloak_datadir: "{{ camac_keycloak_basedir }}/data"
 
 # where to store the downloaded keycloak file
 camac_keycloak_tarball: "{{ camac_keycloak_datadir }}/releases/keycloak-{{ camac_keycloak_version }}.tar.gz"
+camac_keycloak_theme_jarfile: "{{ camac_keycloak_datadir }}/releases/keycloak-theme-ebau-be-{{ camac_keycloak_theme_version  | replace('.','-') }}.jar"
 
 camac_keycloak_releasedir: "{{ camac_keycloak_datadir }}/releases"
 
