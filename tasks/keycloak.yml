@@ -171,6 +171,12 @@
   notify:
     - restart wildfly
 
+- name: export keycloak database
+  shell: "{{ camac_keycloak_appdir }}/bin/standalone.sh -Dkeycloak.migration.action=export -Dkeycloak.migration.provider=singleFile -Dkeycloak.migration.file={{ camac_keycloak_datadir }}/keycloak-export-{{ ansible_date_time.iso8601 }}.json -Djboss.http.port=8888 -Djboss.https.port=9999 -Djboss.management.http.port=7777"
+  async: 180
+  poll: 0
+  ignore_errors: yes
+
 - name: Check if we need to start and enable keycloak
   set_fact:
     camac_keycloak_systemd_state: "started"
