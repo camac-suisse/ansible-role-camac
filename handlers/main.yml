@@ -1,2 +1,7 @@
 ---
 # handlers file for camac
+
+- name: restart wildfly
+  service:
+    name: wildfly
+    state: restarted
