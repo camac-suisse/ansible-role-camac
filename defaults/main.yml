@@ -60,6 +60,10 @@ camac_ca_chain: ~
 # Set this to the Apache user
 camac_apache_user: www-data
 
+# Camac Email base Domain
+# Domain part of emails sent by Camac
+camac_base_domain: "camac.ch"
+
 ##########################
 # camac base directories #
 ##########################
