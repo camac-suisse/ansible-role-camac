@@ -76,6 +76,9 @@ camac_basedir: "/usr/share/camac"
 # This is not usually below camac_basedir since it needs to be in /var/lib
 camac_datadir: "/var/lib/camac"
 
+# Tmp dir for camac
+camac_tmpdir: "{{ camac_datadir }}/tmp"
+
 #################
 # camac logging #
 #################
