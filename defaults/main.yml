@@ -120,6 +120,15 @@ camac_db_port: 5432
 # Database session persistence
 # camac_db_persistent: "false"
 
+#####################
+# camac mail config #
+#####################
+
+camac_mail_host: "localhost"
+camac_mail_port: "25"
+camac_mail_from_email: "no-reply@camac-suisse.ch"
+camac_mail_from_name: "Camac"
+
 ######################
 # camac cache config #
 ######################

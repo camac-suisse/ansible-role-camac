@@ -17,6 +17,13 @@ resources.db.params.host = "{{ camac_db_host }}"
 resources.db.params.port = "{{ camac_db_port }}"
 resources.db.params.charset = "{{ camac_db_charset | d('utf8') }}"
 
+; Mail settings
+resources.mail.transport.type = smtp
+resources.mail.transport.host = "{{ camac_mail_host }}"
+resources.mail.transport.port = "{{ camac_mail_port }}"
+resources.mail.defaultFrom.email = "{{ camac_mail_from_email }}"
+resources.mail.defaultFrom.name = "{{ camac_mail_from_name }}"
+
 password.salt = "{{ camac_password_salt }}"
 
 cache.backendOptions.servers.server.host = {{ camac_cache_host }}
