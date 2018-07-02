@@ -40,17 +40,7 @@ keycloak.client = {{ camac_auth_sp_client }}
 {% if camac_auth_proxy %}
 keycloak.proxy = {{ camac_auth_proxy }}
 {% endif %}
-
-; Custom plugins
-resources.frontController.plugins.AuthenticationValidator = "Custom_Plugin_AuthenticationValidator"
 {% endif %}
-
-form.addValidationAttributes = true
-
-login.redirect = false
-
-phpSettings.display_startup_errors = 0
-phpSettings.display_errors = 0
 
 resources.log.stream.writerParams.stream = "{{ camac_logdir }}/application.log"
 
