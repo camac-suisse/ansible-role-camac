@@ -32,6 +32,7 @@
     path: "{{ item }}"
   with_items:
     - "{{ camac_docroot }}"
+    - "{{ camac_datadir }}"
 
 - name: copy camac webroot to apache docroot
   synchronize:
@@ -85,12 +86,13 @@
     src: "{{ camac_confdir }}"
     dest: "{{ camac_libdir }}/configuration"
 
-- name: make mpdf tmp dir writable
+- name: make camac dirs writable
   file:
     state: directory
     owner: "{{ camac_apache_user }}"
     dest: "{{ item }}"
   with_items:
+    - "{{ camac_datadir }}"
     - "{{ camac_tmpdir }}/mpdf"
     - "{{ camac_logdir }}"
 
