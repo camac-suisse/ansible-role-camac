@@ -3,7 +3,7 @@
 Role for installing and configuring camac. This role takes care of unpacking a
 camac release tarball on the installation target system.
 
-I was written for deploying camac at the canton of Berne but might also prove
+It was written for deploying camac at the canton of Berne but might also prove
 useful in other situations.
 
 ## Requirements
