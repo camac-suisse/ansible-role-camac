@@ -5,7 +5,8 @@
 camac_releasedir: "/tmp"
 
 # Where to put the downloaded tarball
-camac_tarball: "{{ camac_datadir }}/releases/camac-be-{{ camac_version | replace('.', '-') }}.tar.gz"
+camac_tarballdir: "{{ camac_datadir }}/releases"
+camac_tarball: "{{camac_tarballdir}}/camac-be-{{ camac_version | replace('.', '-') }}.tar.gz"
 
 # Directory containing the application entry point (ie. DocumentRoot in apache).
 camac_docroot: "{{ camac_basedir }}/htdocs"

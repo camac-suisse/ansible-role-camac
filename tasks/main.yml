@@ -14,6 +14,11 @@
     state: directory
     path: "{{ camac_releasedir }}/camac"
 
+- name: create tarball dir
+  file:
+    state: directory
+    path: "{{ camac_tarballdir }}"
+
 - name: download camac release tarball
   get_url:
     url: "{{ camac_release }}"
