@@ -113,8 +113,21 @@
     name: "{{ camac_releasedir }}/camac/django/"
     extra_args: "--upgrade"
 
-- name: run camac migrations
-  shell: django-admin migrate
+- name: reset django_migrations table
+  shell: |
+    psql \
+        -h {{ camac_db_host }} \
+        -p {{ camac_db_port }} \
+        -U {{ camac_db_username }} \
+        -d {{ camac_db_dbname }} \
+        -c "TRUNCATE django_migrations"
+  when: camac_db_run_fake_migrations and camac_db_fake_migrations is defined
+  environment:
+    PGPASSWORD: "{{ camac_db_password }}"
+
+- name: run camac fake migrations
+  shell: "python3 {{ camac_releasedir }}/camac/django/manage.py migrate --fake {{ item.app }} {{ item.migration }}"
+  when: camac_db_run_fake_migrations and camac_db_fake_migrations is defined
   environment:
     DJANGO_SETTINGS_MODULE: "camac.settings"
     DJANGO_DATABASE_ENGINE: "django.db.backends.postgresql_psycopg2"
@@ -123,9 +136,26 @@
     DJANGO_DATABASE_PASSWORD: "{{ camac_db_password }}"
     DJANGO_DATABASE_HOST: "{{ camac_db_host }}"
     DJANGO_DATABASE_PORT: "{{ camac_db_port }}"
+    APPLICATION_ENV: "{{ camac_application_env }}"
+    APPLICATION: "{{ camac_application }}"
+  loop: "{{ camac_db_fake_migrations }}"
+
+
+- name: run camac migrations
+  shell: "python3 {{ camac_releasedir }}/camac/django/manage.py migrate"
+  environment:
+    DJANGO_SETTINGS_MODULE: "camac.settings"
+    DJANGO_DATABASE_ENGINE: "django.db.backends.postgresql_psycopg2"
+    DJANGO_DATABASE_NAME: "{{ camac_db_dbname }}"
+    DJANGO_DATABASE_USER: "{{ camac_db_username }}"
+    DJANGO_DATABASE_PASSWORD: "{{ camac_db_password }}"
+    DJANGO_DATABASE_HOST: "{{ camac_db_host }}"
+    DJANGO_DATABASE_PORT: "{{ camac_db_port }}"
+    APPLICATION_ENV: "{{ camac_application_env }}"
+    APPLICATION: "{{ camac_application }}"
 
 - name: load initial camac data
-  shell: "python {{ camac_releasedir }}/camac/django/manage.py loadconfig"
+  shell: "python3 {{ camac_releasedir }}/camac/django/manage.py loadconfig"
   when: camac_load_data
   environment:
     DJANGO_SETTINGS_MODULE: "camac.settings"
@@ -135,6 +165,8 @@
     DJANGO_DATABASE_PASSWORD: "{{ camac_db_password }}"
     DJANGO_DATABASE_HOST: "{{ camac_db_host }}"
     DJANGO_DATABASE_PORT: "{{ camac_db_port }}"
+    APPLICATION_ENV: "{{ camac_application_env }}"
+    APPLICATION: "{{ camac_application }}"
 
 - name: remove tmp staging dir
   file:

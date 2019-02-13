@@ -42,6 +42,8 @@ camac_django_secret: 'rqo23kq9j&clk@ae5f43jhmz&qyan=6j-0ip0xcc5bauq4@$d8'
 
 camac_password_salt: "ds5fsdFd763znsPO"
 
+camac_application_env: "local"
+
 # Set me to 'true' if you want TLS only cookies
 camac_session_secure: 'false'
 
@@ -113,6 +115,9 @@ camac_db_host: "localhost"
 
 # Database server port
 camac_db_port: 5432
+
+# Whether to run fake migrations
+camac_db_run_fake_migrations: false
 
 # Database charset
 # camac_db_charset: utf8
