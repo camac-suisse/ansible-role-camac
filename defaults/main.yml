@@ -69,6 +69,8 @@ camac_base_domain: "camac.ch"
 # camac base directories #
 ##########################
 
+camac_python_basedir: "/usr/share/camac"
+
 # Base dir for camac that is used as the base of most other paths used in this
 # role.
 camac_php_basedir: "/usr/share/camac"
@@ -186,3 +188,9 @@ camac_keycloak_datadir: "{{ camac_keycloak_datadir }}/data"
 camac_keycloak_appdir: "{{ camac_keycloak_basedir }}/keycloak"
 
 camac_keycloak_unarchive_remote_src: no
+
+camac_python_datadir: "{{ camac_python_basedir }}/data"
+camac_python_docroot: "{{ camac_python_basedir }}/webapps"
+camac_python_confdir: "{{ camac_python_basedir }}/config"
+camac_python_logdir: "{{ camac_python_basedir }}/log"
+camac_python_tmpdir: "{{ camac_python_basedir }}/tmp"
