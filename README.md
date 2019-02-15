@@ -39,10 +39,12 @@ fairly modern of Ansible is recommended.
 
 ### Camac Environment
 
-| variable | required | default| comments |
-| -------- | -------- | ------- | -------- |
-| `camac_env` | no | "development" | Environment for Camac (may be "development", "testing" or, "production" |
-| `camac_master` | no | True | Define if the current server is a master in the camac master/slave concept |
+| variable                | required | default       | comments                                                                   |
+| --------                | -------- | -------       | --------                                                                   |
+| `camac_env`             | no       | "development" | Environment for Camac (may be "development", "testing" or, "production"    |
+| `camac_master`          | no       | True          | Define if the current server is a master in the camac master/slave concept |
+| `camac_application`     | yes      |               | Determines which Django fixtures will be loaded into an empty database     |
+
 
 ### Camac Configuration
 
