@@ -1,0 +1,37 @@
+---
+
+
+- name: install camac django app depednencies
+  pip:
+    requirements: "{{ camac_releasedir }}/camac/django/requirements.txt"
+    extra_args: "--upgrade"
+    executable: "pip3"
+
+- name: reset django_migrations table
+  shell: |
+    psql \
+        -h {{ camac_db_host }} \
+        -p {{ camac_db_port }} \
+        -U {{ camac_db_username }} \
+        -d {{ camac_db_dbname }} \
+        -c "TRUNCATE django_migrations"
+  when: camac_db_run_fake_migrations and camac_db_fake_migrations is defined
+  environment:
+    PGPASSWORD: "{{ camac_db_password }}"
+
+- name: render .env template
+  template:
+    src: env.j2
+    dest: "{{ camac_releasedir }}/camac/django/.env"
+
+- name: run camac fake migrations
+  shell: "python3 {{ camac_releasedir }}/camac/django/manage.py migrate --fake {{ item.app }} {{ item.migration }}"
+  when: camac_db_run_fake_migrations and camac_db_fake_migrations is defined
+  loop: "{{ camac_db_fake_migrations }}"
+
+- name: run camac migrations
+  shell: "python3 {{ camac_releasedir }}/camac/django/manage.py migrate"
+
+- name: load initial camac data
+  shell: "python3 {{ camac_releasedir }}/camac/django/manage.py loadconfig"
+  when: camac_load_data

@@ -1,4 +1,5 @@
 ---
+
 # defaults file for camac
 
 ###########################
@@ -70,21 +71,21 @@ camac_base_domain: "camac.ch"
 
 # Base dir for camac that is used as the base of most other paths used in this
 # role.
-camac_basedir: "/usr/share/camac"
+camac_php_basedir: "/usr/share/camac"
 
 # Persistant data dir for camac
 # This is not usually below camac_basedir since it needs to be in /var/lib
-camac_datadir: "/var/lib/camac"
+camac_php_datadir: "/var/lib/camac"
 
 # Tmp dir for camac
-camac_tmpdir: "{{ camac_datadir }}/tmp"
+camac_php_tmpdir: "{{ camac_php_datadir }}/tmp"
 
 #################
 # camac logging #
 #################
 
 # directory to write logfiles to
-camac_logdir: "{{ camac_basedir }}/log"
+camac_php_logdir: "{{ camac_php_basedir }}/log"
 
 #############################
 # camac cache configuration #
