@@ -4,11 +4,11 @@
 
 appVersion = "{{ camac_version }}"
 
-upload.path = "{{ camac_datadir }}"
+upload.path = "{{ camac_php_datadir }}"
 
 baseDomain = {{ camac_base_domain }}
 
-mpdf.tmpDir = "{{ camac_tmpdir }}/mpdf"
+mpdf.tmpDir = "{{ camac_php_tmpdir }}/mpdf"
 
 resources.session.cookie_secure = {{ camac_session_secure }}
 
@@ -46,7 +46,7 @@ keycloak.proxy = {{ camac_auth_proxy }}
 {% endif %}
 {% endif %}
 
-resources.log.stream.writerParams.stream = "{{ camac_logdir }}/application.log"
+resources.log.stream.writerParams.stream = "{{ camac_php_logdir }}/application.log"
 
 [staging : production]
 [testing : production]

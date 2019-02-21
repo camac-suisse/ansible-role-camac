@@ -5,15 +5,15 @@
 camac_releasedir: "/tmp"
 
 # Where to put the downloaded tarball
-camac_tarballdir: "{{ camac_datadir }}/releases"
+camac_tarballdir: "{{ camac_php_datadir }}/releases"
 camac_tarball: "{{camac_tarballdir}}/camac-be-{{ camac_version | replace('.', '-') }}.tar.gz"
 
 # Directory containing the application entry point (ie. DocumentRoot in apache).
-camac_docroot: "{{ camac_basedir }}/htdocs"
+camac_php_docroot: "{{ camac_php_basedir }}/htdocs"
 
-camac_libdir: "{{ camac_basedir }}/lib"
+camac_php_libdir: "{{ camac_php_basedir }}/lib"
 
-camac_confdir: "{{ camac_basedir }}/configuration"
+camac_php_confdir: "{{ camac_php_basedir }}/configuration"
 
 camac_keycloak_datadir: "{{ camac_keycloak_basedir }}/data"
 

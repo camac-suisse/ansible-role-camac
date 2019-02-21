@@ -1,0 +1,61 @@
+---
+
+- name: create directories for camac python service installation
+  file:
+    state: directory
+    path: "{{ item }}"
+  with_items:
+    - "{{ camac_python_docroot }}"
+    - "{{ camac_python_datadir }}"
+    - "{{ camac_python_confdir }}"
+
+- name: copy django directory to python service docroot
+  synchronize:
+    src: "{{ camac_releasedir }}/camac/django/"
+    dest: "{{ camac_python_docroot }}"
+    delete: yes
+
+- name: install camac django app dependencies
+  pip:
+    requirements: "{{ camac_python_docroot }}/requirements.txt"
+    extra_args: "--upgrade"
+    executable: "pip3"
+
+- name: copy systemd units for api service
+  template:
+    src: camac-api.service.j2
+    dest: /etc/systemd/system/camac-api.service
+
+- name: render uwsgi ini
+  template:
+    src: uwsgi.ini.j2
+    dest: "{{ camac_python_confdir }}/uwsgi.ini"
+
+- name: render .env template
+  template:
+    src: env.j2
+    dest: "{{ camac_python_docroot }}/.env"
+
+- name: reset django_migrations table
+  shell: |
+    psql \
+        -h {{ camac_db_host }} \
+        -p {{ camac_db_port }} \
+        -U {{ camac_db_username }} \
+        -d {{ camac_db_dbname }} \
+        -c "TRUNCATE django_migrations"
+  when: camac_db_run_fake_migrations and camac_db_fake_migrations is defined
+  environment:
+    PGPASSWORD: "{{ camac_db_password }}"
+
+- name: run camac fake migrations
+  shell: "python3 {{ camac_python_docroot }}/manage.py migrate --fake {{ item.app }} {{ item.migration }}"
+  when: camac_db_run_fake_migrations and camac_db_fake_migrations is defined
+  loop: "{{ camac_db_fake_migrations }}"
+
+- name: run camac migrations
+  shell: "python3 {{ camac_python_docroot }}/manage.py migrate"
+
+- name: load initial camac data
+  shell: "python3 {{ camac_python_docroot }}/manage.py loadconfig"
+  when: camac_load_data
