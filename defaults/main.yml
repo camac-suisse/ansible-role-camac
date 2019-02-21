@@ -69,7 +69,7 @@ camac_base_domain: "camac.ch"
 # camac base directories #
 ##########################
 
-camac_python_basedir: "/usr/share/camac"
+camac_python_basedir: "/usr/share/camac-api/"
 
 # Base dir for camac that is used as the base of most other paths used in this
 # role.
