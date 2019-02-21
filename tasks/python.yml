@@ -31,12 +31,6 @@
     src: uwsgi.ini.j2
     dest: "{{ camac_python_confdir }}/uwsgi.ini"
 
-- name: install camac django app dependencies
-  pip:
-    requirements: "{{ camac_python_docroot }}/requirements.txt"
-    extra_args: "--upgrade"
-    executable: "pip3"
-
 - name: render .env template
   template:
     src: env.j2
