@@ -33,6 +33,7 @@
     src: "{{ camac_releasedir }}/camac/django/"
     dest: "{{ camac_python_docroot }}"
     delete: yes
+  delegate_to: "{{ inventory_hostname }}"
 
 - name: install camac django app dependencies
   pip:
