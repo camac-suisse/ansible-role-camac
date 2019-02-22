@@ -39,13 +39,15 @@
   pip:
     requirements: "{{ camac_python_docroot }}/requirements.txt"
     extra_args: "--upgrade"
-    executable: "pip3"
+    virtualenv: "{{ camac_python_virtualenvdir }}"
+    virtualenv_python: "python3"
 
 - name: install camac package
   pip:
     name: "{{ camac_python_docroot }}/"
     extra_args: "--upgrade"
-    executable: "pip3"
+    virtualenv: "{{ camac_python_virtualenvdir }}"
+    virtualenv_python: "python3"
 
 - name: copy systemd units for api service
   template:
@@ -91,17 +93,27 @@
         PGPASSWORD: "{{ camac_db_password }}"
 
     - name: run camac fake migrations
-      shell: "python3 {{ camac_python_docroot }}/manage.py migrate --fake {{ item.app }} {{ item.migration }}"
+      django_manage:
+        command: "migrate --fake {{ item.app }} {{ item.migration }}"
+        app_path: "{{ camac_python_docroot }}"
+        virtualenv: "{{ camac_python_virtualenvdir }}"
       loop: "{{ camac_db_fake_migrations }}"
 
   when: camac_db_run_fake_migrations and camac_db_fake_migrations is defined
   rescue:
+
     - fail:
         msg: "`camac_db_run_fake_migrations` is set to True but it appears that the fake migration have already run."
 
 - name: run camac migrations
-  shell: "python3 {{ camac_python_docroot }}/manage.py migrate"
+  django_manage:
+    command: migrate
+    app_path: "{{ camac_python_docroot }}"
+    virtualenv: "{{ camac_python_virtualenvdir }}"
 
 - name: load initial camac data
-  shell: "python3 {{ camac_python_docroot }}/manage.py loadconfig"
+  django_manage:
+    command: loadconfig
+    app_path: "{{ camac_python_docroot }}"
+    virtualenv: "{{ camac_python_virtualenvdir }}"
   when: camac_load_data
