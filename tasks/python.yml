@@ -9,6 +9,25 @@
     - "{{ camac_python_datadir }}"
     - "{{ camac_python_confdir }}"
 
+- name: Review requirements.txt changes
+  block:
+
+    - command:
+        argv:
+          - diff
+          - "{{ camac_python_docroot }}/requirements.txt"
+          - "{{ camac_releasedir }}/camac/django/requirements.txt"
+      register: requirements_diff
+      failed_when: requirements_diff.rc >= 2
+
+    - debug:
+        msg: "{{ requirements_diff.stdout.split('\n') }}"
+      when: requirements_diff.rc > 0
+
+    - pause:
+        prompt: "Requirements have changed. Please review them carefully! (Ctrl+c c => continue, Ctrl+c a => abort)"
+      when: requirements_diff.rc > 0
+
 - name: copy django directory to python service docroot
   synchronize:
     src: "{{ camac_releasedir }}/camac/django/"
