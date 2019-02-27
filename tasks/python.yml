@@ -55,22 +55,42 @@
     src: env.j2
     dest: "{{ camac_python_docroot }}/.env"
 
-- name: reset django_migrations table
-  shell: |
-    psql \
-        -h {{ camac_db_host }} \
-        -p {{ camac_db_port }} \
-        -U {{ camac_db_username }} \
-        -d {{ camac_db_dbname }} \
-        -c "TRUNCATE django_migrations"
-  when: camac_db_run_fake_migrations and camac_db_fake_migrations is defined
-  environment:
-    PGPASSWORD: "{{ camac_db_password }}"
+- name: Run fake migrations
+  block:
 
-- name: run camac fake migrations
-  shell: "python3 {{ camac_python_docroot }}/manage.py migrate --fake {{ item.app }} {{ item.migration }}"
+    - name: check if fake migrations should be applied
+      shell: |
+        psql \
+            -h {{ camac_db_host }} \
+            -p {{ camac_db_port }} \
+            -U {{ camac_db_username }} \
+            -d {{ camac_db_dbname }} \
+            -t \
+            -c "SELECT EXISTS (SELECT 1 FROM django_migrations WHERE name = '0017_instanceservice_activation_date')"
+      register: old_schema_is_active
+      failed_when: old_schema_is_active.stdout.lstrip() != "t"
+      environment:
+        PGPASSWORD: "{{ camac_db_password }}"
+
+    - name: reset django_migrations table
+      shell: |
+        psql \
+            -h {{ camac_db_host }} \
+            -p {{ camac_db_port }} \
+            -U {{ camac_db_username }} \
+            -d {{ camac_db_dbname }} \
+            -c "TRUNCATE django_migrations"
+      environment:
+        PGPASSWORD: "{{ camac_db_password }}"
+
+    - name: run camac fake migrations
+      shell: "python3 {{ camac_python_docroot }}/manage.py migrate --fake {{ item.app }} {{ item.migration }}"
+      loop: "{{ camac_db_fake_migrations }}"
+
   when: camac_db_run_fake_migrations and camac_db_fake_migrations is defined
-  loop: "{{ camac_db_fake_migrations }}"
+  rescue:
+    - fail:
+        msg: "`camac_db_run_fake_migrations` is set to True but it appears that the fake migration have already run."
 
 - name: run camac migrations
   shell: "python3 {{ camac_python_docroot }}/manage.py migrate"
