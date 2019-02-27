@@ -72,7 +72,5 @@
 
 - name: configure camac php app
   template:
-    dest: "{{ item }}"
     src: "application.ini.j2"
-  with_items:
-    - "{{ camac_php_confdir }}/configs/application.local.ini"
+    dest: "{{ camac_php_confdir }}/configs/application.local.ini"
