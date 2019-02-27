@@ -40,6 +40,12 @@
     extra_args: "--upgrade"
     executable: "pip3"
 
+- name: install camac package
+  pip:
+    name: "{{ camac_python_docroot }}/"
+    extra_args: "--upgrade"
+    executable: "pip3"
+
 - name: copy systemd units for api service
   template:
     src: camac-api.service.j2
