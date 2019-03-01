@@ -9,6 +9,11 @@
     - "{{ camac_python_datadir }}"
     - "{{ camac_python_confdir }}"
 
+- name: check if old requirements.txt exists
+  stat:
+    path: "{{ camac_python_docroot }}/requirements.txt"
+  register: old_requirements
+
 - name: Review requirements.txt changes
   block:
 
@@ -27,6 +32,8 @@
     - pause:
         prompt: "Requirements have changed. Please review them carefully! (Ctrl+c c => continue, Ctrl+c a => abort)"
       when: requirements_diff.rc > 0
+
+  when: old_requirements.stat.exists
 
 - name: copy django directory to python service docroot
   synchronize:
