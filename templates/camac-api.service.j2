@@ -3,7 +3,8 @@ Description=uWSGI Camac API
 After=syslog.target
 
 [Service]
-ExecStart={{ camac_python_virtualenvdir }}/bin/uwsgi --ini {{ camac_python_confdir }}/uwsgi.ini -H {{ camac_python_virtualenvdir }}
+ExecStart={{ camac_python_virtualenvdir }}/bin/uwsgi --ini {{ camac_python_confdir }}/uwsgi.ini
+WorkingDirectory={{ camac_python_docroot }}
 EnvironmentFile=-{{ camac_python_docroot }}/.env
 RuntimeDirectory=uwsgi
 Restart=always
