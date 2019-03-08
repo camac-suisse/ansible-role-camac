@@ -17,11 +17,7 @@
 - name: Review requirements.txt changes
   block:
 
-    - command:
-        argv:
-          - diff
-          - "{{ camac_python_docroot }}/requirements.txt"
-          - "{{ camac_releasedir }}/camac/django/requirements.txt"
+    - command: diff "{{ camac_python_docroot }}/requirements.txt" "{{ camac_releasedir }}/camac/django/requirements.txt"
       register: requirements_diff
       failed_when: requirements_diff.rc >= 2
 
