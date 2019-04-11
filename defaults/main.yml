@@ -195,3 +195,34 @@ camac_python_confdir: "{{ camac_python_basedir }}/config"
 camac_python_logdir: "{{ camac_python_basedir }}/log"
 camac_python_tmpdir: "{{ camac_python_basedir }}/tmp"
 camac_python_virtualenvdir: "{{ camac_python_docroot }}/env"
+
+caluma_basedir: "/usr/share/caluma/"
+caluma_datadir: "{{ caluma_basedir }}/data"
+caluma_docroot: "{{ caluma_basedir }}/webapps"
+caluma_confdir: "{{ caluma_basedir }}/config"
+caluma_logdir: "{{ caluma_basedir }}/log"
+caluma_tmpdir: "{{ caluma_basedir }}/tmp"
+caluma_virtualenvdir: "{{ caluma_docroot }}/env"
+
+
+# User that runs the caluma process
+caluma_user: "vagrant"
+
+# Home directory of caluma user
+caluma_user_home: "/home/{{ caluma_user }}"
+
+# Directory in which pyenv will be cloned (with git)
+caluma_pyenv_install_directory: "{{ caluma_user_home }}/.pyenv"
+
+# Pyenv Python version that will be used to run uwsgi/caluma
+caluma_pyenv_python_version: "3.7.3"
+
+# Url of the official pyenv repository
+caluma_pyenv_git_repository_url: "https://github.com/pyenv/pyenv"
+
+# Bashrc file of caluma user (This is required so we can include pyenv script
+# into $PATH)
+caluma_user_bashrc: "{{ caluma_user_home}}/.bashrc"
+
+# Pyenv Version (corresponds to a valid git tag)
+caluma_pyenv_version: "v1.2.11"

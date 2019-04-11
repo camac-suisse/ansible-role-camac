@@ -1,0 +1,140 @@
+---
+
+- name: clone pyenv git repository
+  git:
+    repo: "{{ caluma_pyenv_git_repository_url }}"
+    dest: "{{ caluma_pyenv_install_directory }}"
+    version: "{{ caluma_pyenv_version }}"
+  become: yes
+  become_user: "{{ caluma_user }}"
+
+- name: bootstrap pyenv through .bashrc
+  blockinfile:
+    dest: "{{ caluma_user_bashrc }}"
+    marker: "# {mark} ANSIBLE MANAGED BLOCK: pyenv"
+    block: |
+      export PYENV_ROOT="{{ caluma_pyenv_install_directory }}"
+      export PATH="$PYENV_ROOT/bin:$PATH"
+      eval "$(pyenv init -)"
+  become: yes
+  become_user: "{{ caluma_user }}"
+
+
+- name: install required python version
+  shell: "{{ caluma_pyenv_install_directory }}/bin/pyenv install -s {{ caluma_pyenv_python_version }}"
+  become: yes
+  become_user: "{{ caluma_user }}"
+
+- name: create directories for camac python service installation
+  file:
+    state: directory
+    path: "{{ item }}"
+  with_items:
+    - "{{ caluma_docroot }}"
+    - "{{ caluma_datadir }}"
+    - "{{ caluma_confdir }}"
+
+- name: check if old requirements.txt exists
+  stat:
+    path: "{{ caluma_docroot }}/requirements.txt"
+  register: old_requirements
+
+- name: Review requirements.txt changes
+  block:
+
+    - command: diff "{{ caluma_docroot }}/requirements.txt" "{{ camac_releasedir }}/camac/django/requirements.txt"
+      register: requirements_diff
+      failed_when: requirements_diff.rc >= 2
+
+    - debug:
+        msg: "{{ requirements_diff.stdout.split('\n') }}"
+      when: requirements_diff.rc > 0
+
+    - pause:
+        prompt: "Requirements have changed. Please review them carefully! (Ctrl+c c => continue, Ctrl+c a => abort)"
+      when: requirements_diff.rc > 0
+
+  when: old_requirements.stat.exists
+
+# - name: copy django directory to python service docroot
+#   synchronize:
+#     src: "{{ camac_releasedir }}/camac/django/"
+#     dest: "{{ caluma_docroot }}"
+#     delete: yes
+#   delegate_to: "{{ inventory_hostname }}"
+
+# - name: install camac django app dependencies
+#   pip:
+#     requirements: "{{ caluma_docroot }}/requirements.txt"
+#     extra_args: "--upgrade"
+#     virtualenv: "{{ caluma_virtualenvdir }}"
+#     virtualenv_python: "python3"
+
+# - name: copy systemd units for api service
+#   template:
+#     src: camac-api.service.j2
+#     dest: /etc/systemd/system/camac-api.service
+
+# - name: render uwsgi ini
+#   template:
+#     src: uwsgi.ini.j2
+#     dest: "{{ caluma_confdir }}/uwsgi.ini"
+
+# - name: render .env template
+#   template:
+#     src: env.j2
+#     dest: "{{ caluma_docroot }}/.env"
+
+# - name: Run fake migrations
+#   block:
+
+#     - name: check if fake migrations should be applied
+#       shell: |
+#         psql \
+#             -h {{ camac_db_host }} \
+#             -p {{ camac_db_port }} \
+#             -U {{ camac_db_username }} \
+#             -d {{ camac_db_dbname }} \
+#             -t \
+#             -c "SELECT EXISTS (SELECT 1 FROM django_migrations WHERE name = '0017_instanceservice_activation_date')"
+#       register: old_schema_is_active
+#       failed_when: old_schema_is_active.stdout.lstrip() != "t"
+#       environment:
+#         PGPASSWORD: "{{ camac_db_password }}"
+
+#     - name: reset django_migrations table
+#       shell: |
+#         psql \
+#             -h {{ camac_db_host }} \
+#             -p {{ camac_db_port }} \
+#             -U {{ camac_db_username }} \
+#             -d {{ camac_db_dbname }} \
+#             -c "TRUNCATE django_migrations"
+#       environment:
+#         PGPASSWORD: "{{ camac_db_password }}"
+
+#     - name: run camac fake migrations
+#       django_manage:
+#         command: "migrate --fake {{ item.app }} {{ item.migration }}"
+#         app_path: "{{ caluma_docroot }}"
+#         virtualenv: "{{ caluma_virtualenvdir }}"
+#       loop: "{{ camac_db_fake_migrations }}"
+
+#   when: camac_db_run_fake_migrations and camac_db_fake_migrations is defined
+#   rescue:
+
+#     - fail:
+#         msg: "`camac_db_run_fake_migrations` is set to True but it appears that the fake migration have already run."
+
+# - name: run camac migrations
+#   django_manage:
+#     command: migrate
+#     app_path: "{{ caluma_docroot }}"
+#     virtualenv: "{{ caluma_virtualenvdir }}"
+
+# - name: load initial camac data
+#   django_manage:
+#     command: loadconfig
+#     app_path: "{{ caluma_docroot }}"
+#     virtualenv: "{{ caluma_virtualenvdir }}"
+#   when: camac_load_data

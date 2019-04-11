@@ -1,5 +1,4 @@
 ---
-# tasks file for camac
 
 - name: load customer specific variables
   include_vars:
@@ -33,8 +32,12 @@
 
 - include: php.yml
 
+- include: caluma.yml
+  tags: caluma
+
 - include: python.yml
   tags: python
+
 
 - name: remove tmp staging dir
   file:
