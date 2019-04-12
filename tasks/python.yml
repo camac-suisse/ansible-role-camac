@@ -52,12 +52,12 @@
 
 - name: render uwsgi ini
   template:
-    src: uwsgi.ini.j2
+    src: camac_api_uwsgi.ini.j2
     dest: "{{ camac_python_confdir }}/uwsgi.ini"
 
 - name: render .env template
   template:
-    src: env.j2
+    src: camac_api_env.j2
     dest: "{{ camac_python_docroot }}/.env"
 
 - name: Run fake migrations

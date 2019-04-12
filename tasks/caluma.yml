@@ -94,71 +94,23 @@
   become: yes
   become_user: "{{ caluma_user }}"
 
-# - name: copy systemd units for api service
-#   template:
-#     src: camac-api.service.j2
-#     dest: /etc/systemd/system/camac-api.service
+- name: copy systemd units for api service
+  template:
+    src: caluma.service.j2
+    dest: /etc/systemd/system/caluma.service
 
-# - name: render uwsgi ini
-#   template:
-#     src: uwsgi.ini.j2
-#     dest: "{{ caluma_confdir }}/uwsgi.ini"
+- name: render uwsgi ini
+  template:
+    src: caluma_uwsgi.ini.j2
+    dest: "{{ caluma_confdir }}/uwsgi.ini"
 
-# - name: render .env template
-#   template:
-#     src: env.j2
-#     dest: "{{ caluma_docroot }}/.env"
+- name: render .env template
+  template:
+    src: caluma_env.j2
+    dest: "{{ caluma_docroot }}/.env"
 
-# - name: Run fake migrations
-#   block:
-
-#     - name: check if fake migrations should be applied
-#       shell: |
-#         psql \
-#             -h {{ camac_db_host }} \
-#             -p {{ camac_db_port }} \
-#             -U {{ camac_db_username }} \
-#             -d {{ camac_db_dbname }} \
-#             -t \
-#             -c "SELECT EXISTS (SELECT 1 FROM django_migrations WHERE name = '0017_instanceservice_activation_date')"
-#       register: old_schema_is_active
-#       failed_when: old_schema_is_active.stdout.lstrip() != "t"
-#       environment:
-#         PGPASSWORD: "{{ camac_db_password }}"
-
-#     - name: reset django_migrations table
-#       shell: |
-#         psql \
-#             -h {{ camac_db_host }} \
-#             -p {{ camac_db_port }} \
-#             -U {{ camac_db_username }} \
-#             -d {{ camac_db_dbname }} \
-#             -c "TRUNCATE django_migrations"
-#       environment:
-#         PGPASSWORD: "{{ camac_db_password }}"
-
-#     - name: run camac fake migrations
-#       django_manage:
-#         command: "migrate --fake {{ item.app }} {{ item.migration }}"
-#         app_path: "{{ caluma_docroot }}"
-#         virtualenv: "{{ caluma_virtualenvdir }}"
-#       loop: "{{ camac_db_fake_migrations }}"
-
-#   when: camac_db_run_fake_migrations and camac_db_fake_migrations is defined
-#   rescue:
-
-#     - fail:
-#         msg: "`camac_db_run_fake_migrations` is set to True but it appears that the fake migration have already run."
-
-# - name: run camac migrations
-#   django_manage:
-#     command: migrate
-#     app_path: "{{ caluma_docroot }}"
-#     virtualenv: "{{ caluma_virtualenvdir }}"
-
-# - name: load initial camac data
-#   django_manage:
-#     command: loadconfig
-#     app_path: "{{ caluma_docroot }}"
-#     virtualenv: "{{ caluma_virtualenvdir }}"
-#   when: camac_load_data
+- name: run caluma migrations
+  django_manage:
+    command: migrate
+    app_path: "{{ caluma_docroot }}"
+    virtualenv: "{{ caluma_pyenv_virtualenv_path }}"
