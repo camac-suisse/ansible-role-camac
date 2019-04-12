@@ -8,6 +8,14 @@
   become: yes
   become_user: "{{ caluma_user }}"
 
+- name: clone pyenv-virtualenv git repository
+  git:
+    repo: "{{ caluma_pyenv_virtualenv_git_repository_url }}"
+    dest: "{{ caluma_pyenv_install_directory }}/plugins/pyenv-virtualenv"
+    version: "{{ caluma_pyenv_virtualenv_version }}"
+  become: yes
+  become_user: "{{ caluma_user }}"
+
 - name: bootstrap pyenv through .bashrc
   blockinfile:
     dest: "{{ caluma_user_bashrc }}"
@@ -19,9 +27,24 @@
   become: yes
   become_user: "{{ caluma_user }}"
 
-
 - name: install required python version
   shell: "{{ caluma_pyenv_install_directory }}/bin/pyenv install -s {{ caluma_pyenv_python_version }}"
+  become: yes
+  become_user: "{{ caluma_user }}"
+
+- name: check if pyenv virtualenv exists
+  stat:
+    path: "{{ caluma_pyenv_virtualenv_path }}"
+  register: virtualenv
+
+- name: create pyenv virtualenv
+  shell: "{{ caluma_pyenv_install_directory }}/bin/pyenv virtualenv {{ caluma_pyenv_python_version }} caluma"
+  become: yes
+  become_user: "{{ caluma_user }}"
+  when: not virtualenv.stat.exists
+
+- name: set required python version
+  shell: "{{ caluma_pyenv_install_directory }}/bin/pyenv global {{ caluma_pyenv_python_version }}"
   become: yes
   become_user: "{{ caluma_user }}"
 
@@ -56,19 +79,20 @@
 
   when: old_requirements.stat.exists
 
-# - name: copy django directory to python service docroot
-#   synchronize:
-#     src: "{{ camac_releasedir }}/camac/django/"
-#     dest: "{{ caluma_docroot }}"
-#     delete: yes
-#   delegate_to: "{{ inventory_hostname }}"
+- name: copy caluma directory to caluma service docroot
+  synchronize:
+    src: "{{ camac_releasedir }}/camac/caluma/"
+    dest: "{{ caluma_docroot }}"
+    delete: yes
+  delegate_to: "{{ inventory_hostname }}"
 
-# - name: install camac django app dependencies
-#   pip:
-#     requirements: "{{ caluma_docroot }}/requirements.txt"
-#     extra_args: "--upgrade"
-#     virtualenv: "{{ caluma_virtualenvdir }}"
-#     virtualenv_python: "python3"
+- name: install camac django app dependencies
+  pip:
+    requirements: "{{ caluma_docroot }}/requirements.txt"
+    extra_args: "--upgrade"
+    virtualenv: "{{ caluma_pyenv_virtualenv_path }}"
+  become: yes
+  become_user: "{{ caluma_user }}"
 
 # - name: copy systemd units for api service
 #   template:

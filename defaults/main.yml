@@ -224,5 +224,17 @@ caluma_pyenv_git_repository_url: "https://github.com/pyenv/pyenv"
 # into $PATH)
 caluma_user_bashrc: "{{ caluma_user_home}}/.bashrc"
 
-# Pyenv Version (corresponds to a valid git tag)
+# Pyenv version (corresponds to a valid git tag)
 caluma_pyenv_version: "v1.2.11"
+
+# Url of the official pyenv-virtualenv plugin repository
+caluma_pyenv_virtualenv_git_repository_url: "https://github.com/pyenv/pyenv-virtualenv"
+
+# Pyenv virtualenv plugin version (corresponds to a valid git tag)
+caluma_pyenv_virtualenv_version: "v1.1.5"
+
+# Name of the pyenv virtualenv
+caluma_pyenv_virtualenv_name: "caluma"
+
+# Path to the pyenv virtualenv
+caluma_pyenv_virtualenv_path: "{{ caluma_pyenv_install_directory }}/versions/{{ caluma_pyenv_virtualenv_name }}"
