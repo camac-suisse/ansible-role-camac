@@ -245,9 +245,6 @@ caluma_uwsgi_address: "0.0.0.0"
 # Port on which the caluma uWSGI instance listens on
 caluma_uwsgi_port: "8282"
 
-# PDO adapater to use
-caluma_db_adapter: "Pdo_Pgsql"
-
 # Username used for connection to database
 caluma_db_username: "caluma"
 

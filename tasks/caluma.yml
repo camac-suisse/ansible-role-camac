@@ -48,7 +48,7 @@
   become: yes
   become_user: "{{ caluma_user }}"
 
-- name: create directories for camac python service installation
+- name: create directories for caluma python service installation
   file:
     state: directory
     path: "{{ item }}"
@@ -86,7 +86,7 @@
     delete: yes
   delegate_to: "{{ inventory_hostname }}"
 
-- name: install camac django app dependencies
+- name: install caluma django app dependencies
   pip:
     requirements: "{{ caluma_docroot }}/requirements.txt"
     extra_args: "--upgrade"

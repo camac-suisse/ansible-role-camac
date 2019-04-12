@@ -38,7 +38,6 @@
 - include: python.yml
   tags: python
 
-
 - name: remove tmp staging dir
   file:
     state: absent
