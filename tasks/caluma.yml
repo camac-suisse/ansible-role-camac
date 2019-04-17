@@ -20,6 +20,7 @@
   blockinfile:
     dest: "{{ caluma_user_bashrc }}"
     marker: "# {mark} ANSIBLE MANAGED BLOCK: pyenv"
+    create: yes
     block: |
       export PYENV_ROOT="{{ caluma_pyenv_install_directory }}"
       export PATH="$PYENV_ROOT/bin:$PATH"
