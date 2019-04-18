@@ -38,6 +38,9 @@
 - include: python.yml
   tags: python
 
+- include: ember.yml
+  tags: ember
+
 - name: remove tmp staging dir
   file:
     state: absent

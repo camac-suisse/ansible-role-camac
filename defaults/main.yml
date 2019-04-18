@@ -271,3 +271,7 @@ caluma_visibility_classes: "caluma.core.visibilities.Any"
 
 # Caluma permission classes
 caluma_permission_classes: "caluma.core.permissions.AllowAny"
+
+# TODO: Find a good prefix for form/portal frontend
+ember_basedir: "/usr/share/ember-caluma-portal/"
+ember_docroot: "{{ ember_basedir }}/webapps"
