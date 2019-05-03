@@ -272,6 +272,9 @@ caluma_visibility_classes: "caluma.core.visibilities.Any"
 # Caluma permission classes
 caluma_permission_classes: "caluma.core.permissions.AllowAny"
 
+# Time in seconds before bearer token validity is verified again
+caluma_oidc_bearer_token_revalidation_time: 300
+
 # TODO: Find a good prefix for form/portal frontend
 ember_basedir: "/usr/share/ember-caluma-portal/"
 ember_docroot: "{{ ember_basedir }}/webapps"
