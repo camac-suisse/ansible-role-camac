@@ -272,6 +272,9 @@ caluma_visibility_classes: "caluma.core.visibilities.Any"
 # Caluma permission classes
 caluma_permission_classes: "caluma.core.permissions.AllowAny"
 
+# Caluma data_source classes
+caluma_data_source_classes: ""
+
 # Time in seconds before bearer token validity is verified again
 caluma_oidc_bearer_token_revalidation_time: 300
 
