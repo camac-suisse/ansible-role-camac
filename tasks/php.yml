@@ -35,6 +35,7 @@
       <?php
       define('APPLICATION_PATH', '{{ camac_php_docroot }}/application');
       define('APPLICATION_ENV', '{{ camac_env }}');
+      define('APPLICATION', '{{ camac_application }}');
       {% if camac_mock_tls %}
       $_SERVER['HTTPS'] = true;
       {% endif %}
