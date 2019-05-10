@@ -73,3 +73,8 @@
   template:
     src: "application.ini.j2"
     dest: "{{ camac_php_docroot }}/configuration/configs/application.local.ini"
+
+- name: fix permission on document root
+  file:
+    path: "{{ camac_php_docroot }}"
+    owner: "{{ camac_apache_user }}"

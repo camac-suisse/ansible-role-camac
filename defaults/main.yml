@@ -284,3 +284,6 @@ caluma_oidc_bearer_token_revalidation_time: 300
 # TODO: Find a good prefix for form/portal frontend
 ember_basedir: "/usr/share/ember-caluma-portal/"
 ember_docroot: "{{ ember_basedir }}/webapps"
+
+# Set this to the Apache user
+ember_apache_user: www-data

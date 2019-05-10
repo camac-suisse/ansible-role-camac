@@ -16,3 +16,8 @@
   with_items:
     - src: "ember-caluma-portal/"
       dest: "{{ ember_docroot }}"
+
+- name: fix permission on document root
+  file:
+    path: "{{ ember_docroot }}"
+    owner: "{{ ember_apache_user }}"
