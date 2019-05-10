@@ -12,7 +12,6 @@
     src: "{{ camac_releasedir }}/camac/{{ item.src }}"
     dest: "{{ item.dest }}"
     delete: yes
-    rsync_opts: "{{ item.rsync_opts | d() }}"
   delegate_to: "{{ inventory_hostname }}"
   with_items:
     - src: "ember-caluma-portal/"
