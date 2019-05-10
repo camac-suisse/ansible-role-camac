@@ -50,6 +50,24 @@
     - "{{ camac_php_tmpdir }}/mpdf"
     - "{{ camac_php_logdir }}"
 
+- name: symlink customer specific overrides files to configuration directory
+  block:
+
+  - file:
+      dest: "{{ camac_php_docroot }}/configuration"
+      state: directory
+
+  - find:
+      path: "{{ camac_php_docroot }}/{{ camac_application }}/"
+      file_type: "any"
+    register: find
+
+  - file:
+      src: "../{{ camac_application }}/{{ item.path | basename }}"
+      dest: "{{ camac_php_docroot }}/configuration/{{ item.path | basename }}"
+      state: link
+    loop: "{{ find.files }}"
+
 - name: configure camac php app
   template:
     src: "application.ini.j2"
