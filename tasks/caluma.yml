@@ -86,6 +86,8 @@
     dest: "{{ caluma_docroot }}"
     delete: yes
   delegate_to: "{{ inventory_hostname }}"
+  notify:
+    - restart caluma
 
 - name: install caluma django app dependencies
   pip:
@@ -94,21 +96,29 @@
     virtualenv: "{{ caluma_pyenv_virtualenv_path }}"
   become: yes
   become_user: "{{ caluma_user }}"
+  notify:
+    - restart caluma
 
 - name: copy systemd units for api service
   template:
     src: caluma.service.j2
     dest: /etc/systemd/system/caluma.service
+  notify:
+    - restart caluma
 
 - name: render uwsgi ini
   template:
     src: caluma_uwsgi.ini.j2
     dest: "{{ caluma_confdir }}/uwsgi.ini"
+  notify:
+    - restart caluma
 
 - name: render .env template
   template:
     src: caluma_env.j2
     dest: "{{ caluma_docroot }}/.env"
+  notify:
+    - restart caluma
 
 - name: run caluma migrations
   django_manage:

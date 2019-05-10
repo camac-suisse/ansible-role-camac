@@ -37,6 +37,7 @@
     dest: "{{ camac_python_docroot }}"
     delete: yes
   delegate_to: "{{ inventory_hostname }}"
+  notify: restart camac api
 
 - name: install camac django app dependencies
   pip:
@@ -44,21 +45,25 @@
     extra_args: "--upgrade"
     virtualenv: "{{ camac_python_virtualenvdir }}"
     virtualenv_python: "python3"
+  notify: restart camac api
 
 - name: copy systemd units for api service
   template:
     src: camac-api.service.j2
     dest: /etc/systemd/system/camac-api.service
+  notify: restart camac api
 
 - name: render uwsgi ini
   template:
     src: camac_api_uwsgi.ini.j2
     dest: "{{ camac_python_confdir }}/uwsgi.ini"
+  notify: restart camac api
 
 - name: render .env template
   template:
     src: camac_api_env.j2
     dest: "{{ camac_python_docroot }}/.env"
+  notify: restart camac api
 
 - name: Run fake migrations
   block:
