@@ -199,6 +199,8 @@ camac_python_virtualenvdir: "{{ camac_python_docroot }}/env"
 # Whether new users are automatically added to a set of different groups
 camac_demo_mode: no
 
+# Url to the iframe embedded ember form
+camac_portal_uri: ""
 
 caluma_basedir: "/usr/share/caluma/"
 caluma_datadir: "{{ caluma_basedir }}/data"
