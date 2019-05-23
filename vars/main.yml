@@ -1,28 +1,37 @@
 ---
-# vars file for camac
 
 # Location to store downloaded files
 camac_releasedir: "/tmp"
 
 # Where to put the downloaded tarball
 camac_tarballdir: "{{ camac_php_datadir }}/releases"
+
+# Path to the downloaded camac tarball
 camac_tarball: "{{camac_tarballdir}}/camac-be-{{ camac_version | replace('.', '-') }}.tar.gz"
 
 # Directory containing the application entry point (ie. DocumentRoot in apache).
 camac_php_docroot: "{{ camac_php_basedir }}/htdocs"
 
+# Directory in which the required PHP libraries are stored.
 camac_php_libdir: "{{ camac_php_basedir }}/lib"
 
+# Directory in which the configuration is stored.
 camac_php_confdir: "{{ camac_php_basedir }}/configuration"
 
+# Directory in which keycloak data is stored.
 camac_keycloak_datadir: "{{ camac_keycloak_basedir }}/data"
 
 # where to store the downloaded keycloak file
 camac_keycloak_tarball: "{{ camac_keycloak_datadir }}/releases/keycloak-{{ camac_keycloak_version }}.tar.gz"
+
+# Download url to fetch the keycloak theme
 camac_keycloak_theme_jarfile: "{{ camac_keycloak_datadir }}/releases/keycloak-theme-ebau-be-{{ camac_keycloak_theme_version  | replace('.','-') }}.jar"
 
+# Download directory for keycloak releases
 camac_keycloak_releasedir: "{{ camac_keycloak_datadir }}/releases"
 
+# Download directory in which the keycloak utils are stored
 camac_keycloak_bindir: "{{ camac_keycloak_basedir }}/bin"
 
+# Download directory in which the keycloak configuration is stored
 camac_keycloak_wildfly_confdir: "/etc/wildfly"
