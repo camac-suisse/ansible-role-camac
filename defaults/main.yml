@@ -196,6 +196,10 @@ camac_python_logdir: "{{ camac_python_basedir }}/log"
 camac_python_tmpdir: "{{ camac_python_basedir }}/tmp"
 camac_python_virtualenvdir: "{{ camac_python_docroot }}/env"
 
+# Whether new users are automatically added to a set of different groups
+camac_demo_mode: no
+
+
 caluma_basedir: "/usr/share/caluma/"
 caluma_datadir: "{{ caluma_basedir }}/data"
 caluma_docroot: "{{ caluma_basedir }}/webapps"
