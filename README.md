@@ -21,21 +21,21 @@ fairly modern of Ansible is recommended.
 
 ### Version settings
 
-| variable | required | default | comments |
-| -------- | -------- | ------- | -------- |
-| `camac_version` | yes | | Full version of Camac Release to install |
-| `camac_tarball_checksum` | yes | | SHA256 checksum of Camac |
-| `camac_release` | yes | | URL to Camac download |
+| variable                 | required | default | comments                                                                          |
+| --------                 | -------- | ------- | --------                                                                          |
+| `camac_version`          | yes      |         | Full version of Camac Release to install. The format looks like "0.23.0+fa84837c" |
+| `camac_tarball_checksum` | yes      |         | SHA256 checksum of Camac                                                          |
+| `camac_release`          | yes      |         | URL to Camac download                                                             |
 
 ### Directory settings
 
-| variable | required | default | comments |
-| -------- | -------- | ------- | -------- |
-| `camac_basedir` | no | "/usr/share/camac" | This dir is used as the base for other paths. |
-| `camac_docroot` | no | "{{ camac_php_basedir}}/htdocs" | This dir contains the appication entry point. |
-| `camac_datadir` | no | "/var/lib/camac" | Storage directory for uploads to camac and other data. |
-| `camac_releasedir` | no | "/tmp" | Directory to place the unpacked staging directory "camac" into. |
-| `camac_logdir` | no | "{{ camac_php_basedir }}/log" | This dir contains application logs. |
+| variable           | required | default                         | comments                                                        |
+| --------           | -------- | -------                         | --------                                                        |
+| `camac_basedir`    | no       | "/usr/share/camac"              | This dir is used as the base for other paths.                   |
+| `camac_docroot`    | no       | "{{ camac_php_basedir}}/htdocs" | This dir contains the appication entry point.                   |
+| `camac_datadir`    | no       | "/var/lib/camac"                | Storage directory for uploads to camac and other data.          |
+| `camac_releasedir` | no       | "/tmp"                          | Directory to place the unpacked staging directory "camac" into. |
+| `camac_logdir`     | no       | "{{ camac_php_basedir }}/log"   | This dir contains application logs.                             |
 
 ### Camac Environment
 

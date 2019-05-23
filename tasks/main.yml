@@ -28,7 +28,7 @@
   unarchive:
     src: "{{ camac_tarball }}"
     dest: "{{ camac_releasedir }}/camac"
-    remote_src: "{{ camac_unarchive_remote_src }}"
+    remote_src: yes
 
 - include: php.yml
 

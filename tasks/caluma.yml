@@ -55,7 +55,6 @@
     path: "{{ item }}"
   with_items:
     - "{{ caluma_docroot }}"
-    - "{{ caluma_datadir }}"
     - "{{ caluma_confdir }}"
 
 - name: check if old requirements.txt exists

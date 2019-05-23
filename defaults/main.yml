@@ -1,46 +1,33 @@
 ---
 
-# defaults file for camac
-
-###########################
-# camac deployment config #
-###########################
-
-# Extra file containing task variables to be loaded as first task
-# You can override this in you playbook or elsewhere to override
-# any role variables with your own variables.
+# Extra file containing task variables to be loaded as first task You can
+# override this in you playbook or elsewhere to override any role variables with
+# your own variables.
 camac_customer_variables: ""
 
-#################################
-# camac release download config #
-#################################
-
-# Version of camac to install
+# Version of camac to install (e.g. 0.23.0+fa84837c).
 camac_version: "master"
 
-# Checksum of the tarball
+# SHA256 checksum of the tarball.
 camac_tarball_checksum: ~
 
-# URL for fetching camac release tarballs
+# URL for fetching camac release tarballs.
 camac_release: "https://files.adfinis-sygroup.ch/camac-be/camac-be-{{ camac_version }}.tar.gz"
 
-# remote_src attribute for unarchive
-camac_unarchive_remote_src: yes
-
-#############
-# camac env #
-#############
-
+# Environment that camac runs in. This can either be "development", "staging",
+# "testing" or "production". This has impact on the way mails are sent aswell as
+# on the theming.
 camac_env: "development"
 
+# TODO: Figure out what this does.
 camac_master: True
 
-#######################
-# camac configuration #
-#######################
-
+# Should be an unique, unpredictable value and is used provide cryptographic
+# signing.
+# https://docs.djangoproject.com/en/2.2/ref/settings/#std:setting-SECRET_KEY
 camac_django_secret: 'rqo23kq9j&clk@ae5f43jhmz&qyan=6j-0ip0xcc5bauq4@$d8'
 
+# Password salt string for passwords managed by Zend Framework 1
 camac_password_salt: "ds5fsdFd763znsPO"
 
 # Set me to 'true' if you want TLS only cookies
@@ -57,49 +44,29 @@ camac_mock_tls: false
 #   -----BEGIN CERTIFICATE-----
 camac_ca_chain: ~
 
-# Camac Apache user
-# Set this to the Apache user
+# Set this to the user which apache runs as
 camac_apache_user: www-data
 
-# Camac Email base Domain
 # Domain part of emails sent by Camac
 camac_base_domain: "camac.ch"
 
-##########################
-# camac base directories #
-##########################
-
-camac_python_basedir: "/usr/share/camac-api/"
-
-# Base dir for camac that is used as the base of most other paths used in this
-# role.
+# This dir is used as the base for other paths of camac.
 camac_php_basedir: "/usr/share/camac"
 
-# Persistant data dir for camac
-# This is not usually below camac_basedir since it needs to be in /var/lib
+# Directory in which persistent data should be store. This is usually not below
+# camac_basedir. It is recommended to put somehwhere in `/vab/lib`.
 camac_php_datadir: "/var/lib/camac"
 
-# Tmp dir for camac
+# Directory in which camac should store temporary files
 camac_php_tmpdir: "{{ camac_php_datadir }}/tmp"
 
-#################
-# camac logging #
-#################
-
-# directory to write logfiles to
+# Directory in which to write logfiles to.
 camac_php_logdir: "{{ camac_php_basedir }}/log"
 
-#############################
-# camac cache configuration #
-#############################
-
+# Whether Camac and Caluma are supposed to load initial data from fixtures.
 camac_load_data: true
 
-#########################
-# camac database config #
-#########################
-
-# PDO adapater to use
+# PDO adapter to use
 camac_db_adapter: "Pdo_Pgsql"
 
 # Username used for connection to database
@@ -120,44 +87,42 @@ camac_db_port: 5432
 # Whether to run fake migrations
 camac_db_run_fake_migrations: false
 
-# Database charset
-# camac_db_charset: utf8
+# Whether to use persistent PDO connections to the database or not
+# https://www.php.net/manual/en/features.persistent-connections.php
+camac_db_persistent: "false"
 
-# Database session persistence
-# camac_db_persistent: "false"
-
-#####################
-# camac mail config #
-#####################
-
+# Host over which camac will try to send mails
 camac_mail_host: "localhost"
+
+# Port over which camac will try to send mails
 camac_mail_port: "25"
+
+# From address which camac will use to send emails
 camac_mail_from_email: "no-reply@camac-suisse.ch"
+
+# From name which camac will use to send emails
 camac_mail_from_name: "Camac"
 
-######################
-# camac cache config #
-######################
-
+# Host on which memcached is running
 camac_cache_host: "localhost"
+
+# Port on which memcached is running
 camac_cache_port: 11211
 
-#######################
-# camac IdP/SP Config #
-#######################
-
+# Url over which keycloak is reachable
 camac_auth_idp_url: "http://keycloak.127.0.0.1.nip.io:8080/auth"
+
+# Name of the keycloak realm
 camac_auth_idp_realm: "camac"
+
+# Name of the keycloak client
 camac_auth_sp_client: "camac"
 
-# host:port of proxy used to connect to the IdP
+# A proxy which camac should use to connect to keycloak.
+# Either false od host:port
 camac_auth_proxy: false
 
-##########################
-# keycloak configuration #
-##########################
-
-# global enable/disable flag for keycloak install
+# Whether to deploy keycloak or not
 camac_keycloak_enable: yes
 
 # Version of keycloak to deploy
@@ -168,13 +133,23 @@ camac_keycloak_tarball_checksum: "c75a6a859173ec7f7566ab64f6edb5bac13908863abda4
 # URL for fetching keycloak releases
 camac_keycloak_release: "https://downloads.jboss.org/keycloak/3.4.3.Final/keycloak-{{ camac_keycloak_version}}.tar.gz"
 
+# Version of the keycloak theme that should be deployed
 camac_keycloak_theme_version: "master"
+
+# SHA256 checkum of the keycloak theme jar file
 camac_keycloak_theme_jarfile_checksum: "e35752818e3c9586e61f7a7740f18240b23144cc19fcbc53b67589e8875a489e"
 
+# Download url to fetch the keycloak theme
 camac_keycloak_theme_release: "https://files.adfinis-sygroup.ch/camac-be/keycloak-theme-ebau-be-{{ camac_keycloak_theme_version | replace('.','-') }}.jar"
 
+# Whether to create an admin user or not (This should only be enabled on the
+# first run)
 camac_keycloak_create_admin_user: False
+
+# Name of the admin user that should be created
 camac_keycloak_admin_user: admin
+
+# Password of the admin user that should be created
 camac_keycloak_admin_password: ~
 
 # Default path to unpack keycloak to
@@ -187,29 +162,54 @@ camac_keycloak_datadir: "{{ camac_keycloak_datadir }}/data"
 # Path where we install keycloak to
 camac_keycloak_appdir: "{{ camac_keycloak_basedir }}/keycloak"
 
+# Whether the archive already exists on the remote system of if it should be
+# fetched over HTTP.
 camac_keycloak_unarchive_remote_src: no
 
+# This directory is used as the base for other paths of the camac-api.
+camac_python_basedir: "/usr/share/camac-api/"
+
+# Directory in which the Camac Django API will store persistent data. This is
+# usually not below camac_basedir. It is recommended to put somehwhere in
+# `/vab/lib`.
 camac_python_datadir: "{{ camac_python_basedir }}/data"
+
+# Directory in which the source code of the Camac Django API will be stored
 camac_python_docroot: "{{ camac_python_basedir }}/webapps"
+
+# Directory in which the source code of the Camac Django API will be stored
 camac_python_confdir: "{{ camac_python_basedir }}/config"
+
+# Directory in which the logs of the Camac Django API will be stored
+# TODO: Configure uWSGI Logging
 camac_python_logdir: "{{ camac_python_basedir }}/log"
-camac_python_tmpdir: "{{ camac_python_basedir }}/tmp"
+
+# Directory in which the Camac Django API will store temporary files
+# TODO: This should probably default to lib
 camac_python_virtualenvdir: "{{ camac_python_docroot }}/env"
 
-# Whether new users are automatically added to a set of different groups
+# Whether new users are automatically added to a set of different groups for testing/demo purposes.
 camac_demo_mode: no
 
 # Url to the iframe embedded ember form
-camac_portal_uri: ""
+camac_portal_uri: "http://caluma.127.0.0.1.nip.io/"
 
+# This directory is used as the base for other paths of caluma.
 caluma_basedir: "/usr/share/caluma/"
-caluma_datadir: "{{ caluma_basedir }}/data"
-caluma_docroot: "{{ caluma_basedir }}/webapps"
-caluma_confdir: "{{ caluma_basedir }}/config"
-caluma_logdir: "{{ caluma_basedir }}/log"
-caluma_tmpdir: "{{ caluma_basedir }}/tmp"
-caluma_virtualenvdir: "{{ caluma_docroot }}/env"
 
+# Directory in which the source code of the Caluma will be stored
+caluma_docroot: "{{ caluma_basedir }}/webapps"
+
+# Directory in which the source code of the Caluma will be stored
+caluma_confdir: "{{ caluma_basedir }}/config"
+
+# Directory in which the logs of the Caluma will be stored
+# TODO: Configure uWSGI Logging
+caluma_logdir: "{{ caluma_basedir }}/log"
+
+# Directory in which the Camac Django API will store temporary files
+# TODO: This should probably default to lib
+caluma_virtualenvdir: "{{ caluma_docroot }}/env"
 
 # User that runs the caluma process
 caluma_user: "vagrant"
@@ -275,7 +275,7 @@ caluma_django_secret_key: 'rqo23kq9j&clk@ae5f43jhmz&qyan=6j-0ip0xcc5bauq4@$d8'
 # Caluma visbility classes
 caluma_visibility_classes: "caluma.core.visibilities.Any"
 
-# Caluma validation  classes
+# Caluma validation classes
 caluma_validation_classes: ""
 
 # Caluma permission classes
@@ -287,9 +287,12 @@ caluma_data_source_classes: ""
 # Time in seconds before bearer token validity is verified again
 caluma_oidc_bearer_token_revalidation_time: 300
 
+# This directory is used as the base for other paths of the ember caluma form
 # TODO: Find a good prefix for form/portal frontend
 ember_basedir: "/usr/share/ember-caluma-portal/"
-ember_docroot: "{{ ember_basedir }}/webapps"
 
-# Set this to the Apache user
+# Directory in which the static ember website will be stored
+ember_docroot: "{{ ember_basedir }}/htdocs"
+
+# Set this to the user which apache runs as
 ember_apache_user: www-data
