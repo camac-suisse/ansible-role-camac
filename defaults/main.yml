@@ -191,6 +191,12 @@ camac_python_virtualenvdir: "{{ camac_python_docroot }}/env"
 # Url of the Camac Django API
 camac_python_url: "http://camac-ng.local/"
 
+# Whether to use clamd to scan file uploads
+camac_python_clamd_enabled: false
+
+# Tcp address on which clamd is reachable
+camac_python_clamd_tcp_addr: "localhost"
+
 # Whether new users are automatically added to a set of different groups for testing/demo purposes.
 camac_demo_mode: no
 
