@@ -1,0 +1,8 @@
+[uwsgi]
+http = 0.0.0.0:8383
+wsgi-file = {{ document_merge_service_docroot }}/document_merge_service/wsgi.py
+max-requests = 2000
+harakiri = 60
+processes = 4
+master = True
+buffer-size = 8192

@@ -41,6 +41,9 @@
 - include: ember.yml
   tags: ember
 
+- include: document_merge_service.yml
+  tags: document_merge_service
+
 - name: remove tmp staging dir
   file:
     state: absent
