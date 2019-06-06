@@ -1,0 +1,109 @@
+---
+
+- name: clone pyenv git repository
+  git:
+    repo: "{{ document_merge_service_pyenv_git_repository_url }}"
+    dest: "{{ document_merge_service_pyenv_install_directory }}"
+    version: "{{ document_merge_service_pyenv_version }}"
+  become: yes
+  become_user: "{{ document_merge_service_user }}"
+
+- name: clone pyenv-virtualenv git repository
+  git:
+    repo: "{{ document_merge_service_pyenv_virtualenv_git_repository_url }}"
+    dest: "{{ document_merge_service_pyenv_install_directory }}/plugins/pyenv-virtualenv"
+    version: "{{ document_merge_service_pyenv_virtualenv_version }}"
+  become: yes
+  become_user: "{{ document_merge_service_user }}"
+
+- name: bootstrap pyenv through .bashrc
+  blockinfile:
+    dest: "{{ document_merge_service_user_bashrc }}"
+    marker: "# {mark} ANSIBLE MANAGED BLOCK: pyenv"
+    create: yes
+    block: |
+      export PYENV_ROOT="{{ document_merge_service_pyenv_install_directory }}"
+      export PATH="$PYENV_ROOT/bin:$PATH"
+      eval "$(pyenv init -)"
+  become: yes
+  become_user: "{{ document_merge_service_user }}"
+
+- name: install required python version
+  shell: "{{ document_merge_service_pyenv_install_directory }}/bin/pyenv install -s {{ document_merge_service_pyenv_python_version }}"
+  become: yes
+  become_user: "{{ document_merge_service_user }}"
+
+- name: check if pyenv virtualenv exists
+  stat:
+    path: "{{ document_merge_service_pyenv_virtualenv_path }}"
+  register: virtualenv
+
+- name: create pyenv virtualenv
+  shell: "{{ document_merge_service_pyenv_install_directory }}/bin/pyenv virtualenv {{ document_merge_service_pyenv_python_version }} document-merge-service"
+  become: yes
+  become_user: "{{ document_merge_service_user }}"
+  when: not virtualenv.stat.exists
+
+- name: set required python version
+  shell: "{{ document_merge_service_pyenv_install_directory }}/bin/pyenv global {{ document_merge_service_pyenv_python_version }}"
+  become: yes
+  become_user: "{{ document_merge_service_user }}"
+
+- name: create directories for document-merge-service python service installation
+  file:
+    state: directory
+    path: "{{ item }}"
+  with_items:
+    - "{{ document_merge_service_docroot }}"
+    - "{{ document_merge_service_confdir }}"
+
+- name: clone pyenv-virtualenv git repository
+  git:
+    repo: "{{ document_merge_service_git_repository_url }}"
+    dest: "{{ document_merge_service_docroot }}"
+    version: "{{ document_merge_service_version }}"
+  notify:
+    - restart document merge service
+
+- name: fix permissions on docroot
+  file:
+    dest: "{{ document_merge_service_docroot }}"
+    owner: "{{ document_merge_service_user }}"
+    group: "{{ document_merge_service_user }}"
+
+- name: install document-merge-service django app dependencies
+  pip:
+    requirements: "{{ document_merge_service_docroot }}/requirements.txt"
+    extra_args: "--upgrade"
+    virtualenv: "{{ document_merge_service_pyenv_virtualenv_path }}"
+  become: yes
+  become_user: "{{ document_merge_service_user }}"
+  notify:
+    - restart document merge service
+
+- name: copy systemd units for api service
+  template:
+    src: document-merge-service.service.j2
+    dest: /etc/systemd/system/document-merge-service.service
+  notify:
+    - restart document merge service
+
+- name: render uwsgi ini
+  template:
+    src: document_merge_service_uwsgi.ini.j2
+    dest: "{{ document_merge_service_confdir }}/uwsgi.ini"
+  notify:
+    - restart document merge service
+
+- name: render .env template
+  template:
+    src: document_merge_service_env.j2
+    dest: "{{ document_merge_service_docroot }}/.env"
+  notify:
+    - restart document merge service
+
+- name: run document-merge-service migrations
+  django_manage:
+    command: migrate
+    app_path: "{{ document_merge_service_docroot }}"
+    virtualenv: "{{ document_merge_service_pyenv_virtualenv_path }}"

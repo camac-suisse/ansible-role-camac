@@ -15,3 +15,8 @@
   service:
     name: camac-api
     state: restarted
+
+- name: restart document merge service
+  service:
+    name: document-merge-service
+    state: restarted
