@@ -401,7 +401,7 @@ document_merge_service_pyenv_virtualenv_path: "{{ document_merge_service_pyenv_i
 document_merge_service_uwsgi_address: "0.0.0.0"
 
 # Port on which the caluma uWSGI instance listens on
-document_merge_service_uwsgi_port: "8383"
+document_merge_service_uwsgi_port: "8484"
 
 # Username used for connection to database
 document_merge_service_db_username: "document-merge-service"
