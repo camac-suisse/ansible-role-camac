@@ -227,6 +227,12 @@ camac_python_clamd_enabled: false
 # Tcp address on which clamd is reachable
 camac_python_clamd_tcp_addr: "localhost"
 
+# Address on which the camac-api uWSGI instance listens on
+camac_python_uwsgi_address: "0.0.0.0"
+
+# Port on which the camac-api uWSGI instance listens on
+camac_python_uwsgi_port: "8181"
+
 # How man camac api uwsgi processes that should be spawned.
 camac_python_uwsgi_processes: 4
 

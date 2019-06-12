@@ -1,5 +1,5 @@
 [uwsgi]
-http = 0.0.0.0:8181
+http = {{ camac_python_uwsgi_address }}:{{ camac_python_uwsgi_port }}
 wsgi-file = {{ camac_python_docroot }}/camac/wsgi.py
 max-requests = 2000
 harakiri = 60
