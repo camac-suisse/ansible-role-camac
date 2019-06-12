@@ -63,7 +63,7 @@ camac_php_tmpdir: "{{ camac_php_datadir }}/tmp"
 # Directory in which to write logfiles to.
 camac_php_logdir: "{{ camac_php_basedir }}/log"
 
-# Whether Camac and Caluma are supposed to load initial data from fixtures.
+# Whether camac is supposed to load initial data from fixtures.
 camac_load_data: true
 
 # PDO adapter to use
@@ -336,6 +336,9 @@ caluma_camac_url: "http://camac-ng.local"
 
 # How man caluma uwsgi processes that should be spawned.
 caluma_uwsgi_processes: 4
+
+# Whether caluma is supposed to load initial data from fixtures.
+caluma_load_data: true
 
 # This directory is used as the base for other paths of the ember caluma form
 # TODO: Find a good prefix for form/portal frontend

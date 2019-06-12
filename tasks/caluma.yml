@@ -131,7 +131,7 @@
     app_path: "{{ caluma_docroot }}"
     fixtures: "caluma/fixtures/config.json"
     virtualenv: "{{ caluma_pyenv_virtualenv_path }}"
-  when: camac_load_data
+  when: caluma_load_data
 
 - name: fix permission on basedir
   file:
