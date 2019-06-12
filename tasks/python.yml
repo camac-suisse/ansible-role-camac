@@ -1,5 +1,54 @@
 ---
 
+- name: clone pyenv git repository
+  git:
+    repo: "{{ camac_python_pyenv_git_repository_url }}"
+    dest: "{{ camac_python_pyenv_install_directory }}"
+    version: "{{ camac_python_pyenv_version }}"
+  become: yes
+  become_user: "{{ camac_python_user }}"
+
+- name: clone pyenv-virtualenv git repository
+  git:
+    repo: "{{ camac_python_pyenv_virtualenv_git_repository_url }}"
+    dest: "{{ camac_python_pyenv_install_directory }}/plugins/pyenv-virtualenv"
+    version: "{{ camac_python_pyenv_virtualenv_version }}"
+  become: yes
+  become_user: "{{ camac_python_user }}"
+
+- name: bootstrap pyenv through .bashrc
+  blockinfile:
+    dest: "{{ camac_python_user_bashrc }}"
+    marker: "# {mark} ANSIBLE MANAGED BLOCK: pyenv"
+    create: yes
+    block: |
+      export PYENV_ROOT="{{ camac_python_pyenv_install_directory }}"
+      export PATH="$PYENV_ROOT/bin:$PATH"
+      eval "$(pyenv init -)"
+  become: yes
+  become_user: "{{ camac_python_user }}"
+
+- name: install required python version
+  shell: "{{ camac_python_pyenv_install_directory }}/bin/pyenv install -s {{ camac_python_pyenv_python_version }}"
+  become: yes
+  become_user: "{{ camac_python_user }}"
+
+- name: check if pyenv virtualenv exists
+  stat:
+    path: "{{ camac_python_pyenv_virtualenv_path }}"
+  register: virtualenv
+
+- name: create pyenv virtualenv
+  shell: "{{ camac_python_pyenv_install_directory }}/bin/pyenv virtualenv {{ camac_python_pyenv_python_version }} {{ camac_python_pyenv_virtualenv_name }}"
+  become: yes
+  become_user: "{{ camac_python_user }}"
+  when: not virtualenv.stat.exists
+
+- name: set required python version
+  shell: "{{ camac_python_pyenv_install_directory }}/bin/pyenv global {{ camac_python_pyenv_python_version }}"
+  become: yes
+  become_user: "{{ camac_python_user }}"
+
 - name: create directories for camac python service installation
   file:
     state: directory
@@ -43,7 +92,7 @@
   pip:
     requirements: "{{ camac_python_docroot }}/requirements.txt"
     extra_args: "--upgrade"
-    virtualenv: "{{ camac_python_virtualenvdir }}"
+    virtualenv: "{{ camac_python_pyenv_virtualenv_path }}"
     virtualenv_python: "python3"
   notify: restart camac api
 
@@ -97,7 +146,7 @@
       django_manage:
         command: "migrate --fake {{ item.app }} {{ item.migration }}"
         app_path: "{{ camac_python_docroot }}"
-        virtualenv: "{{ camac_python_virtualenvdir }}"
+        virtualenv: "{{ camac_python_pyenv_virtualenv_path }}"
       loop: "{{ camac_db_fake_migrations }}"
 
   when: camac_db_run_fake_migrations and camac_db_fake_migrations is defined
@@ -110,11 +159,11 @@
   django_manage:
     command: migrate
     app_path: "{{ camac_python_docroot }}"
-    virtualenv: "{{ camac_python_virtualenvdir }}"
+    virtualenv: "{{ camac_python_pyenv_virtualenv_path }}"
 
 - name: load initial camac data
   django_manage:
     command: loadconfig
     app_path: "{{ camac_python_docroot }}"
-    virtualenv: "{{ camac_python_virtualenvdir }}"
+    virtualenv: "{{ camac_python_pyenv_virtualenv_path }}"
   when: camac_load_data
