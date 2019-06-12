@@ -227,6 +227,9 @@ camac_python_clamd_enabled: false
 # Tcp address on which clamd is reachable
 camac_python_clamd_tcp_addr: "localhost"
 
+# How man camac api uwsgi processes that should be spawned.
+camac_python_uwsgi_processes: 4
+
 # Whether new users are automatically added to a set of different groups for testing/demo purposes.
 camac_demo_mode: no
 
@@ -324,6 +327,9 @@ caluma_oidc_bearer_token_revalidation_time: 300
 
 # Url to the dependent camac instance
 caluma_camac_url: "http://camac-ng.local"
+
+# How man caluma uwsgi processes that should be spawned.
+caluma_uwsgi_processes: 4
 
 # This directory is used as the base for other paths of the ember caluma form
 # TODO: Find a good prefix for form/portal frontend
