@@ -8,6 +8,7 @@ WorkingDirectory={{ camac_python_docroot }}
 EnvironmentFile=-{{ camac_python_docroot }}/.env
 RuntimeDirectory=uwsgi
 Restart=always
+User={{ camac_python_user }}
 KillSignal=SIGQUIT
 Type=notify
 StandardError=syslog
