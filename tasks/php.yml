@@ -74,7 +74,7 @@
     src: "application.ini.j2"
     dest: "{{ camac_php_docroot }}/configuration/configs/application.local.ini"
 
-- name: fix permission on document root
+- name: fix permission on basedir
   file:
-    path: "{{ camac_php_docroot }}"
+    path: "{{ camac_php_basedir }}"
     owner: "{{ camac_apache_user }}"

@@ -167,3 +167,8 @@
     app_path: "{{ camac_python_docroot }}"
     virtualenv: "{{ camac_python_pyenv_virtualenv_path }}"
   when: camac_load_data
+
+- name: fix permission on basedir
+  file:
+    path: "{{ camac_python_basedir }}"
+    owner: "{{ camac_python_user }}"
