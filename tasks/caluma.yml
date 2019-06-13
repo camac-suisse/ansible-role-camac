@@ -1,0 +1,139 @@
+---
+
+- name: clone pyenv git repository
+  git:
+    repo: "{{ caluma_pyenv_git_repository_url }}"
+    dest: "{{ caluma_pyenv_install_directory }}"
+    version: "{{ caluma_pyenv_version }}"
+  become: yes
+  become_user: "{{ caluma_user }}"
+
+- name: clone pyenv-virtualenv git repository
+  git:
+    repo: "{{ caluma_pyenv_virtualenv_git_repository_url }}"
+    dest: "{{ caluma_pyenv_install_directory }}/plugins/pyenv-virtualenv"
+    version: "{{ caluma_pyenv_virtualenv_version }}"
+  become: yes
+  become_user: "{{ caluma_user }}"
+
+- name: bootstrap pyenv through .bashrc
+  blockinfile:
+    dest: "{{ caluma_user_bashrc }}"
+    marker: "# {mark} ANSIBLE MANAGED BLOCK: pyenv"
+    create: yes
+    block: |
+      export PYENV_ROOT="{{ caluma_pyenv_install_directory }}"
+      export PATH="$PYENV_ROOT/bin:$PATH"
+      eval "$(pyenv init -)"
+  become: yes
+  become_user: "{{ caluma_user }}"
+
+- name: install required python version
+  shell: "{{ caluma_pyenv_install_directory }}/bin/pyenv install -s {{ caluma_pyenv_python_version }}"
+  become: yes
+  become_user: "{{ caluma_user }}"
+
+- name: check if pyenv virtualenv exists
+  stat:
+    path: "{{ caluma_pyenv_virtualenv_path }}"
+  register: virtualenv
+
+- name: create pyenv virtualenv
+  shell: "{{ caluma_pyenv_install_directory }}/bin/pyenv virtualenv {{ caluma_pyenv_python_version }} {{ caluma_pyenv_virtualenv_name }}"
+  become: yes
+  become_user: "{{ caluma_user }}"
+  when: not virtualenv.stat.exists
+
+- name: set required python version
+  shell: "{{ caluma_pyenv_install_directory }}/bin/pyenv global {{ caluma_pyenv_python_version }}"
+  become: yes
+  become_user: "{{ caluma_user }}"
+
+- name: create directories for caluma python service installation
+  file:
+    state: directory
+    path: "{{ item }}"
+  with_items:
+    - "{{ caluma_docroot }}"
+    - "{{ caluma_confdir }}"
+
+- name: check if old requirements.txt exists
+  stat:
+    path: "{{ caluma_docroot }}/requirements.txt"
+  register: old_requirements
+
+- name: Review requirements.txt changes
+  block:
+
+    - command: diff "{{ caluma_docroot }}/requirements.txt" "{{ camac_releasedir }}/camac/django/requirements.txt"
+      register: requirements_diff
+      failed_when: requirements_diff.rc >= 2
+
+    - debug:
+        msg: "{{ requirements_diff.stdout.split('\n') }}"
+      when: requirements_diff.rc > 0
+
+    - pause:
+        prompt: "Requirements have changed. Please review them carefully! (Ctrl+c c => continue, Ctrl+c a => abort)"
+      when: requirements_diff.rc > 0
+
+  when: old_requirements.stat.exists
+
+- name: copy caluma directory to caluma service docroot
+  synchronize:
+    src: "{{ camac_releasedir }}/camac/caluma/"
+    dest: "{{ caluma_docroot }}"
+    delete: yes
+  delegate_to: "{{ inventory_hostname }}"
+  notify:
+    - restart caluma
+
+- name: install caluma django app dependencies
+  pip:
+    requirements: "{{ caluma_docroot }}/requirements.txt"
+    extra_args: "--upgrade"
+    virtualenv: "{{ caluma_pyenv_virtualenv_path }}"
+  become: yes
+  become_user: "{{ caluma_user }}"
+  notify:
+    - restart caluma
+
+- name: copy systemd units for api service
+  template:
+    src: caluma.service.j2
+    dest: /etc/systemd/system/caluma.service
+  notify:
+    - restart caluma
+
+- name: render uwsgi ini
+  template:
+    src: caluma_uwsgi.ini.j2
+    dest: "{{ caluma_confdir }}/uwsgi.ini"
+  notify:
+    - restart caluma
+
+- name: render .env template
+  template:
+    src: caluma_env.j2
+    dest: "{{ caluma_docroot }}/.env"
+  notify:
+    - restart caluma
+
+- name: run caluma migrations
+  django_manage:
+    command: migrate
+    app_path: "{{ caluma_docroot }}"
+    virtualenv: "{{ caluma_pyenv_virtualenv_path }}"
+
+- name: load caluma fixtures
+  django_manage:
+    command: loaddata
+    app_path: "{{ caluma_docroot }}"
+    fixtures: "caluma/fixtures/config.json"
+    virtualenv: "{{ caluma_pyenv_virtualenv_path }}"
+  when: caluma_load_data
+
+- name: fix permission on basedir
+  file:
+    path: "{{ caluma_basedir }}"
+    owner: "{{ caluma_user }}"

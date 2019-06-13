@@ -1,0 +1,22 @@
+DJANGO_SETTINGS_MODULE="caluma.settings"
+
+DATABASE_NAME="{{ caluma_db_dbname }}"
+DATABASE_USER="{{ caluma_db_username }}"
+DATABASE_PASSWORD="{{ caluma_db_password }}"
+DATABASE_HOST="{{ caluma_db_host }}"
+DATABASE_PORT="{{ caluma_db_port }}"
+
+ALLOWED_HOSTS="{{ caluma_django_allowed_hosts }}"
+SECRET_KEY="{{ caluma_django_secret_key }}"
+
+VISIBILITY_CLASSES="{{ caluma_visibility_classes }}"
+VALIDATION_CLASSES="{{ caluma_validation_classes }}"
+PERMISSION_CLASSES="{{ caluma_permission_classes }}"
+DATA_SOURCE_CLASSES="{{ caluma_data_source_classes }}"
+
+
+APPLICATION="{{ caluma_application }}"
+OIDC_USERINFO_ENDPOINT="{{ caluma_oidc_userinfo_endpoint }}"
+OIDC_BEARER_TOKEN_REVALIDATION_TIME="{{ caluma_oidc_bearer_token_revalidation_time }}"
+
+CAMAC_NG_URL="{{ caluma_camac_url }}"

@@ -1,5 +1,4 @@
 ---
-# tasks file for camac
 
 - name: load customer specific variables
   include_vars:
@@ -29,12 +28,18 @@
   unarchive:
     src: "{{ camac_tarball }}"
     dest: "{{ camac_releasedir }}/camac"
-    remote_src: "{{ camac_unarchive_remote_src }}"
+    remote_src: yes
 
 - include: php.yml
 
+- include: caluma.yml
+  tags: caluma
+
 - include: python.yml
   tags: python
+
+- include: ember.yml
+  tags: ember
 
 - name: remove tmp staging dir
   file:

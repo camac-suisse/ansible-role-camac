@@ -10,23 +10,15 @@
 
 - name: copy camac webroot to apache docroot
   synchronize:
-    src: "{{ camac_releasedir }}/camac/{{ item.src }}"
-    dest: "{{ item.dest }}"
+    src: "{{ camac_releasedir }}/camac/camac/"
+    dest: "{{ camac_php_docroot }}"
     delete: yes
-    rsync_opts: "{{ item.rsync_opts | d() }}"
   delegate_to: "{{ inventory_hostname }}"
-  with_items:
-    - src: "camac/public/"
-      dest: "{{ camac_php_docroot }}"
-    - src: "camac/"
-      dest: "{{ camac_php_libdir }}"
-    - src: "configuration/"
-      dest: "{{ camac_php_confdir }}"
 
 - name: copy CA chain to config path
   copy:
     content: "{{ camac_ca_chain }}"
-    dest: "{{ camac_php_confdir }}/ca.pem"
+    dest: "{{ camac_php_docroot }}/ca.pem"
   when: camac_ca_chain | d(false)
 
 - name: configure php for CA chain
@@ -41,24 +33,13 @@
   copy:
     content: |
       <?php
-      define('APPLICATION_PATH', '{{ camac_php_libdir }}/application');
+      define('APPLICATION_PATH', '{{ camac_php_docroot }}/application');
       define('APPLICATION_ENV', '{{ camac_env }}');
+      putenv('APPLICATION={{ camac_application }}');
       {% if camac_mock_tls %}
       $_SERVER['HTTPS'] = true;
       {% endif %}
-    dest: "{{ camac_php_confdir }}/prepend.php"
-
-- name: ensure public configuration symlink points to actual config directory
-  file:
-    state: link
-    src: "{{ camac_php_confdir }}/public"
-    path: "{{ camac_php_docroot }}/public"
-
-- name: ensure application configuration symlink points to actual config directory
-  file:
-    state: link
-    src: "{{ camac_php_confdir }}"
-    dest: "{{ camac_php_libdir }}/configuration"
+    dest: "{{ camac_php_docroot }}/prepend.php"
 
 - name: make camac dirs writable
   file:
@@ -70,7 +51,30 @@
     - "{{ camac_php_tmpdir }}/mpdf"
     - "{{ camac_php_logdir }}"
 
+- name: symlink customer specific overrides files to configuration directory
+  block:
+
+  - file:
+      dest: "{{ camac_php_docroot }}/configuration"
+      state: directory
+
+  - find:
+      path: "{{ camac_php_docroot }}/{{ camac_application }}/"
+      file_type: "any"
+    register: find
+
+  - file:
+      src: "../{{ camac_application }}/{{ item.path | basename }}"
+      dest: "{{ camac_php_docroot }}/configuration/{{ item.path | basename }}"
+      state: link
+    loop: "{{ find.files }}"
+
 - name: configure camac php app
   template:
     src: "application.ini.j2"
-    dest: "{{ camac_php_confdir }}/configs/application.local.ini"
+    dest: "{{ camac_php_docroot }}/configuration/configs/application.local.ini"
+
+- name: fix permission on basedir
+  file:
+    path: "{{ camac_php_basedir }}"
+    owner: "{{ camac_apache_user }}"
