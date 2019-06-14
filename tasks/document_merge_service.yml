@@ -56,6 +56,7 @@
   with_items:
     - "{{ document_merge_service_docroot }}"
     - "{{ document_merge_service_confdir }}"
+    - "{{ document_merge_service_media_root }}"
 
 - name: clone pyenv-virtualenv git repository
   git:
