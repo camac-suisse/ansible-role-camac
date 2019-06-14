@@ -8,6 +8,7 @@ WorkingDirectory={{ caluma_docroot }}
 EnvironmentFile=-{{ caluma_docroot }}/.env
 RuntimeDirectory=uwsgi
 Restart=always
+User={{ caluma_user }}
 KillSignal=SIGQUIT
 Type=notify
 StandardError=syslog

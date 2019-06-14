@@ -63,7 +63,7 @@ camac_php_tmpdir: "{{ camac_php_datadir }}/tmp"
 # Directory in which to write logfiles to.
 camac_php_logdir: "{{ camac_php_basedir }}/log"
 
-# Whether Camac and Caluma are supposed to load initial data from fixtures.
+# Whether camac is supposed to load initial data from fixtures.
 camac_load_data: true
 
 # PDO adapter to use
@@ -184,9 +184,39 @@ camac_python_confdir: "{{ camac_python_basedir }}/config"
 # TODO: Configure uWSGI Logging
 camac_python_logdir: "{{ camac_python_basedir }}/log"
 
-# Directory in which the Camac Django API will store temporary files
-# TODO: This should probably default to lib
-camac_python_virtualenvdir: "{{ camac_python_docroot }}/env"
+# User as wich camac api will be run
+camac_python_user: "vagrant"
+
+# Home directory camac api user
+camac_python_user_home: "/home/{{ camac_python_user }}"
+
+# Directory in which pyenv will be cloned (with git)
+camac_python_pyenv_install_directory: "{{ camac_python_user_home }}/.pyenv"
+
+# Pyenv Python version that will be used to run uwsgi
+camac_python_pyenv_python_version: "3.7.3"
+
+# Url of the official pyenv repository
+camac_python_pyenv_git_repository_url: "https://github.com/pyenv/pyenv"
+
+# Bashrc file of camac api user (This is required so we can include pyenv script
+# into $PATH)
+camac_python_user_bashrc: "{{ camac_python_user_home}}/.bashrc"
+
+# Pyenv version (corresponds to a valid git tag)
+camac_python_pyenv_version: "v1.2.11"
+
+# Url of the official pyenv-virtualenv plugin repository
+camac_python_pyenv_virtualenv_git_repository_url: "https://github.com/pyenv/pyenv-virtualenv"
+
+# Pyenv virtualenv plugin version (corresponds to a valid git tag)
+camac_python_pyenv_virtualenv_version: "v1.1.5"
+
+# Name of the pyenv virtualenv
+camac_python_pyenv_virtualenv_name: "camac-api"
+
+# Path to the pyenv virtualenv
+camac_python_pyenv_virtualenv_path: "{{ camac_python_pyenv_install_directory }}/versions/{{ camac_python_pyenv_virtualenv_name }}"
 
 # Url of the Camac Django API
 camac_python_url: "http://camac-ng.local/"
@@ -196,6 +226,15 @@ camac_python_clamd_enabled: false
 
 # Tcp address on which clamd is reachable
 camac_python_clamd_tcp_addr: "localhost"
+
+# Address on which the camac-api uWSGI instance listens on
+camac_python_uwsgi_address: "0.0.0.0"
+
+# Port on which the camac-api uWSGI instance listens on
+camac_python_uwsgi_port: "8181"
+
+# How man camac api uwsgi processes that should be spawned.
+camac_python_uwsgi_processes: 4
 
 # Whether new users are automatically added to a set of different groups for testing/demo purposes.
 camac_demo_mode: no
@@ -294,6 +333,12 @@ caluma_oidc_bearer_token_revalidation_time: 300
 
 # Url to the dependent camac instance
 caluma_camac_url: "http://camac-ng.local"
+
+# How man caluma uwsgi processes that should be spawned.
+caluma_uwsgi_processes: 4
+
+# Whether caluma is supposed to load initial data from fixtures.
+caluma_load_data: true
 
 # This directory is used as the base for other paths of the ember caluma form
 # TODO: Find a good prefix for form/portal frontend

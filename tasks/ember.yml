@@ -17,7 +17,7 @@
     - src: "ember-caluma-portal/"
       dest: "{{ ember_docroot }}"
 
-- name: fix permission on document root
+- name: fix permission on basedir
   file:
-    path: "{{ ember_docroot }}"
+    path: "{{ ember_basedir }}"
     owner: "{{ ember_apache_user }}"

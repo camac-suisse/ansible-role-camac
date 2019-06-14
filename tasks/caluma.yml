@@ -39,7 +39,7 @@
   register: virtualenv
 
 - name: create pyenv virtualenv
-  shell: "{{ caluma_pyenv_install_directory }}/bin/pyenv virtualenv {{ caluma_pyenv_python_version }} caluma"
+  shell: "{{ caluma_pyenv_install_directory }}/bin/pyenv virtualenv {{ caluma_pyenv_python_version }} {{ caluma_pyenv_virtualenv_name }}"
   become: yes
   become_user: "{{ caluma_user }}"
   when: not virtualenv.stat.exists
@@ -131,4 +131,9 @@
     app_path: "{{ caluma_docroot }}"
     fixtures: "caluma/fixtures/config.json"
     virtualenv: "{{ caluma_pyenv_virtualenv_path }}"
-  when: camac_load_data
+  when: caluma_load_data
+
+- name: fix permission on basedir
+  file:
+    path: "{{ caluma_basedir }}"
+    owner: "{{ caluma_user }}"

@@ -2,6 +2,13 @@
 Role for installing and configuring camac ecosystem. This role takes care of unpacking a
 camac release tarball on the installation target system.
 
+The following services get deployed:
+* Camac (PHP)
+* Camac API (Django API)
+* Keycloak (Java)
+* Caluma (Django API)
+* Caluma Portal (Static Ember.js Site)
+
 It was written for deploying camac at the canton of Berne but might also prove
 useful in other situations.
 
