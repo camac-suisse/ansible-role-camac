@@ -17,6 +17,14 @@
     - src: "ember-caluma-portal/"
       dest: "{{ ember_docroot }}"
 
+- name: render ember patch script
+  template:
+    src: patch-ember-portal.sh.j2
+    dest: "{{ ember_docroot }}"
+
+- name: fix ember oidc configuration
+  script: "{{ ember_docroot }}/patch-ember-portal.sh.j2"
+
 - name: fix permission on basedir
   file:
     path: "{{ ember_basedir }}"
