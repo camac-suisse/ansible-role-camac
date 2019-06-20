@@ -20,10 +20,11 @@
 - name: render ember patch script
   template:
     src: patch-ember-portal.sh.j2
-    dest: "{{ ember_docroot }}"
+    dest: "{{ ember_docroot }}/patch-ember-portal.sh"
+    mode: "700"
 
 - name: fix ember oidc configuration
-  script: "{{ ember_docroot }}/patch-ember-portal.sh.j2"
+  shell: "{{ ember_docroot }}/patch-ember-portal.sh"
 
 - name: fix permission on basedir
   file:
