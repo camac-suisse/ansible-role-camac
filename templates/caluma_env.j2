@@ -20,3 +20,8 @@ OIDC_USERINFO_ENDPOINT="{{ caluma_oidc_userinfo_endpoint }}"
 OIDC_BEARER_TOKEN_REVALIDATION_TIME="{{ caluma_oidc_bearer_token_revalidation_time }}"
 
 CAMAC_NG_URL="{{ caluma_camac_url }}"
+
+{% if camac_auth_proxy %}
+HTTP_PROXY="{{ camac_auth_proxy }}"
+HTTPS_PROXY="{{ camac_auth_proxy }}"
+{% endif %}
