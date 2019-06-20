@@ -190,6 +190,15 @@ camac_python_user: "vagrant"
 # Home directory camac api user
 camac_python_user_home: "/home/{{ camac_python_user }}"
 
+# Keycloak url
+camac_python_keycloak_url: "{{ camac_auth_idp_url }}"
+
+# Keycloak realm
+camac_python_keycloak_realm: "{{ camac_auth_idp_realm }}"
+
+# Keycloak client
+camac_python_keycloak_client: "{{ camac_auth_sp_client }}"
+
 # Directory in which pyenv will be cloned (with git)
 camac_python_pyenv_install_directory: "{{ camac_python_user_home }}/.pyenv"
 
