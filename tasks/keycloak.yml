@@ -19,17 +19,18 @@
     owner: "{{ item.owner | d('root') }}"
   with_items:
     - path: "{{ camac_keycloak_releasedir }}"
-      owner: wildfly
+      owner: "{{ camac_keycloak_user }}"
     - path: "{{ camac_keycloak_wildfly_confdir }}"
     - path: "{{ camac_keycloak_appdir }}/standalone/configuration/standalone_xml_history"
-      owner: wildfly
+      owner: "{{ camac_keycloak_user }}"
     - path: "{{ camac_keycloak_bindir }}"
     - path: "{{ camac_keycloak_logdir }}"
-      owner: wildfly
+      owner: "{{ camac_keycloak_user }}"
     - path: "{{ camac_keycloak_datadir }}"
-      owner: wildfly
+      owner: "{{ camac_keycloak_user }}"
     - path: "{{ camac_keycloak_tmpdir }}"
-      owner: wildfly
+      owner: "{{ camac_keycloak_user }}"
+
 
 - name: download keycloak artifacts
   get_url:
@@ -60,7 +61,7 @@
 - name: allow wildfly access to properties
   file:
     path: "{{ camac_keycloak_appdir }}/standalone/{{ item }}"
-    owner: wildfly
+    owner: "{{ camac_keycloak_user }}"
   with_items:
     - configuration/application-roles.properties
     - configuration/application-users.properties
@@ -75,7 +76,7 @@
   file:
     state: directory
     path: "{{ camac_keycloak_appdir }}/standalone/configuration/standalone_xml_history"
-    owner: "wildfly"
+    owner: "{{ camac_keycloak_user }}"
 
 - name: copy systemd units for keycloak
   copy:
@@ -120,6 +121,8 @@
       line: "ExecStart=/bin/bash {{ camac_keycloak_bindir }}/launch.sh $WILDFLY_MODE $WILDFLY_CONFIG $WILDFLY_BIND"
     - regexp: "^StandardOutput="
       state: "absent"
+    - regexp: "^User="
+      line: "User={{ camac_keycloak_user }}"
 
 - name: configure undertow
   xml:
