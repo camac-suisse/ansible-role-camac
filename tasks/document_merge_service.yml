@@ -58,6 +58,13 @@
     - "{{ document_merge_service_confdir }}"
     - "{{ document_merge_service_media_root }}"
 
+- name: copy templates to django media root
+  synchronize:
+    src: "{{ camac_releasedir }}/camac/document-merge-service/templates/"
+    dest: "{{ document_merge_service_media_root }}"
+    delete: yes
+  delegate_to: "{{ inventory_hostname }}"
+
 - name: clone pyenv-virtualenv git repository
   git:
     repo: "{{ document_merge_service_git_repository_url }}"
@@ -107,3 +114,11 @@
     command: migrate
     app_path: "{{ document_merge_service_docroot }}"
     virtualenv: "{{ document_merge_service_pyenv_virtualenv_path }}"
+
+- name: load initial document-merge-service config
+  django_manage:
+    command: loaddata
+    app_path: "{{ document_merge_service_docroot }}"
+    virtualenv: "{{ document_merge_service_pyenv_virtualenv_path }}"
+    fixtures: "{{ camac_releasedir }}/camac/document-merge-service/fixtures/dump.json"
+  when: document_merge_service_load_data

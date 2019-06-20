@@ -372,6 +372,9 @@ document_merge_service_confdir: "{{ document_merge_service_basedir }}/config"
 # TODO: Configure uWSGI Logging
 document_merge_service_logdir: "{{ document_merge_service_basedir }}/log"
 
+# Whether to load dms config from release tarball
+document_merge_service_load_data: true
+
 # User that runs the caluma process
 document_merge_service_user: "vagrant"
 
