@@ -91,6 +91,12 @@ camac_db_run_fake_migrations: false
 # https://www.php.net/manual/en/features.persistent-connections.php
 camac_db_persistent: "false"
 
+# Camac url used in mails (without trailing slashes)
+camac_mail_template_base_url: ""
+
+# Camac portal url used in mails (without trailing slashes)
+camac_mail_template_base_url_portal: ""
+
 # Host over which camac will try to send mails
 camac_mail_host: "localhost"
 

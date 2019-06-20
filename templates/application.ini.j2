@@ -52,6 +52,11 @@ demoMode = "{{ camac_demo_mode }}"
 ; Url to the ember caluma form
 portal.uri = {{ camac_portal_uri }}
 
+
+; Domains of the server, used in email templates. Don't include trailing slashes.
+baseURL = {{ camac_mail_template_base_url }}
+baseURLPortal = {{ camac_mail_template_base_url_portal }}
+
 ; API
 backend.api.host = "{{ camac_python_url }}"
 backend.api.tokenType = "Bearer"
