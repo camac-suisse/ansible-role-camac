@@ -70,7 +70,6 @@
   file:
     dest: "{{ document_merge_service_docroot }}"
     owner: "{{ document_merge_service_user }}"
-    group: "{{ document_merge_service_user }}"
 
 - name: install document-merge-service django app dependencies
   pip:
