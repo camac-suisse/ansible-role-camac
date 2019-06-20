@@ -125,6 +125,9 @@ camac_auth_proxy: false
 # Whether to deploy keycloak or not
 camac_keycloak_enable: yes
 
+# Keycloak user
+camac_keycloak_user: wildfly
+
 # Version of keycloak to deploy
 camac_keycloak_version: "3.4.3.Final"
 
@@ -189,6 +192,15 @@ camac_python_user: "vagrant"
 
 # Home directory camac api user
 camac_python_user_home: "/home/{{ camac_python_user }}"
+
+# Keycloak url
+camac_python_keycloak_url: "{{ camac_auth_idp_url }}"
+
+# Keycloak realm
+camac_python_keycloak_realm: "{{ camac_auth_idp_realm }}"
+
+# Keycloak client
+camac_python_keycloak_client: "{{ camac_auth_sp_client }}"
 
 # Directory in which pyenv will be cloned (with git)
 camac_python_pyenv_install_directory: "{{ camac_python_user_home }}/.pyenv"
@@ -349,3 +361,104 @@ ember_docroot: "{{ ember_basedir }}/htdocs"
 
 # Set this to the user which apache runs as
 ember_apache_user: www-data
+
+# This directory is used as the base for other paths of caluma.
+document_merge_service_basedir: "/usr/share/document-merge-service/"
+
+# Directory in which the source code of the Caluma will be stored
+document_merge_service_docroot: "{{ document_merge_service_basedir }}/webapps"
+
+# Directory in which the source code of the Caluma will be stored
+document_merge_service_confdir: "{{ document_merge_service_basedir }}/config"
+
+# Directory in which the logs of the Caluma will be stored
+# TODO: Configure uWSGI Logging
+document_merge_service_logdir: "{{ document_merge_service_basedir }}/log"
+
+# Whether to load dms config from release tarball
+document_merge_service_load_data: true
+
+# User that runs the caluma process
+document_merge_service_user: "vagrant"
+
+# Home directory of caluma user
+document_merge_service_user_home: "/home/{{ document_merge_service_user }}"
+
+# Directory in which pyenv will be cloned (with git)
+document_merge_service_pyenv_install_directory: "{{ document_merge_service_user_home }}/.pyenv"
+
+# Pyenv Python version that will be used to run uwsgi/caluma
+document_merge_service_pyenv_python_version: "3.7.3"
+
+# Url of the official pyenv repository
+document_merge_service_pyenv_git_repository_url: "https://github.com/pyenv/pyenv"
+
+# Bashrc file of caluma user (This is required so we can include pyenv script
+# into $PATH)
+document_merge_service_user_bashrc: "{{ document_merge_service_user_home}}/.bashrc"
+
+# Pyenv version (corresponds to a valid git tag)
+document_merge_service_pyenv_version: "v1.2.11"
+
+# Url of the official pyenv-virtualenv plugin repository
+document_merge_service_pyenv_virtualenv_git_repository_url: "https://github.com/pyenv/pyenv-virtualenv"
+
+# Pyenv virtualenv plugin version (corresponds to a valid git tag)
+document_merge_service_pyenv_virtualenv_version: "v1.1.5"
+
+# Name of the pyenv virtualenv
+document_merge_service_pyenv_virtualenv_name: "document-merge-service"
+
+# Path to the pyenv virtualenv
+document_merge_service_pyenv_virtualenv_path: "{{ document_merge_service_pyenv_install_directory }}/versions/{{ document_merge_service_pyenv_virtualenv_name }}"
+
+# Address on which the caluma uWSGI instance listens on
+document_merge_service_uwsgi_address: "0.0.0.0"
+
+# Port on which the caluma uWSGI instance listens on
+document_merge_service_uwsgi_port: "8484"
+
+# Username used for connection to database
+document_merge_service_db_username: "document-merge-service"
+
+# Password used for connecting to database
+document_merge_service_db_password: "document-merge-service"
+
+# Database/Schema namespace in database
+document_merge_service_db_dbname: "document-merge-service"
+
+# Database server hostname
+document_merge_service_db_host: "localhost"
+
+# Database server port
+document_merge_service_db_port: 5432
+
+# Database server engine
+document_merge_service_db_engine: "django.db.backends.postgresql"
+
+# Allowed hosts that are allowed to connect to caluma
+document_merge_service_django_allowed_hosts: "*"
+
+# Django secret
+document_merge_service_django_secret_key: 'rqo23kq9j&clk@ae5f43jhmz&qyan=6j-0ip0xcc5bauq4@$d8'
+
+# Time in seconds before bearer token validity is verified again
+document_merge_service_oidc_bearer_token_revalidation_time: 300
+
+# Url to the  keycloak userinfo endpoint
+document_merge_service_oidc_userinfo_endpoint: "{{ camac_auth_idp_url }}/realms/{{ camac_auth_idp_realm }}/protocol/openid-connect/userinfo"
+
+# Document merge service git repository
+document_merge_service_git_repository_url: 'https://github.com/adfinis-sygroup/document-merge-service/'
+
+# Document merge service git repository
+document_merge_service_version: 'master'
+
+# https://github.com/adfinis-sygroup/document-merge-service/issues/94
+document_merge_service_docxtemplate_jinja_extensions: "jinja2.ext.do,jinja2.ext.loopcontrols"
+
+# Whether the unoconv clu should be used instead of the service
+document_merge_service_unoconv_local: "true"
+
+# Where the uploaded documents will be stored
+document_merge_service_media_root: "{{ document_merge_service_basedir }}/templates"

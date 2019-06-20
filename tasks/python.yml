@@ -93,7 +93,6 @@
     requirements: "{{ camac_python_docroot }}/requirements.txt"
     extra_args: "--upgrade"
     virtualenv: "{{ camac_python_pyenv_virtualenv_path }}"
-    virtualenv_python: "python3"
   notify: restart camac api
 
 - name: copy systemd units for api service
