@@ -358,6 +358,9 @@ caluma_uwsgi_processes: 4
 # Whether caluma is supposed to load initial data from fixtures.
 caluma_load_data: true
 
+# Caluma meta fields
+caluma_meta_fields: "camac-instance-id"
+
 # This directory is used as the base for other paths of the ember caluma form
 # TODO: Find a good prefix for form/portal frontend
 ember_basedir: "/usr/share/ember-caluma-portal/"
