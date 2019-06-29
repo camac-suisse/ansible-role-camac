@@ -199,6 +199,12 @@ camac_python_user: "vagrant"
 # Home directory camac api user
 camac_python_user_home: "/home/{{ camac_python_user }}"
 
+# Django mail settings
+camac_python_django_default_from_email: "{{ camac_mail_from_email }}"
+camac_python_django_server_email: "{{ camac_mail_from_email }}"
+camac_python_django_email_host: "{{ camac_mail_host }}"
+camac_python_django_email_port: "{{ camac_mail_port }}"
+
 # Keycloak url
 camac_python_keycloak_url: "{{ camac_auth_idp_url }}"
 
