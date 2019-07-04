@@ -205,6 +205,11 @@ camac_python_django_server_email: "{{ camac_mail_from_email }}"
 camac_python_django_email_host: "{{ camac_mail_host }}"
 camac_python_django_email_port: "{{ camac_mail_port }}"
 
+# Prefix mail subjects and bodies with a text. Useful to mark mails from
+# testing and staging environments, to avoid confusion.
+camac_python_django_email_subject_prefix: ""
+camac_python_django_email_body_prefix: ""
+
 # Keycloak url
 camac_python_keycloak_url: "{{ camac_auth_idp_url }}"
 
