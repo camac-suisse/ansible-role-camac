@@ -47,7 +47,7 @@ keycloak.proxy = {{ camac_auth_proxy }}
 resources.log.stream.writerParams.stream = "{{ camac_php_logdir }}/application.log"
 
 ; "Demo mode" for trainings: give more group memberships to new users
-demoMode = "{{ camac_demo_mode | d(false) }}"
+demoMode = {{ camac_demo_mode }}
 
 ; Url to the ember caluma form
 portal.uri = {{ camac_portal_uri }}
