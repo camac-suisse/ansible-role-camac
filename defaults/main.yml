@@ -367,6 +367,10 @@ caluma_load_data: true
 # Caluma meta fields
 caluma_meta_fields: "camac-instance-id"
 
+# Caluma language settings
+caluma_language_code: "de"
+caluma_languages: "de"
+
 # This directory is used as the base for other paths of the ember caluma form
 # TODO: Find a good prefix for form/portal frontend
 ember_basedir: "/usr/share/ember-caluma-portal/"
