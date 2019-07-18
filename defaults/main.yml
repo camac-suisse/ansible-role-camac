@@ -353,7 +353,7 @@ caluma_permission_classes: "caluma.core.permissions.AllowAny"
 caluma_data_source_classes: ""
 
 # Time in seconds before bearer token validity is verified again
-caluma_oidc_bearer_token_revalidation_time: 300
+caluma_oidc_bearer_token_revalidation_time: 5
 
 # Url to the dependent camac instance
 caluma_camac_url: "http://camac-ng.local"
