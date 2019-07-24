@@ -6,6 +6,9 @@ DATABASE_PASSWORD="{{ caluma_db_password }}"
 DATABASE_HOST="{{ caluma_db_host }}"
 DATABASE_PORT="{{ caluma_db_port }}"
 
+CACHE_BACKEND="django.core.cache.backends.memcached.MemcachedCache"
+CACHE_LOCATION="{{ camac_cache_host }}:{{ camac_cache_port }}"
+
 ALLOWED_HOSTS="{{ caluma_django_allowed_hosts }}"
 SECRET_KEY="{{ caluma_django_secret_key }}"
 
