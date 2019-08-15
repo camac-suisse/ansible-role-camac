@@ -365,7 +365,7 @@ caluma_uwsgi_processes: 4
 caluma_load_data: true
 
 # Caluma meta fields
-caluma_meta_fields: "camac-instance-id"
+caluma_meta_fields: "camac-instance-id,ebau-number,submit-date"
 
 # Caluma language settings
 caluma_language_code: "de"
