@@ -62,7 +62,6 @@
   synchronize:
     src: "{{ camac_releasedir }}/camac/document-merge-service/templates/"
     dest: "{{ document_merge_service_media_root }}"
-    delete: yes
   delegate_to: "{{ inventory_hostname }}"
 
 - name: clone pyenv-virtualenv git repository
