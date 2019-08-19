@@ -369,7 +369,7 @@ caluma_meta_fields: "camac-instance-id,ebau-number,submit-date"
 
 # Caluma language settings
 caluma_language_code: "de"
-caluma_languages: "de"
+caluma_languages: "de,fr"
 
 # This directory is used as the base for other paths of the ember caluma form
 # TODO: Find a good prefix for form/portal frontend
