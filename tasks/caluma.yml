@@ -73,10 +73,6 @@
         msg: "{{ requirements_diff.stdout.split('\n') }}"
       when: requirements_diff.rc > 0
 
-    - pause:
-        prompt: "Requirements have changed. Please review them carefully! (Ctrl+c c => continue, Ctrl+c a => abort)"
-      when: requirements_diff.rc > 0
-
   when: old_requirements.stat.exists
 
 - name: copy caluma directory to caluma service docroot
