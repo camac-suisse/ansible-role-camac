@@ -371,6 +371,9 @@ caluma_meta_fields: "camac-instance-id,ebau-number,submit-date"
 caluma_language_code: "de"
 caluma_languages: "de,fr"
 
+# Enable caluma historical API
+caluma_enable_historical_api: true
+
 # This directory is used as the base for other paths of the ember caluma form
 # TODO: Find a good prefix for form/portal frontend
 ember_basedir: "/usr/share/ember-caluma-portal/"
