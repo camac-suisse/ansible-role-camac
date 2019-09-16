@@ -20,7 +20,7 @@ KEYCLOAK_CLIENT="{{ camac_python_keycloak_client }}"
 CALUMA_URL="{{ camac_caluma_url }}"
 DEMO_MODE={{ camac_demo_mode }}
 PUBLIC_INSTANCE_URL_TEMPLATE="{{ camac_portal_uri }}/instances/{instance_id}"
-INTERNAL_INSTANCE_URL_TEMPLATE="{{ camac_python_url }}/index/redirect-to-instance-resource/{instance_id}"
+INTERNAL_INSTANCE_URL_TEMPLATE="{{ camac_python_url }}/index/redirect-to-instance-resource/instance-id/{instance_id}"
 
 {% if camac_auth_proxy %}
 HTTP_PROXY="{{ camac_auth_proxy }}"
