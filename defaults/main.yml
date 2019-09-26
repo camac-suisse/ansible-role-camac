@@ -183,6 +183,9 @@ camac_python_basedir: "/usr/share/camac-api/"
 # `/vab/lib`.
 camac_python_datadir: "{{ camac_python_basedir }}/data"
 
+# Directory in which the Camac Django API will store temporary data.
+camac_python_tmpdir: "{{ camac_python_basedir }}/tmp"
+
 # Directory in which the source code of the Camac Django API will be stored
 camac_python_docroot: "{{ camac_python_basedir }}/webapps"
 
