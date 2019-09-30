@@ -162,6 +162,12 @@
     app_path: "{{ camac_python_docroot }}"
     virtualenv: "{{ camac_python_pyenv_virtualenv_path }}"
   when: camac_load_data
+  
+- name: collect camac staticfiles
+  django_manage:
+    command: collectstatic
+    app_path: "{{ camac_python_docroot }}"
+    virtualenv: "{{ camac_python_pyenv_virtualenv_path }}"
 
 - name: fix permission on basedir
   file:
