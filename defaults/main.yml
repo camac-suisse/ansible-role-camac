@@ -260,9 +260,6 @@ camac_python_uwsgi_address: "0.0.0.0"
 # Port on which the camac-api uWSGI instance listens on
 camac_python_uwsgi_port: "8181"
 
-# How man camac api uwsgi processes that should be spawned.
-camac_python_uwsgi_processes: 4
-
 # Whether new users are automatically added to a set of different groups for testing/demo purposes.
 camac_demo_mode: false
 
@@ -360,9 +357,6 @@ caluma_oidc_bearer_token_revalidation_time: 300
 
 # Url to the dependent camac instance
 caluma_camac_url: "http://camac-ng.local"
-
-# How man caluma uwsgi processes that should be spawned.
-caluma_uwsgi_processes: 4
 
 # Whether caluma is supposed to load initial data from fixtures.
 caluma_load_data: true

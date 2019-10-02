@@ -1,8 +1,12 @@
 [uwsgi]
-http = {{ caluma_uwsgi_address }}:{{ caluma_uwsgi_port }}
+
+# Path to wsgi.py
 wsgi-file = {{ caluma_docroot }}/caluma/wsgi.py
-max-requests = 2000
-harakiri = 60
-processes = {{ caluma_uwsgi_processes }}
-master = True
-buffer-size = 8192
+
+# Http socket
+http = {{ caluma_uwsgi_address }}:{{ caluma_uwsgi_port }}
+
+# Work name
+procname-prefix = "caluma "
+
+{% include './templates/uwsgi.ini.j2' %}

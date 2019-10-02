@@ -1,10 +1,13 @@
 [uwsgi]
-http = {{ document_merge_service_uwsgi_address }}:{{ document_merge_service_uwsgi_port }}
-max-requests = 2000
-harakiri = 60
-processes = 4
-master = True
-buffer-size = 8192
 
 mount = /document-merge-service={{ document_merge_service_docroot }}/document_merge_service/wsgi.py
 manage-script-name = true
+
+
+# Http socket
+http = {{ document_merge_service_uwsgi_address }}:{{ document_merge_service_uwsgi_port }}
+
+# Worker name
+procname-prefix = "document-merge-service "
+
+{% include './templates/uwsgi.ini.j2' %}

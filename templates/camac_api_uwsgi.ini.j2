@@ -1,8 +1,12 @@
 [uwsgi]
-http = {{ camac_python_uwsgi_address }}:{{ camac_python_uwsgi_port }}
+
+# Path to wsgi.py
 wsgi-file = {{ camac_python_docroot }}/camac/wsgi.py
-max-requests = 2000
-harakiri = 60
-processes = {{ camac_python_uwsgi_processes }}
-master = True
-buffer-size = 8192
+
+# Http socket
+http = {{ camac_python_uwsgi_address }}:{{ camac_python_uwsgi_port }}
+
+# Worker name
+procname-prefix = "camac-api "
+
+{% include './templates/uwsgi.ini.j2' %}
