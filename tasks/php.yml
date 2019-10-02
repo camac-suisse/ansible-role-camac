@@ -30,15 +30,8 @@
   when: camac_ca_chain | d(false)
 
 - name: prepare php prepend file
-  copy:
-    content: |
-      <?php
-      define('APPLICATION_PATH', '{{ camac_php_docroot }}/application');
-      define('APPLICATION_ENV', '{{ camac_env }}');
-      putenv('APPLICATION={{ camac_application }}');
-      {% if camac_mock_tls %}
-      $_SERVER['HTTPS'] = true;
-      {% endif %}
+  template:
+    src: "prepend.php.j2"
     dest: "{{ camac_php_docroot }}/prepend.php"
 
 - name: make camac dirs writable

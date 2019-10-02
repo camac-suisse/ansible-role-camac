@@ -63,6 +63,15 @@ camac_php_tmpdir: "{{ camac_php_datadir }}/tmp"
 # Directory in which to write logfiles to.
 camac_php_logdir: "{{ camac_php_basedir }}/log"
 
+# PHP settings which are set in prepend.php
+#
+# Checkout the following links to see which settings can be changed:
+# - https://www.php.net/manual/en/configuration.changes.modes.php
+# - https://www.php.net/manual/en/ini.list.php
+#
+camac_php_settings:
+  max_input_vars: 2000
+
 # Whether camac is supposed to load initial data from fixtures.
 camac_load_data: true
 
