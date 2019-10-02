@@ -1,0 +1,10 @@
+<?php
+define('APPLICATION_PATH', '{{ camac_php_docroot }}/application');
+define('APPLICATION_ENV', '{{ camac_env }}');
+putenv('APPLICATION={{ camac_application }}');
+{% for k, v in camac_php_settings.items() %}
+ini_set("{{k}}", "{{v}}");
+{% endfor %}
+{% if camac_mock_tls %}
+$_SERVER['HTTPS'] = true;
+{% endif %}
