@@ -72,6 +72,9 @@ camac_php_logdir: "{{ camac_php_basedir }}/log"
 camac_php_settings:
   max_input_vars: 2000
 
+# Cronjobs
+camac_cronjobs: []
+
 # Whether camac is supposed to load initial data from fixtures.
 camac_load_data: true
 
