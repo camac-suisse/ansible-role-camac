@@ -14,7 +14,7 @@ useful in other situations.
 
 ## Requirements
 This role does not have any external dependencies needed to run it. Using a
-fairly modern of Ansible is recommended.
+fairly modern version of Ansible is recommended.
 
 ## Configuration
 A detailed description on how this role can be configured, can be seen here
