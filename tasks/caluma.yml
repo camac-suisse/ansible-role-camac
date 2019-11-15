@@ -94,6 +94,16 @@
   notify:
     - restart caluma
 
+- name: install caluma extensions dependencies
+  pip:
+    requirements: "{{ caluma_docroot }}/caluma/extensions/requirements.txt"
+    extra_args: "--upgrade"
+    virtualenv: "{{ caluma_pyenv_virtualenv_path }}"
+  become: yes
+  become_user: "{{ caluma_user }}"
+  notify:
+    - restart caluma
+
 - name: copy systemd units for api service
   template:
     src: caluma.service.j2
