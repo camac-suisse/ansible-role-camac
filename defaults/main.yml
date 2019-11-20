@@ -229,7 +229,8 @@ camac_python_keycloak_realm: "{{ camac_auth_idp_realm }}"
 # Keycloak client
 camac_python_keycloak_client: "{{ camac_auth_sp_client }}"
 
-# Keycloak camac-admin client secret
+# Keycloak camac-admin client
+camac_python_keycloak_camac_admin_client: "camac-admin"
 camac_python_keycloak_camac_admin_client_secret: "secret"
 
 # Directory in which pyenv will be cloned (with git)
