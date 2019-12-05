@@ -70,7 +70,7 @@ camac_php_logdir: "{{ camac_php_basedir }}/log"
 # - https://www.php.net/manual/en/ini.list.php
 #
 camac_php_settings:
-  max_input_vars: 2000
+  max_input_vars: 10000
 
 # Cronjobs
 camac_cronjobs: []
