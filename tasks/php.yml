@@ -84,3 +84,8 @@
     month: "{{ item.month | default(omit) }}"
     weekday: "{{ item.weekday | default(omit) }}"
   loop: "{{ camac_cronjobs }}"
+
+- name: clear cache
+  command: "php {{ camac_php_docroot }}/cronjob/clear-cache.php"
+  tags:
+    - cache
