@@ -41,6 +41,8 @@ resources.db.cache.metadata.backendOptions.servers.server.port = {{ camac_cache_
 keycloak.url = {{ camac_auth_idp_url }}
 keycloak.realm = {{ camac_auth_idp_realm }}
 keycloak.client = {{ camac_auth_sp_client }}
+keycloak.admin_client="{{ camac_python_keycloak_camac_admin_client }}"
+keycloak.admin_client_secret="{{ camac_python_keycloak_camac_admin_client_secret }}"
 {% if camac_auth_proxy %}
 keycloak.proxy = {{ camac_auth_proxy }}
 {% endif %}
