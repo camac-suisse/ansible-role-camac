@@ -131,14 +131,6 @@
     app_path: "{{ caluma_docroot }}"
     virtualenv: "{{ caluma_pyenv_virtualenv_path }}"
 
-- name: load caluma fixtures
-  django_manage:
-    command: loaddata
-    app_path: "{{ caluma_docroot }}"
-    fixtures: "caluma/fixtures/config.json"
-    virtualenv: "{{ caluma_pyenv_virtualenv_path }}"
-  when: caluma_load_data
-
 - name: fix permission on basedir
   file:
     path: "{{ caluma_basedir }}"

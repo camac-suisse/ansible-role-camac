@@ -339,19 +339,19 @@ caluma_uwsgi_address: "0.0.0.0"
 caluma_uwsgi_port: "8282"
 
 # Username used for connection to database
-caluma_db_username: "caluma"
+caluma_db_username: "{{ camac_db_username }}"
 
 # Password used for connecting to database
-caluma_db_password: "caluma"
+caluma_db_password: "{{ camac_db_password }}"
 
 # Database/Schema namespace in database
-caluma_db_dbname: "caluma"
+caluma_db_dbname: "{{ camac_db_dbname }}"
 
 # Database server hostname
-caluma_db_host: "localhost"
+caluma_db_host: "{{ camac_db_host }}"
 
 # Database server port
-caluma_db_port: 5432
+caluma_db_port: "{{ camac_db_port }}"
 
 # Allowed hosts that are allowed to connect to caluma
 caluma_django_allowed_hosts: "*"
