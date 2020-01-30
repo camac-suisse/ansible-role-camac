@@ -2,9 +2,9 @@ PATCHED_CONFIG=$(cat  {{ ember_docroot }}/dist/index.html \
         | grep '<meta name="ember-caluma-portal/config/environment"' \
         | sed -e 's|<meta name="ember-caluma-portal/config/environment" content="\(.*\)" />$|\1|' \
         | python2 -c "import sys, urllib as ul; print ul.unquote(sys.stdin.read());" \
-        | jq '.oidcHost = "{{ ember_oidc_host }}"' \
-        | jq '.clientId = "{{ ember_oidc_client }}"' \
         | jq '."ember-simple-auth-oidc".host = "{{ ember_oidc_endpoint }}"' \
+        | jq '."ember-simple-auth-oicd".clientId = "{{ ember_oidc_client }}"' \
+        | jq '.ebau.internalURL = "{{ camac_base_domain }}"' \
         | python2 -c "import sys, urllib as ul; print ul.quote(sys.stdin.read());")
 
 sed \
