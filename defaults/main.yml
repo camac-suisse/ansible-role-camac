@@ -286,7 +286,7 @@ camac_ech_api: false
 camac_portal_uri: "http://caluma.127.0.0.1.nip.io"
 
 # Url to document merge service used by camac django API
-camac_document_merge_service_url: "{{ camac_portal_uri }}/document-merge-service/"
+camac_document_merge_service_url: "{{ camac_portal_uri }}/document-merge-service/api/v1/"
 
 # This directory is used as the base for other paths of caluma.
 caluma_basedir: "/usr/share/caluma/"
