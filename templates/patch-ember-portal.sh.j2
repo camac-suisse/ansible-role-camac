@@ -4,7 +4,7 @@ PATCHED_CONFIG=$(cat  {{ ember_docroot }}/dist/index.html \
         | python2 -c "import sys, urllib as ul; print ul.unquote(sys.stdin.read());" \
         | jq '."ember-simple-auth-oidc".host = "{{ ember_oidc_endpoint }}"' \
         | jq '."ember-simple-auth-oicd".clientId = "{{ ember_oidc_client }}"' \
-        | jq '.ebau.internalURL = "//{{ camac_base_domain }}"' \
+        | jq '.ebau.internalURL = "{{ ember_internal_url }}"' \
         | python2 -c "import sys, urllib as ul; print ul.quote(sys.stdin.read());")
 
 sed \
