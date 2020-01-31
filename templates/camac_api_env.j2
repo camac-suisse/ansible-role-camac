@@ -1,9 +1,9 @@
 DJANGO_SETTINGS_MODULE="camac.settings"
-DJANGO_DATABASE_NAME="{{ camac_db_dbname }}"
-DJANGO_DATABASE_USER="{{ camac_db_username }}"
-DJANGO_DATABASE_PASSWORD="{{ camac_db_password }}"
-DJANGO_DATABASE_HOST="{{ camac_db_host }}"
-DJANGO_DATABASE_PORT="{{ camac_db_port }}"
+DATABASE_NAME="{{ camac_db_dbname }}"
+DATABASE_USER="{{ camac_db_username }}"
+DATABASE_PASSWORD="{{ camac_db_password }}"
+DATABASE_HOST="{{ camac_db_host }}"
+DATABASE_PORT="{{ camac_db_port }}"
 DJANGO_ALLOWED_HOSTS="{{ camac_python_django_allowed_hosts }}"
 DJANGO_SECRET_KEY="{{ camac_python_django_secret_key }}"
 DJANGO_MEDIA_ROOT="{{ camac_python_django_media_root }}"
@@ -26,6 +26,19 @@ CALUMA_URL="{{ camac_caluma_url }}"
 DOCUMENT_MERGE_SERVICE_URL="{{ camac_document_merge_service_url }}"
 DEMO_MODE={{ camac_demo_mode }}
 ECH_API={{ camac_ech_api }}
+
+VISIBILITY_CLASSES="{{ camac_caluma_visibility_classes }}"
+VALIDATION_CLASSES="{{ camac_caluma_validation_classes }}"
+PERMISSION_CLASSES="{{ camac_caluma_permission_classes }}"
+DATA_SOURCE_CLASSES="{{ camac_caluma_data_source_classes }}"
+OIDC_USERINFO_ENDPOINT="{{ camac_caluma_oidc_userinfo_endpoint }}"
+OIDC_BEARER_TOKEN_REVALIDATION_TIME="{{ camac_caluma_oidc_bearer_token_revalidation_time }}"
+META_FIELDS="{{ camac_caluma_meta_fields }}"
+
+LANGUAGE_CODE="{{ camac_caluma_language_code }}"
+LANGUAGES="{{ camac_caluma_languages }}"
+
+ENABLE_HISTORICAL_API={{ camac_caluma_enable_historical_api}}
 
 {% if camac_auth_proxy %}
 HTTP_PROXY="{{ camac_auth_proxy }}"

@@ -6,11 +6,6 @@
     name: wildfly
     state: restarted
 
-- name: restart caluma
-  service:
-    name: caluma
-    state: restarted
-
 - name: restart camac api
   service:
     name: camac-api
