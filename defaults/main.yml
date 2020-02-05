@@ -412,13 +412,10 @@ document_merge_service_oidc_userinfo_endpoint: "{{ camac_auth_idp_url }}/realms/
 document_merge_service_git_repository_url: "https://github.com/adfinis-sygroup/document-merge-service/"
 
 # Document merge service git repository
-document_merge_service_version: "v2.0.0"
+document_merge_service_version: "v3.0.0"
 
 # https://github.com/adfinis-sygroup/document-merge-service/issues/94
 document_merge_service_docxtemplate_jinja_extensions: "jinja2.ext.do,jinja2.ext.loopcontrols"
-
-# Whether the unoconv clu should be used instead of the service
-document_merge_service_unoconv_local: "true"
 
 # Where the uploaded documents will be stored
 document_merge_service_media_root: "{{ document_merge_service_basedir }}/templates"

@@ -1,0 +1,10 @@
+[Unit]
+Description=Unoconv listener for document conversions
+After=network.target
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/python3 /usr/bin/unoconv --listener
+
+[Install]
+WantedBy=multi-user.target
