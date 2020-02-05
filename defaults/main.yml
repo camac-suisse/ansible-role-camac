@@ -47,9 +47,6 @@ camac_ca_chain: ~
 # Set this to the user which apache runs as
 camac_apache_user: www-data
 
-# Domain part of emails sent by Camac
-camac_base_domain: "camac.ch"
-
 # This dir is used as the base for other paths of camac.
 camac_php_basedir: "/usr/share/camac"
 
