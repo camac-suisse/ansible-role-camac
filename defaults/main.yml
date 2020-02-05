@@ -288,110 +288,30 @@ camac_portal_uri: "http://caluma.127.0.0.1.nip.io"
 # Url to document merge service used by camac django API
 camac_document_merge_service_url: "{{ camac_portal_uri }}/document-merge-service/api/v1/"
 
-# This directory is used as the base for other paths of caluma.
-caluma_basedir: "/usr/share/caluma/"
-
-# Directory in which the source code of the Caluma will be stored
-caluma_docroot: "{{ caluma_basedir }}/webapps"
-
-# Directory in which the source code of the Caluma will be stored
-caluma_confdir: "{{ caluma_basedir }}/config"
-
-# Directory in which the logs of the Caluma will be stored
-# TODO: Configure uWSGI Logging
-caluma_logdir: "{{ caluma_basedir }}/log"
-
-# User that runs the caluma process
-caluma_user: "vagrant"
-
-# Home directory of caluma user
-caluma_user_home: "/home/{{ caluma_user }}"
-
-# Directory in which pyenv will be cloned (with git)
-caluma_pyenv_install_directory: "{{ caluma_user_home }}/.pyenv"
-
-# Pyenv Python version that will be used to run uwsgi/caluma
-caluma_pyenv_python_version: "3.7.3"
-
-# Url of the official pyenv repository
-caluma_pyenv_git_repository_url: "https://github.com/pyenv/pyenv"
-
-# Bashrc file of caluma user (This is required so we can include pyenv script
-# into $PATH)
-caluma_user_bashrc: "{{ caluma_user_home}}/.bashrc"
-
-# Pyenv version (corresponds to a valid git tag)
-caluma_pyenv_version: "v1.2.11"
-
-# Url of the official pyenv-virtualenv plugin repository
-caluma_pyenv_virtualenv_git_repository_url: "https://github.com/pyenv/pyenv-virtualenv"
-
-# Pyenv virtualenv plugin version (corresponds to a valid git tag)
-caluma_pyenv_virtualenv_version: "v1.1.5"
-
-# Name of the pyenv virtualenv
-caluma_pyenv_virtualenv_name: "caluma"
-
-# Path to the pyenv virtualenv
-caluma_pyenv_virtualenv_path: "{{ caluma_pyenv_install_directory }}/versions/{{ caluma_pyenv_virtualenv_name }}"
-
-# Address on which the caluma uWSGI instance listens on
-caluma_uwsgi_address: "0.0.0.0"
-
-# Port on which the caluma uWSGI instance listens on
-caluma_uwsgi_port: "8282"
-
-# Username used for connection to database
-caluma_db_username: "{{ camac_db_username }}"
-
-# Password used for connecting to database
-caluma_db_password: "{{ camac_db_password }}"
-
-# Database/Schema namespace in database
-caluma_db_dbname: "{{ camac_db_dbname }}"
-
-# Database server hostname
-caluma_db_host: "{{ camac_db_host }}"
-
-# Database server port
-caluma_db_port: "{{ camac_db_port }}"
-
-# Allowed hosts that are allowed to connect to caluma
-caluma_django_allowed_hosts: "*"
-
-# Django secret
-caluma_django_secret_key: 'rqo23kq9j&clk@ae5f43jhmz&qyan=6j-0ip0xcc5bauq4@$d8'
-
 # Caluma visbility classes
-caluma_visibility_classes: "caluma.caluma_core.visibilities.Any"
+camac_caluma_visibility_classes: "caluma.caluma_core.visibilities.Any"
 
 # Caluma validation classes
-caluma_validation_classes: ""
+camac_caluma_validation_classes: ""
 
 # Caluma permission classes
-caluma_permission_classes: "caluma.caluma_core.permissions.AllowAny"
+camac_caluma_permission_classes: "caluma.caluma_core.permissions.AllowAny"
 
 # Caluma data_source classes
-caluma_data_source_classes: ""
+camac_caluma_data_source_classes: ""
 
 # Time in seconds before bearer token validity is verified again
-caluma_oidc_bearer_token_revalidation_time: 300
-
-# Url to the dependent camac instance
-caluma_camac_url: "http://camac-ng.local"
-
-# Whether caluma is supposed to load initial data from fixtures.
-caluma_load_data: true
+camac_caluma_oidc_bearer_token_revalidation_time: 300
 
 # Caluma meta fields
-caluma_meta_fields: "camac-instance-id,ebau-number,submit-date"
+camac_caluma_meta_fields: "camac-instance-id,ebau-number,submit-date"
 
 # Caluma language settings
-caluma_language_code: "de"
-caluma_languages: "de,fr"
+camac_caluma_language_code: "de"
+camac_caluma_languages: "de,fr"
 
 # Enable caluma historical API
-caluma_enable_historical_api: true
+camac_caluma_enable_historical_api: true
 
 # This directory is used as the base for other paths of the ember caluma form
 # TODO: Find a good prefix for form/portal frontend
