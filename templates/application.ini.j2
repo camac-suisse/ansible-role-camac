@@ -60,6 +60,10 @@ baseURLPortal = {{ camac_mail_template_base_url_portal }}
 backend.api.host = "{{ camac_python_url }}"
 backend.api.tokenType = "Bearer"
 
+; Error mail configuration
+errormail.recipient = "{{ camac_admin_email }}"
+errormail.sender    = "{{ camac_mail_from_email }}"
+
 [staging : production]
 [testing : production]
 [development : production]
