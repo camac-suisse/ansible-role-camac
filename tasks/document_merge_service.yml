@@ -64,7 +64,7 @@
     dest: "{{ document_merge_service_media_root }}"
   delegate_to: "{{ inventory_hostname }}"
 
-- name: clone pyenv-virtualenv git repository
+- name: clone document merge service git repository
   git:
     repo: "{{ document_merge_service_git_repository_url }}"
     dest: "{{ document_merge_service_docroot }}"
@@ -93,6 +93,14 @@
     dest: /etc/systemd/system/document-merge-service.service
   notify:
     - restart document merge service
+
+
+- name: copy systemd units for unoconv listener service
+  template:
+    src: unoconv.service.j2
+    dest: /etc/systemd/system/unoconv.service
+  notify:
+    - restart unoconv
 
 - name: render uwsgi ini
   template:
