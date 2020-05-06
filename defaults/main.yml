@@ -281,7 +281,7 @@ camac_python_uwsgi_port: "8181"
 camac_demo_mode: false
 
 # Whether to enable the ech api
-camac_ech_api: false
+camac_ech_api: true
 
 # Url to the iframe embedded ember form
 camac_portal_uri: "http://caluma.127.0.0.1.nip.io"
