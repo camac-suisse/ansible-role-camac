@@ -234,6 +234,9 @@ camac_python_keycloak_realm: "{{ camac_auth_idp_realm }}"
 # Keycloak client
 camac_python_keycloak_client: "{{ camac_auth_sp_client }}"
 
+# OIDC username claim
+camac_python_oidc_username_claim: "preferred_username"
+
 # Directory in which pyenv will be cloned (with git)
 camac_python_pyenv_install_directory: "{{ camac_python_user_home }}/.pyenv"
 
