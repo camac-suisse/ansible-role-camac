@@ -295,6 +295,12 @@ camac_document_merge_service_url: "{{ camac_portal_uri }}/document-merge-service
 # Caluma userinfo endpoint
 camac_caluma_oidc_userinfo_endpoint: "{{ camac_auth_idp_url }}/realms/{{ camac_auth_idp_realm }}/protocol/openid-connect/userinfo"
 
+# Caluma dynamic groups classes
+camac_caluma_dynamic_groups_classes: ""
+
+# Caluma event receiver modules
+camac_caluma_event_receiver_modules: ""
+
 # Caluma visbility classes
 camac_caluma_visibility_classes: "caluma.caluma_core.visibilities.Any"
 
