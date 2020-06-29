@@ -126,7 +126,7 @@ camac_cache_host: "localhost"
 # Port on which memcached is running
 camac_cache_port: 11211
 
-# Url over which keycloak is reachable
+# Url over which keycloak is reachable (no trailing slash!)
 camac_auth_idp_url: "http://keycloak.127.0.0.1.nip.io:8080/auth"
 
 # Name of the keycloak realm
@@ -292,6 +292,9 @@ camac_portal_uri: "http://caluma.127.0.0.1.nip.io"
 # Url to document merge service used by camac django API
 camac_document_merge_service_url: "{{ camac_portal_uri }}/document-merge-service/api/v1/"
 
+# Caluma userinfo endpoint
+camac_caluma_oidc_userinfo_endpoint: "{{ camac_auth_idp_url }}/realms/{{ camac_auth_idp_realm }}/protocol/openid-connect/userinfo"
+
 # Caluma visbility classes
 camac_caluma_visibility_classes: "caluma.caluma_core.visibilities.Any"
 
@@ -326,6 +329,15 @@ ember_docroot: "{{ ember_basedir }}/htdocs"
 
 # Set this to the user which apache runs as
 ember_apache_user: www-data
+
+# Keycloak URL
+ember_oidc_host: "{{ camac_auth_idp_url }}/"
+
+# Name of the portal oidc client
+ember_oidc_client: "portal"
+
+# Portal oidc endpoint
+ember_oidc_endpoint: "{{ camac_auth_idp_url }}/realms/{{ camac_auth_idp_realm }}/protocol/openid-connect"
 
 # This directory is used as the base for other paths of caluma.
 document_merge_service_basedir: "/usr/share/document-merge-service/"
