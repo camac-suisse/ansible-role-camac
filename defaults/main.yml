@@ -132,8 +132,9 @@ camac_auth_idp_url: "http://keycloak.127.0.0.1.nip.io:8080/auth"
 # Name of the keycloak realm
 camac_auth_idp_realm: "camac"
 
-# Name of the keycloak client
+# Name of the keycloak clients
 camac_auth_sp_client: "camac"
+camac_auth_sp_portal_client: "portal"
 
 # Name of the keycloak admin client
 camac_auth_admin_client: "camac-admin"
@@ -231,8 +232,9 @@ camac_python_keycloak_url: "{{ camac_auth_idp_url }}"
 # Keycloak realm
 camac_python_keycloak_realm: "{{ camac_auth_idp_realm }}"
 
-# Keycloak client
+# Keycloak clients
 camac_python_keycloak_client: "{{ camac_auth_sp_client }}"
+camac_python_keycloak_portal_client: "{{ camac_auth_sp_portal_client }}"
 
 # OIDC username claim
 camac_python_oidc_username_claim: "preferred_username"
