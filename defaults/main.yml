@@ -298,22 +298,22 @@ camac_document_merge_service_url: "{{ camac_portal_uri }}/document-merge-service
 camac_caluma_oidc_userinfo_endpoint: "{{ camac_auth_idp_url }}/realms/{{ camac_auth_idp_realm }}/protocol/openid-connect/userinfo"
 
 # Caluma dynamic groups classes
-camac_caluma_dynamic_groups_classes: ""
+camac_caluma_dynamic_groups_classes: "camac.caluma.extensions.dynamic_groups.CustomDynamicGroups"
 
 # Caluma event receiver modules
-camac_caluma_event_receiver_modules: ""
+camac_caluma_event_receiver_modules: "camac.caluma.extensions.events"
 
 # Caluma visbility classes
-camac_caluma_visibility_classes: "caluma.caluma_core.visibilities.Any"
+camac_caluma_visibility_classes: "camac.caluma.extensions.visibilities.CustomVisibility"
 
 # Caluma validation classes
-camac_caluma_validation_classes: ""
+camac_caluma_validation_classes: "camac.caluma.extensions.validations.CustomValidation"
 
 # Caluma permission classes
-camac_caluma_permission_classes: "caluma.caluma_core.permissions.AllowAny"
+camac_caluma_permission_classes: "camac.caluma.extensions.permissions.CustomPermission"
 
 # Caluma data_source classes
-camac_caluma_data_source_classes: ""
+camac_caluma_data_source_classes: "camac.caluma.extensions.data_sources.Municipalities,camac.caluma.extensions.data_sources.Services"
 
 # Time in seconds before bearer token validity is verified again
 camac_caluma_oidc_bearer_token_revalidation_time: 300
