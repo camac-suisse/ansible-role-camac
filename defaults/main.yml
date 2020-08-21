@@ -226,6 +226,9 @@ camac_python_django_server_email: "{{ camac_mail_from_email }}"
 camac_python_django_email_host: "{{ camac_mail_host }}"
 camac_python_django_email_port: "{{ camac_mail_port }}"
 
+# BE-Login url
+camac_python_django_registration_url: "https://www.belogin.directories.be.ch/"
+
 # Keycloak url
 camac_python_keycloak_url: "{{ camac_auth_idp_url }}"
 
