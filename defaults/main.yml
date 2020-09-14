@@ -303,6 +303,9 @@ camac_caluma_oidc_userinfo_endpoint: "{{ camac_auth_idp_url }}/realms/{{ camac_a
 # Caluma dynamic groups classes
 camac_caluma_dynamic_groups_classes: "camac.caluma.extensions.dynamic_groups.CustomDynamicGroups"
 
+# Caluma dynamic tasks classes
+camac_caluma_tasks_groups_classes: "camac.caluma.extensions.dynamic_groups.CustomDynamicTasks"
+
 # Caluma event receiver modules
 camac_caluma_event_receiver_modules: "camac.caluma.extensions.events"
 
