@@ -1,5 +1,4 @@
 ---
-
 - name: clone pyenv git repository
   git:
     repo: "{{ camac_python_pyenv_git_repository_url }}"
@@ -65,7 +64,6 @@
 
 - name: Review requirements.txt changes
   block:
-
     - command: diff "{{ camac_python_docroot }}/requirements.txt" "{{ camac_releasedir }}/camac/django/requirements.txt"
       register: requirements_diff
       failed_when: requirements_diff.rc >= 2
@@ -111,7 +109,6 @@
 
 - name: Run fake migrations
   block:
-
     - name: check if fake migrations should be applied
       shell: |
         psql \
@@ -146,7 +143,6 @@
 
   when: camac_db_run_fake_migrations and camac_db_fake_migrations is defined
   rescue:
-
     - fail:
         msg: "`camac_db_run_fake_migrations` is set to True but it appears that the fake migration have already run."
 
@@ -162,7 +158,13 @@
     app_path: "{{ camac_python_docroot }}"
     virtualenv: "{{ camac_python_pyenv_virtualenv_path }}"
   when: camac_load_data
-  
+
+- name: clean dangling history records
+  django_manage:
+    command: "cleanup_history --dangling --force"
+    app_path: "{{ camac_python_docroot }}"
+    virtualenv: "{{ camac_python_pyenv_virtualenv_path }}"
+
 - name: collect camac staticfiles
   django_manage:
     command: collectstatic
