@@ -154,7 +154,7 @@
 
 - name: load initial camac data
   django_manage:
-    command: loadconfig
+    command: camac_load
     app_path: "{{ camac_python_docroot }}"
     virtualenv: "{{ camac_python_pyenv_virtualenv_path }}"
   when: camac_load_data
