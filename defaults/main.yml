@@ -142,10 +142,6 @@ camac_auth_admin_client: "camac-admin"
 # Secret for the keycloak admin client
 camac_auth_admin_client_secret: "secret"
 
-# A proxy which camac should use to connect to keycloak.
-# Either false od host:port
-camac_auth_proxy: false
-
 # Whether to deploy keycloak or not
 camac_keycloak_enable: yes
 
@@ -450,3 +446,8 @@ document_merge_service_docxtemplate_jinja_extensions: "jinja2.ext.do,jinja2.ext.
 
 # Where the uploaded documents will be stored
 document_merge_service_media_root: "{{ document_merge_service_basedir }}/templates"
+
+# A proxy which the services should use for requests (e.g auth)
+# Either false or protocol://host:port
+http_proxy: false
+https_proxy: false
