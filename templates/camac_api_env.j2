@@ -46,7 +46,9 @@ LANGUAGES="{{ camac_caluma_languages }}"
 
 ENABLE_HISTORICAL_API={{ camac_caluma_enable_historical_api}}
 
-{% if camac_auth_proxy %}
-HTTP_PROXY="{{ camac_auth_proxy }}"
-HTTPS_PROXY="{{ camac_auth_proxy }}"
+{% if http_proxy %}
+HTTP_PROXY={{ http_proxy }}
+{% endif %}
+{% if https_proxy %}
+HTTPS_PROXY={{ https_proxy }}
 {% endif %}

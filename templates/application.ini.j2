@@ -41,9 +41,13 @@ keycloak.realm = {{ camac_auth_idp_realm }}
 keycloak.client = {{ camac_auth_sp_client }}
 keycloak.admin_client = {{ camac_auth_admin_client }}
 keycloak.admin_client_secret = {{ camac_auth_admin_client_secret }}
-{% if camac_auth_proxy %}
-keycloak.proxy = {{ camac_auth_proxy }}
 {% endif %}
+
+{% if http_proxy %}
+proxy.http = {{ http_proxy }}
+{% endif %}
+{% if https_proxy %}
+proxy.https = {{ https_proxy }}
 {% endif %}
 
 resources.log.stream.writerParams.stream = "{{ camac_php_logdir }}/application.log"
