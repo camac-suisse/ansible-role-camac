@@ -49,6 +49,9 @@ proxy.http = {{ http_proxy }}
 {% if https_proxy %}
 proxy.https = {{ https_proxy }}
 {% endif %}
+{% if no_proxy %}
+proxy.no = {{ no_proxy }}
+{% endif %}
 
 resources.log.stream.writerParams.stream = "{{ camac_php_logdir }}/application.log"
 

@@ -451,3 +451,6 @@ document_merge_service_media_root: "{{ document_merge_service_basedir }}/templat
 # Either false or protocol://host:port
 http_proxy: false
 https_proxy: false
+
+# Proxy ignores
+no_proxy: false
