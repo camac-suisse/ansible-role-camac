@@ -268,6 +268,7 @@ camac_python_pyenv_virtualenv_path: "{{ camac_python_pyenv_install_directory }}/
 
 # Url of the Camac Django API
 camac_python_url: "http://camac-ng.local/"
+camac_api_host: "http://{{ camac_python_uwsgi_address }}:{{ camac_python_uwsgi_port }}"
 
 # Whether to use clamd to scan file uploads
 camac_python_clamd_enabled: false
@@ -291,7 +292,7 @@ camac_ech_api: true
 camac_portal_uri: "http://caluma.127.0.0.1.nip.io"
 
 # Url to document merge service used by camac django API
-camac_document_merge_service_url: "{{ camac_portal_uri }}/document-merge-service/api/v1/"
+camac_document_merge_service_url: "http://{{ document_merge_service_uwsgi_address }}:{{ document_merge_service_uwsgi_port }}/document-merge-service/api/v1/"
 
 # Caluma userinfo endpoint
 camac_caluma_oidc_userinfo_endpoint: "{{ camac_auth_idp_url }}/realms/{{ camac_auth_idp_realm }}/protocol/openid-connect/userinfo"
