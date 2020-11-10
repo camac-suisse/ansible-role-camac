@@ -454,4 +454,4 @@ http_proxy: false
 https_proxy: false
 
 # Proxy ignores
-no_proxy: false
+no_proxy: "{{ camac_python_uwsgi_address }},{{ document_merge_service_uwsgi_address }}"
