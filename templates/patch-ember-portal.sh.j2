@@ -1,11 +1,11 @@
 PATCHED_CONFIG=$(cat  {{ ember_docroot }}/dist/index.html \
-        | grep '<meta name="ember-caluma-portal/config/environment"' \
-        | sed -e 's|<meta name="ember-caluma-portal/config/environment" content="\(.*\)" />$|\1|' \
-        | python2 -c "import sys, urllib as ul; print ul.unquote(sys.stdin.read());" \
-        | jq '."ember-simple-auth-oidc".host = "{{ ember_oidc_endpoint }}"' \
-        | jq '."ember-simple-auth-oidc".clientId = "{{ ember_oidc_client }}"' \
-        | jq '.ebau.internalURL = "{{ ember_internal_url }}"' \
-        | python2 -c "import sys, urllib as ul; print ul.quote(sys.stdin.read());")
+    | grep '<meta name="ember-caluma-portal/config/environment"' \
+    | sed -e 's|<meta name="ember-caluma-portal/config/environment" content="\(.*\)" />$|\1|' \
+    | python3 -c "import sys, urllib.parse as up; print(up.unquote(sys.stdin.read()));" \
+    | jq '."ember-simple-auth-oidc".host = "{{ ember_oidc_endpoint }}"' \
+    | jq '."ember-simple-auth-oidc".clientId = "{{ ember_oidc_client }}"' \
+    | jq '.ebau.internalURL = "{{ ember_internal_url }}"' \
+    | python3 -c "import sys, urllib.parse as up; print(up.quote(sys.stdin.read()));")
 
 sed \
     "s|^<meta name=\"ember-caluma-portal/config/environment\".*|<meta name=\"ember-caluma-portal/config/environment\" content=\"$PATCHED_CONFIG\" />|" \
