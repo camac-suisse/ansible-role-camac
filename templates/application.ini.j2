@@ -49,7 +49,7 @@ proxy.http = "{{ http_proxy }}"
 {% if https_proxy %}
 proxy.https = "{{ https_proxy }}"
 {% endif %}
-{% if no_proxy %}
+{% if no_proxy and (http_proxy or https_proxy) %}
 proxy.no = "{{ no_proxy }}"
 {% endif %}
 
