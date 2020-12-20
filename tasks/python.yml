@@ -165,6 +165,12 @@
     app_path: "{{ camac_python_docroot }}"
     virtualenv: "{{ camac_python_pyenv_virtualenv_path }}"
 
+- name: clean caluma form config with dangling answers
+  django_manage:
+    command: "clean_caluma_config --cascade"
+    app_path: "{{ camac_python_docroot }}"
+    virtualenv: "{{ camac_python_pyenv_virtualenv_path }}"
+
 - name: collect camac staticfiles
   django_manage:
     command: collectstatic
