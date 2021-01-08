@@ -46,6 +46,11 @@ LANGUAGES="{{ camac_caluma_languages }}"
 
 ENABLE_HISTORICAL_API={{ camac_caluma_enable_historical_api}}
 
+MANABI_ENABLE={{ manabi_enable }}
+{% if manabi_shared_key %}
+MANABI_SHARED_KEY="{{ manabi_shared_key }}"
+{% endif %}
+
 {% if http_proxy %}
 HTTP_PROXY={{ http_proxy }}
 {% endif %}
