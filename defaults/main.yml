@@ -331,6 +331,9 @@ camac_caluma_languages: "de,fr"
 # Enable caluma historical API
 camac_caluma_enable_historical_api: true
 
+# Enable Manabi (WebDAV)
+manabi_enable: false
+
 # This directory is used as the base for other paths of the ember caluma form
 # TODO: Find a good prefix for form/portal frontend
 ember_basedir: "/usr/share/ember-caluma-portal/"
