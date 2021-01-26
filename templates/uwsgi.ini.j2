@@ -22,10 +22,9 @@ single-interpreter = true
 need-app = true
 
 # uWSGI's logging is rather verbose. Instead of logging every request (which
-# already happens on the reverse proxy level), logging all 4xx and 5xx errors
-# should suffice.
+# already happens on the reverse proxy level), logging all 5xx errors should
+# suffice.
 disable-logging = true
-log-4xx = true
 log-5xx = true
 
 # It is a good idea to recycle workers every now and then to prevent memory
