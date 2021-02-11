@@ -72,7 +72,28 @@ camac_php_settings:
   max_input_vars: 10000
 
 # Cronjobs
-camac_cronjobs: []
+camac_cronjobs:
+  - name: "Notifikation Fristüberschreitung Stellungsnahme"
+    job: "pyenv shell {{ camac_python_pyenv_virtualenv_name }} && python {{ camac_python_docroot }}/manage.py sendreminders"
+    user: "{{ camac_python_user }}"
+    minute: "0"
+    hour: "9"
+  - name: "Notifikation Aufgaben"
+    job: "pyenv shell {{ camac_python_pyenv_virtualenv_name }} && python {{ camac_python_docroot }}/manage.py sendreminders --caluma"
+    user: "{{ camac_python_user }}"
+    minute: "0"
+    hour: "9"
+    weekday: "1"
+  - name: "Temporäre Dateien aufäumen"
+    job: "pyenv shell {{ camac_python_pyenv_virtualenv_name }} && python {{ camac_python_docroot }}/manage.py cleanup_tempfiles"
+    user: "{{ camac_python_user }}"
+    minute: "0"
+    hour: "23"
+  - name: "Abschluss Publikation"
+    job: "pyenv shell {{ camac_python_pyenv_virtualenv_name }} && python {{ camac_python_docroot }}/manage.py complete_publication"
+    user: "{{ camac_python_user }}"
+    minute: "0"
+    hour: "23"
 
 # Whether camac is supposed to load initial data from fixtures.
 camac_load_data: true
