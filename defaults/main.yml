@@ -93,7 +93,7 @@ camac_cronjobs:
     job: "pyenv shell {{ camac_python_pyenv_virtualenv_name }} && python {{ camac_python_docroot }}/manage.py complete_publication"
     user: "{{ camac_python_user }}"
     minute: "0"
-    hour: "23"
+    hour: "1"
 
 # Whether camac is supposed to load initial data from fixtures.
 camac_load_data: true
