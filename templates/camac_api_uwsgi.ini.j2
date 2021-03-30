@@ -9,4 +9,7 @@ http = {{ camac_python_uwsgi_address }}:{{ camac_python_uwsgi_port }}
 # Worker name
 procname-prefix = "camac-api "
 
+# Increase buffer size for larger request headers
+buffer-size = 32768
+
 {% include './templates/uwsgi.ini.j2' %}
