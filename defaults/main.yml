@@ -476,3 +476,9 @@ https_proxy: false
 
 # Proxy ignores
 no_proxy: "{{ camac_python_uwsgi_address }},{{ document_merge_service_uwsgi_address }}"
+
+# GWR fernet key
+gwr_fernet_key: ""
+
+# GWR WSK ID
+gwr_wsk_id: 351388
