@@ -337,7 +337,7 @@ camac_caluma_permission_classes: "camac.caluma.extensions.permissions.CustomPerm
 camac_caluma_data_source_classes: "camac.caluma.extensions.data_sources.Municipalities,camac.caluma.extensions.data_sources.Services"
 
 # Time in seconds before bearer token validity is verified again
-camac_caluma_oidc_bearer_token_revalidation_time: 300
+camac_caluma_oidc_bearer_token_revalidation_time: 270
 
 # Caluma meta fields
 camac_caluma_meta_fields: "camac-instance-id,ebau-number,submit-date"
@@ -452,7 +452,7 @@ document_merge_service_django_allowed_hosts: "*"
 document_merge_service_django_secret_key: "rqo23kq9j&clk@ae5f43jhmz&qyan=6j-0ip0xcc5bauq4@$d8"
 
 # Time in seconds before bearer token validity is verified again
-document_merge_service_oidc_bearer_token_revalidation_time: 300
+document_merge_service_oidc_bearer_token_revalidation_time: 270
 
 # Url to the  keycloak userinfo endpoint
 document_merge_service_oidc_userinfo_endpoint: "{{ camac_auth_idp_url }}/realms/{{ camac_auth_idp_realm }}/protocol/openid-connect/userinfo"
