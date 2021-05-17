@@ -1,6 +1,6 @@
 PATCHED_CONFIG=$(cat  {{ ember_docroot }}/dist/index.html \
-    | grep '<meta name="ember-caluma-portal/config/environment"' \
-    | sed -e 's|<meta name="ember-caluma-portal/config/environment" content="\(.*\)" />$|\1|' \
+    | grep '<meta name="caluma-portal/config/environment"' \
+    | sed -e 's|<meta name="caluma-portal/config/environment" content="\(.*\)" />$|\1|' \
     | python3 -c "import sys, urllib.parse as up; print(up.unquote(sys.stdin.read()));" \
     | jq '."ember-simple-auth-oidc".host = "{{ ember_oidc_endpoint }}"' \
     | jq '."ember-simple-auth-oidc".clientId = "{{ ember_oidc_client }}"' \
@@ -8,5 +8,5 @@ PATCHED_CONFIG=$(cat  {{ ember_docroot }}/dist/index.html \
     | python3 -c "import sys, urllib.parse as up; print(up.quote(sys.stdin.read()));")
 
 sed \
-    "s|^<meta name=\"ember-caluma-portal/config/environment\".*|<meta name=\"ember-caluma-portal/config/environment\" content=\"$PATCHED_CONFIG\" />|" \
+    "s|^<meta name=\"caluma-portal/config/environment\".*|<meta name=\"caluma-portal/config/environment\" content=\"$PATCHED_CONFIG\" />|" \
     -i {{ ember_docroot }}/dist/index.html
