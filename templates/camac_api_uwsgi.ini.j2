@@ -12,4 +12,8 @@ procname-prefix = "camac-api "
 # Increase buffer size for larger request headers
 buffer-size = 32768
 
+# Logging
+req-logger = file:/var/log/uwsgi/camac-api-req.log
+logger = file:/var/log/uwsgi/camac-api-err.log
+
 {% include './templates/uwsgi.ini.j2' %}

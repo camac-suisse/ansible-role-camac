@@ -9,4 +9,8 @@ http = {{ document_merge_service_uwsgi_address }}:{{ document_merge_service_uwsg
 # Worker name
 procname-prefix = "document-merge-service "
 
+# Logging
+req-logger = file:/var/log/uwsgi/document-merge-service-req.log
+logger = file:/var/log/uwsgi/document-merge-service-err.log
+
 {% include './templates/uwsgi.ini.j2' %}
