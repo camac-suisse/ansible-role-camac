@@ -1,5 +1,4 @@
 ---
-
 - name: create directories for camac installation
   file:
     state: directory
@@ -46,21 +45,20 @@
 
 - name: symlink customer specific overrides files to configuration directory
   block:
+    - file:
+        dest: "{{ camac_php_docroot }}/configuration"
+        state: directory
 
-  - file:
-      dest: "{{ camac_php_docroot }}/configuration"
-      state: directory
+    - find:
+        path: "{{ camac_php_docroot }}/{{ camac_application }}/"
+        file_type: "any"
+      register: find
 
-  - find:
-      path: "{{ camac_php_docroot }}/{{ camac_application }}/"
-      file_type: "any"
-    register: find
-
-  - file:
-      src: "../{{ camac_application }}/{{ item.path | basename }}"
-      dest: "{{ camac_php_docroot }}/configuration/{{ item.path | basename }}"
-      state: link
-    loop: "{{ find.files }}"
+    - file:
+        src: "../{{ camac_application }}/{{ item.path | basename }}"
+        dest: "{{ camac_php_docroot }}/configuration/{{ item.path | basename }}"
+        state: link
+      loop: "{{ find.files }}"
 
 - name: configure camac php app
   template:
@@ -84,8 +82,3 @@
     month: "{{ item.month | default(omit) }}"
     weekday: "{{ item.weekday | default(omit) }}"
   loop: "{{ camac_cronjobs }}"
-
-- name: clear cache
-  command: "php {{ camac_php_docroot }}/cronjob/clear-cache.php"
-  tags:
-    - cache

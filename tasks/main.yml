@@ -1,4 +1,8 @@
 ---
+- name: stop apache2 service
+  service:
+    name: apache2
+    state: stopped
 
 - name: load customer specific variables
   include_vars:
@@ -41,7 +45,16 @@
 - include: document_merge_service.yml
   tags: document_merge_service
 
+- name: clear cache
+  command: "php {{ camac_php_docroot }}/cronjob/clear-cache.php"
+  tags:
+    - cache
+
 - name: remove tmp staging dir
   file:
     state: absent
     dest: "{{ camac_releasedir }}/camac/"
+- name: start apache2 service
+  service:
+    name: apache2
+    state: started
