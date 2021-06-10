@@ -34,6 +34,11 @@
     dest: "{{ camac_releasedir }}/camac"
     remote_src: yes
 
+- name: delete camac release tarballs
+  file:
+    state: absent
+    dest: "{{ camac_tarballdir }}"
+
 - include: php.yml
 
 - include: python.yml
@@ -54,6 +59,7 @@
   file:
     state: absent
     dest: "{{ camac_releasedir }}/camac/"
+
 - name: start apache2 service
   service:
     name: apache2
