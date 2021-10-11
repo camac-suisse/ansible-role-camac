@@ -182,7 +182,12 @@
     path: "{{ camac_python_basedir }}"
     owner: "{{ camac_python_user }}"
 
-- name: configure cronjob
+- name: delete old cronjobs
+  file:
+    state: absent
+    path: "/etc/cron.d/bi-ebau"
+
+- name: configure cronjobs
   cron:
     cron_file: "/etc/cron.d/bi-ebau"
     name: "{{ item.name }}"
