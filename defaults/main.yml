@@ -477,3 +477,6 @@ gwr_fernet_key: ""
 
 # GWR WSK ID
 gwr_wsk_id: 351388
+
+# GWR housing stat base URI
+gwr_housing_stat_base_uri: ""
