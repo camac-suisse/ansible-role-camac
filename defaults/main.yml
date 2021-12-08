@@ -74,12 +74,12 @@ camac_php_settings:
 # Cronjobs
 camac_cronjobs:
   - name: "Notifikation Fristüberschreitung Stellungsnahme"
-    job: "{{ camac_python_pyenv_virtualenv_path }}/bin/python {{ camac_python_docroot }}/manage.py sendreminders"
+    job: "{{ camac_python_pyenv_virtualenv_path }}/bin/python {{ camac_python_docroot }}/manage.py send_activation_reminders"
     user: "{{ camac_python_user }}"
     minute: "0"
     hour: "9"
   - name: "Notifikation Aufgaben"
-    job: "{{ camac_python_pyenv_virtualenv_path }}/bin/python {{ camac_python_docroot }}/manage.py sendreminders --caluma"
+    job: "{{ camac_python_pyenv_virtualenv_path }}/bin/python {{ camac_python_docroot }}/manage.py send_work_item_reminders"
     user: "{{ camac_python_user }}"
     minute: "0"
     hour: "9"
