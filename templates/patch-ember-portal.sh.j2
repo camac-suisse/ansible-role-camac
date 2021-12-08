@@ -5,6 +5,7 @@ PATCHED_CONFIG=$(cat  {{ ember_docroot }}/dist/index.html \
     | jq '."ember-simple-auth-oidc".host = "{{ ember_oidc_endpoint }}"' \
     | jq '."ember-simple-auth-oidc".clientId = "{{ ember_oidc_client }}"' \
     | jq '.ebau.internalURL = "{{ ember_internal_url }}"' \
+    | jq '.ebau.beGisUrl = "{{ gis_map_url }}"' \
     | python3 -c "import sys, urllib.parse as up; print(up.quote(sys.stdin.read()));")
 
 sed \
