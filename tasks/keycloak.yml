@@ -31,7 +31,6 @@
     - path: "{{ camac_keycloak_tmpdir }}"
       owner: "{{ camac_keycloak_user }}"
 
-
 - name: download keycloak artifacts
   get_url:
     url: "{{ item.url }}"
@@ -84,12 +83,12 @@
     dest: "{{ item.dest }}"
     remote_src: "{{ camac_keycloak_systemd_units_remote_src | d(true) }}"
   with_items:
-  - src: wildfly.service
-    dest: /etc/systemd/system/wildfly.service
-  - src: wildfly.conf
-    dest: "{{ camac_keycloak_wildfly_confdir }}/wildfly.conf"
-  - src: launch.sh
-    dest: "{{ camac_keycloak_bindir }}/launch.sh"
+    - src: wildfly.service
+      dest: /etc/systemd/system/wildfly.service
+    - src: wildfly.conf
+      dest: "{{ camac_keycloak_wildfly_confdir }}/wildfly.conf"
+    - src: launch.sh
+      dest: "{{ camac_keycloak_bindir }}/launch.sh"
 
 - name: adapt launch script
   lineinfile:
@@ -128,8 +127,8 @@
   xml:
     path: "{{ camac_keycloak_appdir }}/standalone/configuration/standalone.xml"
     namespaces:
-      domain: "urn:jboss:domain:5.0"
-      undertow: "urn:jboss:domain:undertow:4.0"
+      domain: "urn:jboss:domain:19.0"
+      undertow: "urn:jboss:domain:undertow:12.0"
     xpath: "/domain:server/domain:profile/undertow:subsystem/undertow:server/undertow:http-listener"
     attribute: "undertow:proxy-address-forwarding"
     value: "true"
