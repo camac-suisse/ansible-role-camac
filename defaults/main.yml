@@ -165,12 +165,12 @@ camac_keycloak_enable: yes
 camac_keycloak_user: wildfly
 
 # Version of keycloak to deploy
-camac_keycloak_version: "3.4.3.Final"
+camac_keycloak_version: "16.1.0"
 
-camac_keycloak_tarball_checksum: "c75a6a859173ec7f7566ab64f6edb5bac13908863abda42fc556aba775dca3d2"
+camac_keycloak_tarball_checksum: "41ba611b19c657a18889371e7bb1311dc70887a36206642f8dab60bffd0733cb"
 
 # URL for fetching keycloak releases
-camac_keycloak_release: "https://downloads.jboss.org/keycloak/3.4.3.Final/keycloak-{{ camac_keycloak_version}}.tar.gz"
+camac_keycloak_release: "https://github.com/keycloak/keycloak/releases/download/{{ camac_keycloak_version }}/keycloak-{{ camac_keycloak_version }}.tar.gz"
 
 # Version of the keycloak theme that should be deployed
 camac_keycloak_theme_version: "master"
