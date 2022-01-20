@@ -484,3 +484,7 @@ gwr_housing_stat_base_uri: ""
 # GIS
 gis_url: "https://www.geoservice.apps.be.ch"
 gis_map_url: "https://www.map.apps.be.ch"
+
+# Import
+dossier_import_client_id: "dossier-import"
+dossier_import_client_secret: ""
