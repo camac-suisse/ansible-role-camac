@@ -456,7 +456,7 @@ document_merge_service_oidc_userinfo_endpoint: "{{ camac_auth_idp_url }}/realms/
 document_merge_service_git_repository_url: "https://github.com/adfinis-sygroup/document-merge-service/"
 
 # Document merge service git repository
-document_merge_service_version: "v4.6.1"
+document_merge_service_version: "v4.6.2"
 
 # https://github.com/adfinis-sygroup/document-merge-service/issues/94
 document_merge_service_docxtemplate_jinja_extensions: "jinja2.ext.do,jinja2.ext.loopcontrols"
