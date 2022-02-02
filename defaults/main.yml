@@ -488,3 +488,6 @@ gis_map_url: "https://www.map.apps.be.ch"
 # Import
 dossier_import_client_id: "dossier-import"
 dossier_import_client_secret: ""
+
+# Name of the apache systemd service
+apache_service_name: "apache2"

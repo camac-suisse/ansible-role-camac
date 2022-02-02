@@ -1,7 +1,7 @@
 ---
-- name: stop apache2 service
+- name: stop apache service
   service:
-    name: apache2
+    name: { { apache_service_name } }
     state: stopped
 
 - name: load customer specific variables
@@ -60,7 +60,7 @@
     state: absent
     dest: "{{ camac_releasedir }}/camac/"
 
-- name: start apache2 service
+- name: start apache service
   service:
-    name: apache2
+    name: { { apache_service_name } }
     state: started
