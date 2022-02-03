@@ -1,7 +1,7 @@
 ---
 - name: stop apache service
   service:
-    name: { { apache_service_name } }
+    name: "{{ apache_service_name }}"
     state: stopped
 
 - name: load customer specific variables
@@ -62,5 +62,5 @@
 
 - name: start apache service
   service:
-    name: { { apache_service_name } }
+    name: "{{ apache_service_name }}"
     state: started
