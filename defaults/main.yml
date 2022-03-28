@@ -11,7 +11,7 @@ camac_version: "master"
 camac_tarball_checksum: ~
 
 # URL for fetching camac release tarballs.
-camac_release: "https://files.adfinis-sygroup.ch/camac-be/camac-be-{{ camac_version }}.tar.gz"
+camac_release: "https://files.adfinis.com/camac-be/camac-be-{{ camac_version }}.tar.gz"
 
 # Environment that camac runs in. This can either be "development", "staging",
 # "testing" or "production". This has impact on the way mails are sent aswell as
@@ -173,13 +173,13 @@ camac_keycloak_tarball_checksum: "41ba611b19c657a18889371e7bb1311dc70887a3620664
 camac_keycloak_release: "https://github.com/keycloak/keycloak/releases/download/{{ camac_keycloak_version }}/keycloak-{{ camac_keycloak_version }}.tar.gz"
 
 # Version of the keycloak theme that should be deployed
-camac_keycloak_theme_version: "master"
+camac_keycloak_theme_version: "1.2.0"
 
 # SHA256 checkum of the keycloak theme jar file
 camac_keycloak_theme_jarfile_checksum: "e35752818e3c9586e61f7a7740f18240b23144cc19fcbc53b67589e8875a489e"
 
 # Download url to fetch the keycloak theme
-camac_keycloak_theme_release: "https://files.adfinis-sygroup.ch/camac-be/keycloak-theme-ebau-be-{{ camac_keycloak_theme_version | replace('.','-') }}.jar"
+camac_keycloak_theme_release: "https://files.adfinis.com/camac-be/keycloak-theme-ebau-be-{{ camac_keycloak_theme_version | replace('.','-') }}.jar"
 
 # Whether to create an admin user or not (This should only be enabled on the
 # first run)
