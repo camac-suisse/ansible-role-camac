@@ -176,7 +176,7 @@ camac_keycloak_release: "https://github.com/keycloak/keycloak/releases/download/
 camac_keycloak_theme_version: "1.2.5"
 
 # SHA256 checkum of the keycloak theme jar file
-camac_keycloak_theme_jarfile_checksum: "e35752818e3c9586e61f7a7740f18240b23144cc19fcbc53b67589e8875a489e"
+camac_keycloak_theme_jarfile_checksum: "c755f7491609b2cc92524c4cecdbb06c1a192d2c092bfca239081a8efebb319e"
 
 # Download url to fetch the keycloak theme
 camac_keycloak_theme_release: "https://files.adfinis.com/camac-be/keycloak-theme-ebau-be-{{ camac_keycloak_theme_version | replace('.','-') }}.jar"
