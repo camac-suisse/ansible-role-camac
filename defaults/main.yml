@@ -173,7 +173,7 @@ camac_keycloak_tarball_checksum: "41ba611b19c657a18889371e7bb1311dc70887a3620664
 camac_keycloak_release: "https://github.com/keycloak/keycloak/releases/download/{{ camac_keycloak_version }}/keycloak-{{ camac_keycloak_version }}.tar.gz"
 
 # Version of the keycloak theme that should be deployed
-camac_keycloak_theme_version: "1.2.1"
+camac_keycloak_theme_version: "1.2.5"
 
 # SHA256 checkum of the keycloak theme jar file
 camac_keycloak_theme_jarfile_checksum: "e35752818e3c9586e61f7a7740f18240b23144cc19fcbc53b67589e8875a489e"
