@@ -1,5 +1,4 @@
 ---
-
 - name: clone pyenv git repository
   git:
     repo: "{{ document_merge_service_pyenv_git_repository_url }}"
@@ -24,6 +23,7 @@
     block: |
       export PYENV_ROOT="{{ document_merge_service_pyenv_install_directory }}"
       export PATH="$PYENV_ROOT/bin:$PATH"
+      eval "$(pyenv init --path)"
       eval "$(pyenv init -)"
   become: yes
   become_user: "{{ document_merge_service_user }}"
@@ -93,7 +93,6 @@
     dest: /etc/systemd/system/document-merge-service.service
   notify:
     - restart document merge service
-
 
 - name: copy systemd units for unoconv listener service
   template:
