@@ -74,7 +74,7 @@ camac_php_settings:
 # Cronjobs
 camac_cronjobs:
   - name: "Notifikation Fristüberschreitung Stellungsnahme"
-    job: "{{ camac_python_pyenv_virtualenv_path }}/bin/python {{ camac_python_docroot }}/manage.py send_activation_reminders"
+    job: "{{ camac_python_pyenv_virtualenv_path }}/bin/python {{ camac_python_docroot }}/manage.py send_inquiry_reminders"
     user: "{{ camac_python_user }}"
     minute: "0"
     hour: "9"
