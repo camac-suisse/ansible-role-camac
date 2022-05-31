@@ -32,4 +32,4 @@ As is
 
 ## Author Information
 This role is part of the [Camac project](http://camac.ch). It was created and
-is maintained by [Adfinis SyGroup AG](https://adfinis-sygroup.ch/).
+is maintained by [Adfinis](https://adfinis.com).
