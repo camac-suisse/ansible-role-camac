@@ -13,7 +13,7 @@ procname-prefix = "camac-api "
 buffer-size = 32768
 
 # Logging
-req-logger = file:/var/log/uwsgi/camac-api-req.log
-logger = file:/var/log/uwsgi/camac-api-err.log
+req-logger = file:/var/log/uwsgi/camac-api-req.log,maxsize=2000000
+logger = file:/var/log/uwsgi/camac-api-err.log,maxsize=2000000
 
 {% include './templates/uwsgi.ini.j2' %}
