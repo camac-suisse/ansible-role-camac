@@ -10,7 +10,7 @@ http = {{ document_merge_service_uwsgi_address }}:{{ document_merge_service_uwsg
 procname-prefix = "document-merge-service "
 
 # Logging
-req-logger = file:/var/log/uwsgi/document-merge-service-req.log,maxsize=2000000
-logger = file:/var/log/uwsgi/document-merge-service-err.log,maxsize=2000000
+req-logger = file:/var/log/uwsgi/document-merge-service-req.log
+logger = file:/var/log/uwsgi/document-merge-service-err.log
 
 {% include './templates/uwsgi.ini.j2' %}
