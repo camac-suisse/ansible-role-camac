@@ -20,8 +20,3 @@
   service:
     name: document-merge-service
     state: restarted
-
-- name: restart unoconv
-  service:
-    name: unoconv
-    state: restarted

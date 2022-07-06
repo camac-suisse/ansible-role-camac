@@ -94,13 +94,6 @@
   notify:
     - restart document merge service
 
-- name: copy systemd units for unoconv listener service
-  template:
-    src: unoconv.service.j2
-    dest: /etc/systemd/system/unoconv.service
-  notify:
-    - restart unoconv
-
 - name: render uwsgi ini
   template:
     src: document_merge_service_uwsgi.ini.j2
