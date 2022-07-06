@@ -491,3 +491,10 @@ dossier_import_client_secret: ""
 
 # Name of the apache systemd service
 apache_service_name: "apache2"
+
+# uWSGI settings
+uwsgi_max_processes: 96
+uwsgi_min_processes: 8
+uwsgi_init_processes: 16
+uwsgi_spawn_processes: 16
+uwsgi_harakiri: 60
