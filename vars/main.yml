@@ -1,5 +1,4 @@
 ---
-
 # Location to store downloaded files
 camac_releasedir: "/tmp"
 
@@ -26,6 +25,9 @@ camac_keycloak_tarball: "{{ camac_keycloak_datadir }}/releases/keycloak-{{ camac
 
 # Download url to fetch the keycloak theme
 camac_keycloak_theme_jarfile: "{{ camac_keycloak_datadir }}/releases/keycloak-theme-ebau-be-{{ camac_keycloak_theme_version  | replace('.','-') }}.jar"
+
+# Download url to fetch the keycloak postgres jdbc jarfile
+camac_keycloak_postgres_jdbc_jarfile: "{{ camac_keycloak_datadir }}/releases/postgresql-{{ camac_keycloak_postgres_jdbc_version }}.jar"
 
 # Download directory for keycloak releases
 camac_keycloak_releasedir: "{{ camac_keycloak_datadir }}/releases"

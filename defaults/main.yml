@@ -498,3 +498,15 @@ uwsgi_min_processes: 8
 uwsgi_init_processes: 16
 uwsgi_spawn_processes: 16
 uwsgi_harakiri: 60
+
+# Keycloak DB
+camac_keycloak_use_postgres: false
+camac_keycloak_db_host: "{{ camac_db_host }}"
+camac_keycloak_db_port: "{{ camac_db_port }}"
+camac_keycloak_db_name: "keycloak"
+camac_keycloak_db_user: "keycloak"
+camac_keycloak_db_password: ""
+
+camac_keycloak_postgres_jdbc_version: "42.4.0"
+camac_keycloak_postgres_jdbc_release: "https://jdbc.postgresql.org/download/postgresql-{{ camac_keycloak_postgres_jdbc_version }}.jar"
+camac_keycloak_postgres_jdbc_jarfile_checksum: "fe25b9c0a2c59458504ec88862853df522ee87f8a02564835d537c29ae4cb125"

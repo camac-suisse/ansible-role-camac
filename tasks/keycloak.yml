@@ -43,6 +43,9 @@
     - url: "{{ camac_keycloak_theme_release }}"
       dest: "{{ camac_keycloak_theme_jarfile }}"
       checksum: "{{ camac_keycloak_theme_jarfile_checksum }}"
+    - url: "{{ camac_keycloak_postgres_jdbc_release }}"
+      dest: "{{ camac_keycloak_postgres_jdbc_jarfile }}"
+      checksum: "{{ camac_keycloak_postgres_jdbc_jarfile_checksum }}"
 
 - name: unpack keycloak tarball
   unarchive:
@@ -67,7 +70,6 @@
     - configuration/logging.properties
     - configuration/mgmt-groups.properties
     - configuration/mgmt-users.properties
-    # - standalone-ha.xml
     - configuration/standalone.xml
     - deployments
 
@@ -158,6 +160,21 @@
     add_children:
       - modules: ""
 
+- name: install keycloak postgres jdbc driver
+  command: "{{ camac_keycloak_appdir }}/bin/jboss-cli.sh --command='module add --name=org.postgresql --dependencies=javax.api,javax.transaction.api --resources={{ camac_keycloak_postgres_jdbc_jarfile }}'"
+  args:
+    creates: "{{ camac_keycloak_appdir }}/modules/org/postgresql/main/module.xml"
+  environment:
+    JAVA_HOME: "{{ camac_keycloak_java_home | d() }}"
+  when: camac_keycloak_use_postgres
+
+- name: configure keycloak
+  template:
+    src: standalone.xml.j2
+    dest: "{{ camac_keycloak_appdir }}/standalone/configuration/standalone.xml"
+  notify:
+    - restart wildfly
+
 # the following is it's own task since ansible is being petty and assuming
 # items from with_items to be unicode string which leads to lxml breakage
 # please stop assuming my codepage ansible
@@ -178,6 +195,7 @@
   async: 180
   poll: 0
   ignore_errors: yes
+  when: camac_keycloak_use_postgres == false
 
 - name: Check if we need to start and enable keycloak
   set_fact:
