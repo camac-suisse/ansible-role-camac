@@ -3,7 +3,7 @@ Description=Camac API Q
 After=syslog.target
 
 [Service]
-ExecStart={{ camac_python_pyenv_virtualenv_path }}/python {{ camac_python_docroot }}/manage.py qcluster --pythonpath {{ camac_python_docroot }}/{{ camac_application }}
+ExecStart={{ camac_python_pyenv_virtualenv_path }}/bin/python {{ camac_python_docroot }}/manage.py qcluster --pythonpath {{ camac_python_docroot }}/{{ camac_application }}
 WorkingDirectory={{ camac_python_docroot }}
 EnvironmentFile=-{{ camac_python_docroot }}/.env
 Restart=always
