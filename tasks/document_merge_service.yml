@@ -57,6 +57,7 @@
     - "{{ document_merge_service_docroot }}"
     - "{{ document_merge_service_confdir }}"
     - "{{ document_merge_service_media_root }}"
+    - "{{ document_merge_service_database_dir }}"
 
 - name: copy templates to django media root
   synchronize:
@@ -77,11 +78,18 @@
     dest: "{{ document_merge_service_docroot }}"
     owner: "{{ document_merge_service_user }}"
 
-- name: install document-merge-service django app dependencies
+- name: install poetry
   pip:
-    requirements: "{{ document_merge_service_docroot }}/requirements.txt"
+    name: "poetry"
     extra_args: "--upgrade"
     virtualenv: "{{ document_merge_service_pyenv_virtualenv_path }}"
+  become: yes
+  become_user: "{{ document_merge_service_user }}"
+
+- name: install document-merge-service django app dependencies
+  shell:
+    chdir: "{{ document_merge_service_docroot }}"
+    cmd: "{{ document_merge_service_pyenv_virtualenv_path }}/bin/poetry install --no-dev"
   become: yes
   become_user: "{{ document_merge_service_user }}"
   notify:
@@ -109,15 +117,16 @@
     - restart document merge service
 
 - name: run document-merge-service migrations
-  django_manage:
-    command: migrate
-    app_path: "{{ document_merge_service_docroot }}"
-    virtualenv: "{{ document_merge_service_pyenv_virtualenv_path }}"
+  shell:
+    chdir: "{{ document_merge_service_docroot }}"
+    cmd: "{{ document_merge_service_pyenv_virtualenv_path }}/bin/poetry run python {{ document_merge_service_docroot }}/manage.py migrate"
+  become: yes
+  become_user: "{{ document_merge_service_user }}"
 
 - name: load initial document-merge-service config
-  django_manage:
-    command: loaddata
-    app_path: "{{ document_merge_service_docroot }}"
-    virtualenv: "{{ document_merge_service_pyenv_virtualenv_path }}"
-    fixtures: "{{ camac_releasedir }}/camac/document-merge-service/fixtures/dump.json"
+  shell:
+    chdir: "{{ document_merge_service_docroot }}"
+    cmd: "{{ document_merge_service_pyenv_virtualenv_path }}/bin/poetry run python {{ document_merge_service_docroot }}/manage.py loaddata {{ camac_releasedir }}/camac/document-merge-service/fixtures/dump.json"
+  become: yes
+  become_user: "{{ document_merge_service_user }}"
   when: document_merge_service_load_data

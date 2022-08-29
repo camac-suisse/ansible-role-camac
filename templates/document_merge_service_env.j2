@@ -15,7 +15,9 @@ OIDC_BEARER_TOKEN_REVALIDATION_TIME="{{ document_merge_service_oidc_bearer_token
 DOCXTEMPLATE_JINJA_EXTENSIONS="{{ document_merge_service_docxtemplate_jinja_extensions }}"
 
 MEDIA_ROOT="{{ document_merge_service_media_root }}"
+DATABASE_DIR="{{ document_merge_service_database_dir }}"
 
+ISOLATE_UNOCONV=True
 REQUIRE_AUTHENTICATION=True
 GROUP_ACCESS_ONLY=True
 OIDC_GROUPS_API="{{ camac_portal_uri }}/api/v1/me?include=service,service.service_parent"
