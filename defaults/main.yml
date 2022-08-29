@@ -24,6 +24,9 @@ camac_master: True
 # Email which receives errormails
 camac_admin_email: "admin@camac-suisse.ch"
 
+# Email which receives mails about imports
+camac_support_email: ""
+
 # Should be an unique, unpredictable value and is used provide cryptographic
 # signing.
 # https://docs.djangoproject.com/en/2.2/ref/settings/#std:setting-SECRET_KEY
