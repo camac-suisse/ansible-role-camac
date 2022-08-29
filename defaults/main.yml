@@ -370,7 +370,7 @@ ember_oidc_client: "portal"
 ember_oidc_endpoint: "{{ camac_auth_idp_url }}/realms/{{ camac_auth_idp_realm }}/protocol/openid-connect"
 
 # This directory is used as the base for other paths of caluma.
-document_merge_service_basedir: "/usr/share/document-merge-service/"
+document_merge_service_basedir: "/usr/share/document-merge-service"
 
 # Directory in which the source code of the Caluma will be stored
 document_merge_service_docroot: "{{ document_merge_service_basedir }}/webapps"
@@ -395,7 +395,7 @@ document_merge_service_user_home: "/home/{{ document_merge_service_user }}"
 document_merge_service_pyenv_install_directory: "{{ document_merge_service_user_home }}/.pyenv"
 
 # Pyenv Python version that will be used to run uwsgi/caluma
-document_merge_service_pyenv_python_version: "3.7.3"
+document_merge_service_pyenv_python_version: "3.8.12"
 
 # Url of the official pyenv repository
 document_merge_service_pyenv_git_repository_url: "https://github.com/pyenv/pyenv"
@@ -456,16 +456,19 @@ document_merge_service_oidc_bearer_token_revalidation_time: 270
 document_merge_service_oidc_userinfo_endpoint: "{{ camac_auth_idp_url }}/realms/{{ camac_auth_idp_realm }}/protocol/openid-connect/userinfo"
 
 # Document merge service git repository
-document_merge_service_git_repository_url: "https://github.com/adfinis-sygroup/document-merge-service/"
+document_merge_service_git_repository_url: "https://github.com/adfinis/document-merge-service/"
 
 # Document merge service git repository
-document_merge_service_version: "v4.6.2"
+document_merge_service_version: "v5.0.4"
 
 # https://github.com/adfinis-sygroup/document-merge-service/issues/94
 document_merge_service_docxtemplate_jinja_extensions: "jinja2.ext.do,jinja2.ext.loopcontrols"
 
 # Where the uploaded documents will be stored
 document_merge_service_media_root: "{{ document_merge_service_basedir }}/templates"
+
+# Where temporary files will be stored
+document_merge_service_database_dir: "{{ document_merge_service_basedir }}/tmp"
 
 # A proxy which the services should use for requests (e.g auth)
 # Either false or protocol://host:port
