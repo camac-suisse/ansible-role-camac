@@ -8,13 +8,11 @@
 
 - name: restart camac api
   service:
-    name: camac-api
+    name: "{{ item }}"
     state: restarted
-
-- name: restart camac api q
-  service:
-    name: camac-api-q
-    state: restarted
+  with_items:
+    - camac-api
+    - camac-api-q
 
 - name: restart document merge service
   service:

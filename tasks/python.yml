@@ -100,7 +100,7 @@
   template:
     src: camac-api-q.service.j2
     dest: /etc/systemd/system/camac-api-q.service
-  notify: restart camac api q
+  notify: restart camac api
 
 - name: render uwsgi ini
   template:
