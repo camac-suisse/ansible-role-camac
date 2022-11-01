@@ -3,6 +3,8 @@
   service:
     name: "{{ apache_service_name }}"
     state: stopped
+  notify:
+    - start apache service
 
 - name: load customer specific variables
   include_vars:
@@ -59,8 +61,3 @@
   file:
     state: absent
     dest: "{{ camac_releasedir }}/camac/"
-
-- name: start apache service
-  service:
-    name: "{{ apache_service_name }}"
-    state: started
