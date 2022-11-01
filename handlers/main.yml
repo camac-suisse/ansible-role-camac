@@ -20,3 +20,11 @@
   service:
     name: document-merge-service
     state: restarted
+
+- name: start apache service
+  service:
+    name: "{{ apache_service_name }}"
+    state: started
+
+- name: restart systemd daemon
+  command: systemctl daemon-reload
