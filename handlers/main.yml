@@ -1,6 +1,9 @@
 ---
 # handlers file for camac
 
+- name: restart systemd daemon
+  command: systemctl daemon-reload
+
 - name: restart wildfly
   service:
     name: wildfly
@@ -25,6 +28,3 @@
   service:
     name: "{{ apache_service_name }}"
     state: started
-
-- name: restart systemd daemon
-  command: systemctl daemon-reload
