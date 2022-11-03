@@ -31,6 +31,9 @@ die-on-term = true
 # suffice.
 disable-logging = true
 log-5xx = true
+log-date = %%Y-%%m-%%d %%H:%%M:%%S
+log-format = [%(ftime)] %(method) %(uri) with group %(var.HTTP_X_CAMAC_GROUP) => %(status)
+logformat-strftime = true
 
 # It is a good idea to recycle workers every now and then to prevent memory
 # leaks or unintentional states.
