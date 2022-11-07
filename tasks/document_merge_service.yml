@@ -78,6 +78,15 @@
     dest: "{{ document_merge_service_docroot }}"
     owner: "{{ document_merge_service_user }}"
 
+- name: fix permissions on media and database dir
+  file:
+    dest: "{{ item }}"
+    owner: "{{ document_merge_service_user }}"
+    recurse: yes
+  with_items:
+    - "{{ document_merge_service_media_root }}"
+    - "{{ document_merge_service_database_dir }}"
+
 - name: install poetry
   pip:
     name: "poetry"
