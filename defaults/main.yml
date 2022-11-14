@@ -349,6 +349,7 @@ camac_caluma_enable_historical_api: true
 
 # Enable Manabi (WebDAV)
 manabi_enable: false
+manabi_debug: false
 
 # This directory is used as the base for other paths of the ember caluma form
 # TODO: Find a good prefix for form/portal frontend
