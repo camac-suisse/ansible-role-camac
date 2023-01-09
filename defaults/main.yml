@@ -323,7 +323,7 @@ camac_caluma_dynamic_tasks_classes: "camac.caluma.extensions.dynamic_tasks.Custo
 camac_caluma_event_receiver_modules: "camac.caluma.extensions.events"
 
 # Caluma visbility classes
-camac_caluma_visibility_classes: "camac.caluma.extensions.visibilities.CustomVisibility"
+camac_caluma_visibility_classes: "camac.caluma.extensions.visibilities.CustomVisibilityBE"
 
 # Caluma validation classes
 camac_caluma_validation_classes: "camac.caluma.extensions.validations.CustomValidation"
