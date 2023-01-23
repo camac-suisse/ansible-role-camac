@@ -332,7 +332,7 @@ camac_caluma_validation_classes: "camac.caluma.extensions.validations.CustomVali
 camac_caluma_permission_classes: "camac.caluma.extensions.permissions.CustomPermission"
 
 # Caluma data_source classes
-camac_caluma_data_source_classes: "camac.caluma.extensions.data_sources.Municipalities,camac.caluma.extensions.data_sources.Services"
+camac_caluma_data_source_classes: "camac.caluma.extensions.data_sources.Municipalities,camac.caluma.extensions.data_sources.Services,camac.caluma.extensions.data_sources.Attachments"
 
 # Time in seconds before bearer token validity is verified again
 camac_caluma_oidc_bearer_token_revalidation_time: 270
