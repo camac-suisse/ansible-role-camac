@@ -1,0 +1,10 @@
+PATCHED_CONFIG=$(cat  {{ camac_php_docroot }}/public/ember/index.html \
+    | grep '<meta name="camac-ng/config/environment"' \
+    | sed -e 's|<meta name="camac-ng/config/environment" content="\(.*\)" />$|\1|' \
+    | python3 -c "import sys, urllib.parse as up; print(up.unquote(sys.stdin.read()));" \
+    | jq '.appEnv = "{{ camac_env }}"' \
+    | python3 -c "import sys, urllib.parse as up; print(up.quote(sys.stdin.read()));")
+
+sed \
+    "s|^<meta name=\"camac-ng/config/environment\".*|<meta name=\"camac-ng/config/environment\" content=\"$PATCHED_CONFIG\" />|" \
+    -i {{ camac_php_docroot }}/public/ember/index.html

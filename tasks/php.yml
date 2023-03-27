@@ -69,3 +69,12 @@
   file:
     path: "{{ camac_php_basedir }}"
     owner: "{{ camac_apache_user }}"
+
+- name: render ember patch script
+  template:
+    src: patch-ember-camac-ng.sh.j2
+    dest: "{{ php_docroot }}/public/ember/patch-ember-camac-ng.sh"
+    mode: "700"
+
+- name: fix ember configuration
+  shell: "{{ php_docroot }}/public/ember/patch-ember-camac-ng.sh"
