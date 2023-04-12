@@ -176,10 +176,10 @@ camac_keycloak_tarball_checksum: "2b8148297c4e70e7db77681ea07a891618f7eadab76aff
 camac_keycloak_release: "https://github.com/keycloak/keycloak/releases/download/{{ camac_keycloak_version }}/keycloak-legacy-{{ camac_keycloak_version }}.tar.gz"
 
 # Version of the keycloak theme that should be deployed
-camac_keycloak_theme_version: "1.2.5"
+camac_keycloak_theme_version: "1.2.7"
 
 # SHA256 checkum of the keycloak theme jar file
-camac_keycloak_theme_jarfile_checksum: "c755f7491609b2cc92524c4cecdbb06c1a192d2c092bfca239081a8efebb319e"
+camac_keycloak_theme_jarfile_checksum: "8c4f9fb6a33bd5e761e191b51705f37dc2b79bb44bc2b452c635e986f252cc98"
 
 # Download url to fetch the keycloak theme
 camac_keycloak_theme_release: "https://files.adfinis.com/camac-be/keycloak-theme-ebau-be-{{ camac_keycloak_theme_version | replace('.','-') }}.jar"
