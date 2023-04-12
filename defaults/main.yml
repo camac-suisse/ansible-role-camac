@@ -168,9 +168,9 @@ camac_keycloak_enable: false
 camac_keycloak_user: wildfly
 
 # Version of keycloak to deploy
-camac_keycloak_version: "18.0.2"
+camac_keycloak_version: "19.0.3"
 
-camac_keycloak_tarball_checksum: "f4ba1db6c9ae5cb7333e1d7ec0dda5c366c5ecc6db06252180586c1be7848252"
+camac_keycloak_tarball_checksum: "2b8148297c4e70e7db77681ea07a891618f7eadab76aff48b433cf4fbe4918c2"
 
 # URL for fetching keycloak releases
 camac_keycloak_release: "https://github.com/keycloak/keycloak/releases/download/{{ camac_keycloak_version }}/keycloak-legacy-{{ camac_keycloak_version }}.tar.gz"
