@@ -162,7 +162,7 @@ camac_auth_admin_client: "camac-admin"
 camac_auth_admin_client_secret: "secret"
 
 # Whether to deploy keycloak or not
-camac_keycloak_enable: yes
+camac_keycloak_enable: false
 
 # Keycloak user
 camac_keycloak_user: wildfly
