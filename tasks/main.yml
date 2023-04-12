@@ -11,7 +11,7 @@
     file: "{{ camac_customer_variables }}"
   when: camac_customer_variables != ""
 
-- include: keycloak.yml
+- include_tasks: keycloak.yml
   when: camac_keycloak_enable
 
 - name: create download dir for releases
@@ -41,15 +41,15 @@
     state: absent
     dest: "{{ camac_tarballdir }}"
 
-- include: php.yml
+- include_tasks: php.yml
 
-- include: python.yml
+- include_tasks: python.yml
   tags: python
 
-- include: ember.yml
+- include_tasks: ember.yml
   tags: ember
 
-- include: document_merge_service.yml
+- include_tasks: document_merge_service.yml
   tags: document_merge_service
 
 - name: clear cache
