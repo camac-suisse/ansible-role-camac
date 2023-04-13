@@ -3,6 +3,9 @@
   ansible.builtin.service:
     name: "{{ apache_service_name }}"
     state: stopped
+  # Always trigger the start apache service handler, even if that service was
+  # already stopped at this point
+  changed_when: true
   notify:
     - start apache service
 
