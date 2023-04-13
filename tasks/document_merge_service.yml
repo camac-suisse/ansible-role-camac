@@ -1,6 +1,6 @@
 ---
 - name: clone pyenv git repository
-  git:
+  ansible.builtin.git:
     repo: "{{ document_merge_service_pyenv_git_repository_url }}"
     dest: "{{ document_merge_service_pyenv_install_directory }}"
     version: "{{ document_merge_service_pyenv_version }}"
@@ -8,7 +8,7 @@
   become_user: "{{ document_merge_service_user }}"
 
 - name: clone pyenv-virtualenv git repository
-  git:
+  ansible.builtin.git:
     repo: "{{ document_merge_service_pyenv_virtualenv_git_repository_url }}"
     dest: "{{ document_merge_service_pyenv_install_directory }}/plugins/pyenv-virtualenv"
     version: "{{ document_merge_service_pyenv_virtualenv_version }}"
@@ -16,7 +16,7 @@
   become_user: "{{ document_merge_service_user }}"
 
 - name: bootstrap pyenv through .bashrc
-  blockinfile:
+  ansible.builtin.blockinfile:
     dest: "{{ document_merge_service_user_bashrc }}"
     marker: "# {mark} ANSIBLE MANAGED BLOCK: pyenv"
     create: yes
@@ -29,28 +29,28 @@
   become_user: "{{ document_merge_service_user }}"
 
 - name: install required python version
-  shell: "{{ document_merge_service_pyenv_install_directory }}/bin/pyenv install -s {{ document_merge_service_pyenv_python_version }}"
+  ansible.builtin.shell: "{{ document_merge_service_pyenv_install_directory }}/bin/pyenv install -s {{ document_merge_service_pyenv_python_version }}"
   become: yes
   become_user: "{{ document_merge_service_user }}"
 
 - name: check if pyenv virtualenv exists
-  stat:
+  ansible.builtin.stat:
     path: "{{ document_merge_service_pyenv_virtualenv_path }}"
   register: virtualenv
 
 - name: create pyenv virtualenv
-  shell: "{{ document_merge_service_pyenv_install_directory }}/bin/pyenv virtualenv {{ document_merge_service_pyenv_python_version }} {{ document_merge_service_pyenv_virtualenv_name }}"
+  ansible.builtin.shell: "{{ document_merge_service_pyenv_install_directory }}/bin/pyenv virtualenv {{ document_merge_service_pyenv_python_version }} {{ document_merge_service_pyenv_virtualenv_name }}"
   become: yes
   become_user: "{{ document_merge_service_user }}"
   when: not virtualenv.stat.exists
 
 - name: set required python version
-  shell: "{{ document_merge_service_pyenv_install_directory }}/bin/pyenv global {{ document_merge_service_pyenv_python_version }}"
+  ansible.builtin.shell: "{{ document_merge_service_pyenv_install_directory }}/bin/pyenv global {{ document_merge_service_pyenv_python_version }}"
   become: yes
   become_user: "{{ document_merge_service_user }}"
 
 - name: create directories for document-merge-service python service installation
-  file:
+  ansible.builtin.file:
     state: directory
     path: "{{ item }}"
   with_items:
@@ -60,13 +60,13 @@
     - "{{ document_merge_service_database_dir }}"
 
 - name: copy templates to django media root
-  synchronize:
+  ansible.posix.synchronize:
     src: "{{ camac_releasedir }}/camac/document-merge-service/templates/"
     dest: "{{ document_merge_service_media_root }}"
   delegate_to: "{{ inventory_hostname }}"
 
 - name: clone document merge service git repository
-  git:
+  ansible.builtin.git:
     repo: "{{ document_merge_service_git_repository_url }}"
     dest: "{{ document_merge_service_docroot }}"
     version: "{{ document_merge_service_version }}"
@@ -74,12 +74,12 @@
     - restart document merge service
 
 - name: fix permissions on docroot
-  file:
+  ansible.builtin.file:
     dest: "{{ document_merge_service_docroot }}"
     owner: "{{ document_merge_service_user }}"
 
 - name: fix permissions on media and database dir
-  file:
+  ansible.builtin.file:
     dest: "{{ item }}"
     owner: "{{ document_merge_service_user }}"
     recurse: yes
@@ -88,7 +88,7 @@
     - "{{ document_merge_service_database_dir }}"
 
 - name: install poetry
-  pip:
+  ansible.builtin.pip:
     name: "poetry"
     extra_args: "--upgrade"
     virtualenv: "{{ document_merge_service_pyenv_virtualenv_path }}"
@@ -96,13 +96,13 @@
   become_user: "{{ document_merge_service_user }}"
 
 - name: configure poetry
-  shell:
+  ansible.builtin.shell:
     cmd: "{{ document_merge_service_pyenv_virtualenv_path }}/bin/poetry config virtualenvs.create false"
   become: yes
   become_user: "{{ document_merge_service_user }}"
 
 - name: install document-merge-service django app dependencies
-  shell:
+  ansible.builtin.shell:
     chdir: "{{ document_merge_service_docroot }}"
     cmd: "{{ document_merge_service_pyenv_virtualenv_path }}/bin/poetry install --no-dev"
   become: yes
@@ -111,7 +111,7 @@
     - restart document merge service
 
 - name: copy systemd units for document merge service service
-  template:
+  ansible.builtin.template:
     src: document-merge-service.service.j2
     dest: /etc/systemd/system/document-merge-service.service
   notify:
@@ -119,28 +119,28 @@
     - restart systemd daemon
 
 - name: render uwsgi ini
-  template:
+  ansible.builtin.template:
     src: document_merge_service_uwsgi.ini.j2
     dest: "{{ document_merge_service_confdir }}/uwsgi.ini"
   notify:
     - restart document merge service
 
 - name: render .env template
-  template:
+  ansible.builtin.template:
     src: document_merge_service_env.j2
     dest: "{{ document_merge_service_docroot }}/.env"
   notify:
     - restart document merge service
 
 - name: run document-merge-service migrations
-  shell:
+  ansible.builtin.shell:
     chdir: "{{ document_merge_service_docroot }}"
     cmd: "{{ document_merge_service_pyenv_virtualenv_path }}/bin/poetry run python {{ document_merge_service_docroot }}/manage.py migrate"
   become: yes
   become_user: "{{ document_merge_service_user }}"
 
 - name: load initial document-merge-service config
-  shell:
+  ansible.builtin.shell:
     chdir: "{{ document_merge_service_docroot }}"
     cmd: "{{ document_merge_service_pyenv_virtualenv_path }}/bin/poetry run python {{ document_merge_service_docroot }}/manage.py loaddata {{ camac_releasedir }}/camac/document-merge-service/fixtures/dump.json"
   become: yes

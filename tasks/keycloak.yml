@@ -2,18 +2,18 @@
 # keycloak tasks for camac
 
 - name: load customer specific variables
-  include_vars:
+  ansible.builtin.include_vars:
     file: "{{ camac_customer_variables }}"
   when: camac_customer_variables != ""
 
 - name: create system user account for keycloak
-  user:
+  ansible.builtin.user:
     name: wildfly
     state: present
     system: yes
 
 - name: create dirs for keycloak installation
-  file:
+  ansible.builtin.file:
     state: directory
     path: "{{ item.path }}"
     owner: "{{ item.owner | d('root') }}"
@@ -32,7 +32,7 @@
       owner: "{{ camac_keycloak_user }}"
 
 - name: download keycloak artifacts
-  get_url:
+  ansible.builtin.get_url:
     url: "{{ item.url }}"
     dest: "{{ item.dest }}"
     checksum: "sha256:{{ item.checksum }}"
@@ -48,20 +48,20 @@
       checksum: "{{ camac_keycloak_postgres_jdbc_jarfile_checksum }}"
 
 - name: unpack keycloak tarball
-  unarchive:
+  ansible.builtin.unarchive:
     src: "{{ camac_keycloak_tarball }}"
     dest: "{{ camac_keycloak_releasedir }}"
     remote_src: "{{ camac_keycloak_unarchive_remote_src }}"
 
 - name: copy keycloak release to it's final location
-  synchronize:
+  ansible.posix.synchronize:
     src: "{{ camac_keycloak_releasedir }}/keycloak-{{ camac_keycloak_version }}/"
     dest: "{{ camac_keycloak_appdir }}"
     delete: yes
   delegate_to: "{{ inventory_hostname }}"
 
 - name: allow wildfly access to properties
-  file:
+  ansible.builtin.file:
     path: "{{ camac_keycloak_appdir }}/standalone/{{ item }}"
     owner: "{{ camac_keycloak_user }}"
   with_items:
@@ -74,13 +74,13 @@
     - deployments
 
 - name: create config history directory for wildfly
-  file:
+  ansible.builtin.file:
     state: directory
     path: "{{ camac_keycloak_appdir }}/standalone/configuration/standalone_xml_history"
     owner: "{{ camac_keycloak_user }}"
 
 - name: copy systemd units for keycloak
-  copy:
+  ansible.builtin.copy:
     src: "{{ camac_keycloak_releasedir }}/keycloak-{{ camac_keycloak_version }}/docs/contrib/scripts/systemd/{{ item.src }}"
     dest: "{{ item.dest }}"
     remote_src: "{{ camac_keycloak_systemd_units_remote_src | d(true) }}"
@@ -93,13 +93,13 @@
       dest: "{{ camac_keycloak_bindir }}/launch.sh"
 
 - name: adapt launch script
-  lineinfile:
+  ansible.builtin.lineinfile:
     dest: "{{ camac_keycloak_bindir }}/launch.sh"
     regexp: '^    \$WILDFLY_HOME/bin/standalone.sh -c \$2 -b \$3'
     line: "    $WILDFLY_HOME/bin/standalone.sh -c $2 -b $3 -Djboss.server.data.dir={{ camac_keycloak_datadir }} -Djboss.server.log.dir={{ camac_keycloak_logdir }} -Djboss.server.temp.dir={{ camac_keycloak_tmpdir }}"
 
 - name: configure wildfly config dir
-  lineinfile:
+  ansible.builtin.lineinfile:
     dest: "{{ camac_keycloak_wildfly_confdir }}/wildfly.conf"
     regexp: "^{{ item.var }}="
     line: "{{ item.var }}={{ item.value }}"
@@ -110,7 +110,7 @@
       value: "{{ camac_keycloak_java_home | d() }}"
 
 - name: adapt systemd unit
-  lineinfile:
+  ansible.builtin.lineinfile:
     dest: "/etc/systemd/system/wildfly.service"
     state: "{{ item.state | d('present') }}"
     regexp: "{{ item.regexp }}"
@@ -126,7 +126,7 @@
       line: "User={{ camac_keycloak_user }}"
 
 - name: configure undertow
-  xml:
+  community.general.xml:
     path: "{{ camac_keycloak_appdir }}/standalone/configuration/standalone.xml"
     namespaces:
       domain: "urn:jboss:domain:19.0"
@@ -136,7 +136,7 @@
     value: "true"
 
 - name: create admin user
-  command: "{{ camac_keycloak_appdir }}/bin/add-user-keycloak.sh  --user {{ camac_keycloak_admin_user }} --password {{ camac_keycloak_admin_password }}"
+  ansible.builtin.command: "{{ camac_keycloak_appdir }}/bin/add-user-keycloak.sh  --user {{ camac_keycloak_admin_user }} --password {{ camac_keycloak_admin_password }}"
   args:
     creates: "{{ camac_keycloak_appdir }}/standalone/configuration/keycloak-add-user.json"
   environment:
@@ -144,14 +144,14 @@
   when: camac_keycloak_create_admin_user
 
 - name: install keycloak theme
-  command: "{{ camac_keycloak_appdir }}/bin/jboss-cli.sh --command='module add --name=ch.linkyard.ebau.be.theme.keycloak-theme-ebau-be --resources={{ camac_keycloak_theme_jarfile }}'"
+  ansible.builtin.command: "{{ camac_keycloak_appdir }}/bin/jboss-cli.sh --command='module add --name=ch.linkyard.ebau.be.theme.keycloak-theme-ebau-be --resources={{ camac_keycloak_theme_jarfile }}'"
   args:
     creates: "{{ camac_keycloak_appdir }}/modules/ch/linkyard/ebau/be/theme/keycloak-theme-ebau-be/main/module.xml"
   environment:
     JAVA_HOME: "{{ camac_keycloak_java_home | d() }}"
 
 - name: configure keycloak theme modules
-  xml:
+  community.general.xml:
     path: "{{ camac_keycloak_appdir }}/standalone/configuration/standalone.xml"
     namespaces:
       domain: "urn:jboss:domain:5.0"
@@ -161,7 +161,7 @@
       - modules: ""
 
 - name: install keycloak postgres jdbc driver
-  command: "{{ camac_keycloak_appdir }}/bin/jboss-cli.sh --command='module add --name=org.postgresql --dependencies=javax.api,javax.transaction.api --resources={{ camac_keycloak_postgres_jdbc_jarfile }}'"
+  ansible.builtin.command: "{{ camac_keycloak_appdir }}/bin/jboss-cli.sh --command='module add --name=org.postgresql --dependencies=javax.api,javax.transaction.api --resources={{ camac_keycloak_postgres_jdbc_jarfile }}'"
   args:
     creates: "{{ camac_keycloak_appdir }}/modules/org/postgresql/main/module.xml"
   environment:
@@ -169,7 +169,7 @@
   when: camac_keycloak_use_postgres
 
 - name: configure keycloak
-  template:
+  ansible.builtin.template:
     src: standalone.xml.j2
     dest: "{{ camac_keycloak_appdir }}/standalone/configuration/standalone.xml"
   notify:
@@ -179,7 +179,7 @@
 # items from with_items to be unicode string which leads to lxml breakage
 # please stop assuming my codepage ansible
 - name: configure keycloak theme modules/module
-  xml:
+  community.general.xml:
     path: "{{ camac_keycloak_appdir }}/standalone/configuration/standalone.xml"
     namespaces:
       domain: "urn:jboss:domain:5.0"
@@ -191,26 +191,26 @@
     - restart wildfly
 
 - name: export keycloak database
-  shell: "{{ camac_keycloak_appdir }}/bin/standalone.sh -Dkeycloak.migration.action=export -Dkeycloak.migration.provider=singleFile -Dkeycloak.migration.file={{ camac_keycloak_datadir }}/keycloak-export-{{ ansible_date_time.iso8601 }}.json -Djboss.http.port=8888 -Djboss.https.port=9999 -Djboss.management.http.port=7777"
+  ansible.builtin.shell: "{{ camac_keycloak_appdir }}/bin/standalone.sh -Dkeycloak.migration.action=export -Dkeycloak.migration.provider=singleFile -Dkeycloak.migration.file={{ camac_keycloak_datadir }}/keycloak-export-{{ ansible_date_time.iso8601 }}.json -Djboss.http.port=8888 -Djboss.https.port=9999 -Djboss.management.http.port=7777"
   async: 180
   poll: 0
   ignore_errors: yes
   when: camac_keycloak_use_postgres == false
 
 - name: Check if we need to start and enable keycloak
-  set_fact:
+  ansible.builtin.set_fact:
     camac_keycloak_systemd_state: "started"
     camac_keycloak_systemd_enabled: True
   when: camac_master
 
 - name: Check if we need to stop and disable keycloak
-  set_fact:
+  ansible.builtin.set_fact:
     camac_keycloak_systemd_state: "stopped"
     camac_keycloak_systemd_enabled: False
   when: not camac_master
 
 - name: enable and start wildfly systemd unit for keycloak
-  systemd:
+  ansible.builtin.systemd:
     name: wildfly
     state: "{{ camac_keycloak_systemd_state }}"
     enabled: "{{ camac_keycloak_systemd_enabled }}"

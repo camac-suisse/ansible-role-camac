@@ -2,29 +2,29 @@
 # handlers file for camac
 
 - name: restart systemd daemon
-  command: systemctl daemon-reload
+  ansible.builtin.command: systemctl daemon-reload
 
 - name: restart wildfly
-  service:
+  ansible.builtin.service:
     name: wildfly
     state: restarted
 
 - name: restart camac api
-  service:
+  ansible.builtin.service:
     name: camac-api
     state: restarted
 
 - name: restart camac api q
-  service:
+  ansible.builtin.service:
     name: camac-api-q
     state: restarted
 
 - name: restart document merge service
-  service:
+  ansible.builtin.service:
     name: document-merge-service
     state: restarted
 
 - name: start apache service
-  service:
+  ansible.builtin.service:
     name: "{{ apache_service_name }}"
     state: started

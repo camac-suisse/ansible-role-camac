@@ -1,14 +1,13 @@
 ---
-
 - name: create directories for ember caluma portal installation
-  file:
+  ansible.builtin.file:
     state: directory
     path: "{{ item }}"
   with_items:
     - "{{ ember_docroot }}"
 
 - name: copy ember caluma portal webroot to apache docroot
-  synchronize:
+  ansible.posix.synchronize:
     src: "{{ camac_releasedir }}/camac/{{ item.src }}"
     dest: "{{ item.dest }}"
     delete: yes
@@ -18,15 +17,15 @@
       dest: "{{ ember_docroot }}"
 
 - name: render ember patch script
-  template:
+  ansible.builtin.template:
     src: patch-ember-portal.sh.j2
     dest: "{{ ember_docroot }}/patch-ember-portal.sh"
     mode: "700"
 
 - name: fix ember oidc configuration
-  shell: "{{ ember_docroot }}/patch-ember-portal.sh"
+  ansible.builtin.shell: "{{ ember_docroot }}/patch-ember-portal.sh"
 
 - name: fix permission on basedir
-  file:
+  ansible.builtin.file:
     path: "{{ ember_basedir }}"
     owner: "{{ ember_apache_user }}"

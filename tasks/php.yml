@@ -1,6 +1,6 @@
 ---
 - name: create directories for camac installation
-  file:
+  ansible.builtin.file:
     state: directory
     path: "{{ item }}"
   with_items:
@@ -8,20 +8,20 @@
     - "{{ camac_php_datadir }}"
 
 - name: copy camac webroot to apache docroot
-  synchronize:
+  ansible.posix.synchronize:
     src: "{{ camac_releasedir }}/camac/camac/"
     dest: "{{ camac_php_docroot }}"
     delete: yes
   delegate_to: "{{ inventory_hostname }}"
 
 - name: copy CA chain to config path
-  copy:
+  ansible.builtin.copy:
     content: "{{ camac_ca_chain }}"
     dest: "{{ camac_php_docroot }}/ca.pem"
   when: camac_ca_chain | d(false)
 
 - name: configure php for CA chain
-  copy:
+  ansible.builtin.copy:
     content: |
       ; config for camac CA chain
       openssl.cafile = "{{ camac_confdir }}/ca.pem"
@@ -29,12 +29,12 @@
   when: camac_ca_chain | d(false)
 
 - name: prepare php prepend file
-  template:
+  ansible.builtin.template:
     src: "prepend.php.j2"
     dest: "{{ camac_php_docroot }}/prepend.php"
 
 - name: make camac dirs writable
-  file:
+  ansible.builtin.file:
     state: directory
     owner: "{{ camac_apache_user }}"
     dest: "{{ item }}"
@@ -45,36 +45,36 @@
 
 - name: symlink customer specific overrides files to configuration directory
   block:
-    - file:
+    - ansible.builtin.file:
         dest: "{{ camac_php_docroot }}/configuration"
         state: directory
 
-    - find:
+    - ansible.builtin.find:
         path: "{{ camac_php_docroot }}/{{ camac_application }}/"
         file_type: "any"
       register: find
 
-    - file:
+    - ansible.builtin.file:
         src: "../{{ camac_application }}/{{ item.path | basename }}"
         dest: "{{ camac_php_docroot }}/configuration/{{ item.path | basename }}"
         state: link
       loop: "{{ find.files }}"
 
 - name: configure camac php app
-  template:
+  ansible.builtin.template:
     src: "application.ini.j2"
     dest: "{{ camac_php_docroot }}/configuration/configs/application.local.ini"
 
 - name: fix permission on basedir
-  file:
+  ansible.builtin.file:
     path: "{{ camac_php_basedir }}"
     owner: "{{ camac_apache_user }}"
 
 - name: render ember patch script
-  template:
+  ansible.builtin.template:
     src: patch-ember-camac-ng.sh.j2
     dest: "{{ camac_php_docroot }}/public/ember/patch-ember-camac-ng.sh"
     mode: "700"
 
 - name: fix ember configuration
-  shell: "{{ camac_php_docroot }}/public/ember/patch-ember-camac-ng.sh"
+  ansible.builtin.shell: "{{ camac_php_docroot }}/public/ember/patch-ember-camac-ng.sh"

@@ -1,63 +1,63 @@
 ---
 - name: stop apache service
-  service:
+  ansible.builtin.service:
     name: "{{ apache_service_name }}"
     state: stopped
   notify:
     - start apache service
 
 - name: load customer specific variables
-  include_vars:
+  ansible.builtin.include_vars:
     file: "{{ camac_customer_variables }}"
   when: camac_customer_variables != ""
 
-- include_tasks: keycloak.yml
+- ansible.builtin.include_tasks: keycloak.yml
   when: camac_keycloak_enable
 
 - name: create download dir for releases
-  file:
+  ansible.builtin.file:
     state: directory
     path: "{{ camac_releasedir }}/camac"
 
 - name: create tarball dir
-  file:
+  ansible.builtin.file:
     state: directory
     path: "{{ camac_tarballdir }}"
 
 - name: download camac release tarball
-  get_url:
+  ansible.builtin.get_url:
     url: "{{ camac_release }}"
     dest: "{{ camac_tarball }}"
     checksum: "{% if camac_tarball_checksum %}sha256:{{ camac_tarball_checksum }}{% endif %}"
 
 - name: unpack camac tarball
-  unarchive:
+  ansible.builtin.unarchive:
     src: "{{ camac_tarball }}"
     dest: "{{ camac_releasedir }}/camac"
     remote_src: yes
 
 - name: delete camac release tarballs
-  file:
+  ansible.builtin.file:
     state: absent
     dest: "{{ camac_tarballdir }}"
 
-- include_tasks: php.yml
+- ansible.builtin.include_tasks: php.yml
 
-- include_tasks: python.yml
+- ansible.builtin.include_tasks: python.yml
   tags: python
 
-- include_tasks: ember.yml
+- ansible.builtin.include_tasks: ember.yml
   tags: ember
 
-- include_tasks: document_merge_service.yml
+- ansible.builtin.include_tasks: document_merge_service.yml
   tags: document_merge_service
 
 - name: clear cache
-  command: "php {{ camac_php_docroot }}/cronjob/clear-cache.php"
+  ansible.builtin.command: "php {{ camac_php_docroot }}/cronjob/clear-cache.php"
   tags:
     - cache
 
 - name: remove tmp staging dir
-  file:
+  ansible.builtin.file:
     state: absent
     dest: "{{ camac_releasedir }}/camac/"

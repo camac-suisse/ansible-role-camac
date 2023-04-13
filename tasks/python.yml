@@ -1,6 +1,6 @@
 ---
 - name: clone pyenv git repository
-  git:
+  ansible.builtin.git:
     repo: "{{ camac_python_pyenv_git_repository_url }}"
     dest: "{{ camac_python_pyenv_install_directory }}"
     version: "{{ camac_python_pyenv_version }}"
@@ -8,7 +8,7 @@
   become_user: "{{ camac_python_user }}"
 
 - name: clone pyenv-virtualenv git repository
-  git:
+  ansible.builtin.git:
     repo: "{{ camac_python_pyenv_virtualenv_git_repository_url }}"
     dest: "{{ camac_python_pyenv_install_directory }}/plugins/pyenv-virtualenv"
     version: "{{ camac_python_pyenv_virtualenv_version }}"
@@ -16,7 +16,7 @@
   become_user: "{{ camac_python_user }}"
 
 - name: bootstrap pyenv through .bashrc
-  blockinfile:
+  ansible.builtin.blockinfile:
     dest: "{{ camac_python_user_bashrc }}"
     marker: "# {mark} ANSIBLE MANAGED BLOCK: pyenv"
     create: yes
@@ -29,28 +29,28 @@
   become_user: "{{ camac_python_user }}"
 
 - name: install required python version
-  shell: "{{ camac_python_pyenv_install_directory }}/bin/pyenv install -s {{ camac_python_pyenv_python_version }}"
+  ansible.builtin.shell: "{{ camac_python_pyenv_install_directory }}/bin/pyenv install -s {{ camac_python_pyenv_python_version }}"
   become: yes
   become_user: "{{ camac_python_user }}"
 
 - name: check if pyenv virtualenv exists
-  stat:
+  ansible.builtin.stat:
     path: "{{ camac_python_pyenv_virtualenv_path }}"
   register: virtualenv
 
 - name: create pyenv virtualenv
-  shell: "{{ camac_python_pyenv_install_directory }}/bin/pyenv virtualenv {{ camac_python_pyenv_python_version }} {{ camac_python_pyenv_virtualenv_name }}"
+  ansible.builtin.shell: "{{ camac_python_pyenv_install_directory }}/bin/pyenv virtualenv {{ camac_python_pyenv_python_version }} {{ camac_python_pyenv_virtualenv_name }}"
   become: yes
   become_user: "{{ camac_python_user }}"
   when: not virtualenv.stat.exists
 
 - name: set required python version
-  shell: "{{ camac_python_pyenv_install_directory }}/bin/pyenv global {{ camac_python_pyenv_python_version }}"
+  ansible.builtin.shell: "{{ camac_python_pyenv_install_directory }}/bin/pyenv global {{ camac_python_pyenv_python_version }}"
   become: yes
   become_user: "{{ camac_python_user }}"
 
 - name: create directories for camac python service installation
-  file:
+  ansible.builtin.file:
     state: directory
     path: "{{ item }}"
   with_items:
@@ -59,24 +59,24 @@
     - "{{ camac_python_confdir }}"
 
 - name: check if old requirements.txt exists
-  stat:
+  ansible.builtin.stat:
     path: "{{ camac_python_docroot }}/requirements.txt"
   register: old_requirements
 
 - name: Review requirements.txt changes
   block:
-    - command: diff "{{ camac_python_docroot }}/requirements.txt" "{{ camac_releasedir }}/camac/django/requirements.txt"
+    - ansible.builtin.command: diff "{{ camac_python_docroot }}/requirements.txt" "{{ camac_releasedir }}/camac/django/requirements.txt"
       register: requirements_diff
       failed_when: requirements_diff.rc >= 2
 
-    - debug:
+    - ansible.builtin.debug:
         msg: "{{ requirements_diff.stdout.split('\n') }}"
       when: requirements_diff.rc > 0
 
   when: old_requirements.stat.exists
 
 - name: copy django directory to python service docroot
-  synchronize:
+  ansible.posix.synchronize:
     src: "{{ camac_releasedir }}/camac/django/"
     dest: "{{ camac_python_docroot }}"
     delete: yes
@@ -86,7 +86,7 @@
     - restart camac api q
 
 - name: install camac django app dependencies
-  pip:
+  ansible.builtin.pip:
     requirements: "{{ camac_python_docroot }}/requirements.txt"
     extra_args: "--upgrade"
     virtualenv: "{{ camac_python_pyenv_virtualenv_path }}"
@@ -95,7 +95,7 @@
     - restart camac api q
 
 - name: copy systemd units for api service
-  template:
+  ansible.builtin.template:
     src: camac-api.service.j2
     dest: /etc/systemd/system/camac-api.service
   notify:
@@ -103,7 +103,7 @@
     - restart systemd daemon
 
 - name: copy systemd units for api q service
-  template:
+  ansible.builtin.template:
     src: camac-api-q.service.j2
     dest: /etc/systemd/system/camac-api-q.service
   notify:
@@ -111,13 +111,13 @@
     - restart systemd daemon
 
 - name: render uwsgi ini
-  template:
+  ansible.builtin.template:
     src: camac_api_uwsgi.ini.j2
     dest: "{{ camac_python_confdir }}/uwsgi.ini"
   notify: restart camac api
 
 - name: render .env template
-  template:
+  ansible.builtin.template:
     src: camac_api_env.j2
     dest: "{{ camac_python_docroot }}/.env"
   notify:
@@ -127,7 +127,7 @@
 - name: Run fake migrations
   block:
     - name: check if fake migrations should be applied
-      shell: |
+      ansible.builtin.shell: |
         psql \
             -h {{ camac_db_host }} \
             -p {{ camac_db_port }} \
@@ -141,7 +141,7 @@
         PGPASSWORD: "{{ camac_db_password }}"
 
     - name: reset django_migrations table
-      shell: |
+      ansible.builtin.shell: |
         psql \
             -h {{ camac_db_host }} \
             -p {{ camac_db_port }} \
@@ -152,7 +152,7 @@
         PGPASSWORD: "{{ camac_db_password }}"
 
     - name: run camac fake migrations
-      django_manage:
+      community.general.django_manage:
         command: "migrate --fake {{ item.app }} {{ item.migration }}"
         app_path: "{{ camac_python_docroot }}"
         virtualenv: "{{ camac_python_pyenv_virtualenv_path }}"
@@ -164,48 +164,48 @@
         msg: "`camac_db_run_fake_migrations` is set to True but it appears that the fake migration have already run."
 
 - name: run camac migrations
-  django_manage:
+  community.general.django_manage:
     command: migrate
     app_path: "{{ camac_python_docroot }}"
     virtualenv: "{{ camac_python_pyenv_virtualenv_path }}"
 
 - name: load initial camac data
-  django_manage:
+  community.general.django_manage:
     command: camac_load
     app_path: "{{ camac_python_docroot }}"
     virtualenv: "{{ camac_python_pyenv_virtualenv_path }}"
   when: camac_load_data
 
 - name: clean dangling history records
-  django_manage:
+  community.general.django_manage:
     command: "cleanup_history --dangling --force"
     app_path: "{{ camac_python_docroot }}"
     virtualenv: "{{ camac_python_pyenv_virtualenv_path }}"
 
 - name: clean caluma form config with dangling answers
-  django_manage:
+  community.general.django_manage:
     command: "clean_caluma_config --cascade"
     app_path: "{{ camac_python_docroot }}"
     virtualenv: "{{ camac_python_pyenv_virtualenv_path }}"
 
 - name: collect camac staticfiles
-  django_manage:
+  community.general.django_manage:
     command: collectstatic
     app_path: "{{ camac_python_docroot }}"
     virtualenv: "{{ camac_python_pyenv_virtualenv_path }}"
 
 - name: fix permission on basedir
-  file:
+  ansible.builtin.file:
     path: "{{ camac_python_basedir }}"
     owner: "{{ camac_python_user }}"
 
 - name: delete old cronjobs
-  file:
+  ansible.builtin.file:
     state: absent
     path: "/etc/cron.d/bi-ebau"
 
 - name: configure cronjobs
-  cron:
+  ansible.builtin.cron:
     cron_file: "/etc/cron.d/bi-ebau"
     name: "{{ item.name }}"
     job: "{{ item.job }} | logger -t cron 2>&1"
