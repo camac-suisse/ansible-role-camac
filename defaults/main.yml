@@ -114,9 +114,6 @@ camac_db_host: "localhost"
 # Database server port
 camac_db_port: 5432
 
-# Whether to run fake migrations
-camac_db_run_fake_migrations: false
-
 # Whether to use persistent PDO connections to the database or not
 # https://www.php.net/manual/en/features.persistent-connections.php
 camac_db_persistent: "false"
