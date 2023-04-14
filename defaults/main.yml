@@ -494,7 +494,8 @@ dossier_import_client_id: "dossier-import"
 dossier_import_client_secret: ""
 
 # Name of the apache systemd service
-apache_service_name: "apache2"
+apache_services:
+  - "apache2"
 
 # uWSGI settings
 uwsgi_max_processes: 96

@@ -1,8 +1,9 @@
 ---
 - name: stop apache service
   ansible.builtin.service:
-    name: "{{ apache_service_name }}"
+    name: "{{ item }}"
     state: stopped
+  loop: "{{ apache_services }}"
   # Always trigger the start apache service handler, even if that service was
   # already stopped at this point
   changed_when: true

@@ -26,5 +26,6 @@
 
 - name: start apache service
   ansible.builtin.service:
-    name: "{{ apache_service_name }}"
+    name: "{{ item }}"
     state: started
+  loop: "{{ apache_services }}"
