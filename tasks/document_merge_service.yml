@@ -118,6 +118,16 @@
     - restart document merge service
     - restart systemd daemon
 
+- name: configure sysctl to allow unprivileged userns clone for unoconf
+  ansible.builtin.blockinfile:
+    dest: "/etc/sysctl.d/99-unprivileged-userns-clone.conf"
+    marker: "# {mark} ANSIBLE MANAGED"
+    create: yes
+    block: |
+      kernel.unprivileged_userns_clone=1
+  notify:
+    - load sysctl config
+
 - name: render uwsgi ini
   ansible.builtin.template:
     src: document_merge_service_uwsgi.ini.j2
