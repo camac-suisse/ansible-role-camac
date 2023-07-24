@@ -65,11 +65,10 @@
     dest: "{{ document_merge_service_media_root }}"
   delegate_to: "{{ inventory_hostname }}"
 
-- name: clone document merge service git repository
-  ansible.builtin.git:
-    repo: "{{ document_merge_service_git_repository_url }}"
+- name: copy document merge service code to docroot
+  ansible.posix.synchronize:
+    src: "{{ camac_releasedir }}/camac/document-merge-service/"
     dest: "{{ document_merge_service_docroot }}"
-    version: "{{ document_merge_service_version }}"
   notify:
     - restart document merge service
 
@@ -104,7 +103,7 @@
 - name: install document-merge-service django app dependencies
   ansible.builtin.shell:
     chdir: "{{ document_merge_service_docroot }}"
-    cmd: "{{ document_merge_service_pyenv_virtualenv_path }}/bin/poetry install --no-dev"
+    cmd: "{{ document_merge_service_pyenv_virtualenv_path }}/bin/poetry install --no-dev --extras pgsql"
   become: yes
   become_user: "{{ document_merge_service_user }}"
   notify:
