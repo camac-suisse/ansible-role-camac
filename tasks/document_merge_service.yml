@@ -69,6 +69,7 @@
   ansible.posix.synchronize:
     src: "{{ camac_releasedir }}/camac/document-merge-service/"
     dest: "{{ document_merge_service_docroot }}"
+  delegate_to: "{{ inventory_hostname }}"
   notify:
     - restart document merge service
 
