@@ -8,3 +8,9 @@ PATCHED_CONFIG=$(cat  {{ camac_php_docroot }}/public/ember/index.html \
 sed \
     "s|^<meta name=\"camac-ng/config/environment\".*|<meta name=\"camac-ng/config/environment\" content=\"$PATCHED_CONFIG\" />|" \
     -i {{ camac_php_docroot }}/public/ember/index.html
+
+# replace PORTAL_URL in build output from ember-ebau-core
+find {{ camac_php_docroot }}/public/ember/assets/ -type f -name *.js | xargs sed -i 's|\$PORTAL_URL|{{ camac_portal_uri }}|g'
+
+# remove compressed files to make sure that replaced files are served
+find {{ camac_php_docroot }}/public/ember/assets/ -type f \( -iname '*.js.gz' -o -iname '*.js.br' \) -delete
