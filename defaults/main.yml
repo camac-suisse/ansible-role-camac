@@ -300,6 +300,7 @@ camac_python_uwsgi_port: "8181"
 
 # Whether new users are automatically added to a set of different groups for testing/demo purposes.
 camac_demo_mode: false
+camac_demo_mode_groups: []
 
 # Url to the iframe embedded ember form
 camac_portal_uri: "http://caluma.127.0.0.1.nip.io"
