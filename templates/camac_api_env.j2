@@ -25,11 +25,15 @@ KEYCLOAK_CLIENT="{{ camac_python_keycloak_client }}"
 KEYCLOAK_PORTAL_CLIENT="{{ camac_python_keycloak_portal_client }}"
 OIDC_USERNAME_CLAIM="{{ camac_python_oidc_username_claim }}"
 DOCUMENT_MERGE_SERVICE_URL="{{ camac_document_merge_service_url }}"
-DEMO_MODE={{ camac_demo_mode }}
 DJANGO_ADMINS="Admin <{{ camac_admin_email }}>"
 DJANGO_REGISTRATION_URL={{ camac_python_django_registration_url }}
 SUPPORT_EMAIL_ADDRESS={{ camac_support_email }}
 GIS_BASE_URL={{ gis_url }}
+
+{% if camac_demo_mode %}
+DEMO_MODE={{ camac_demo_mode }}
+DEMO_MODE_GROUPS={{ camac_demo_mode_groups | join(",") }}
+{% endif %}
 
 DYNAMIC_TASKS_CLASSES="{{ camac_caluma_dynamic_tasks_classes }}"
 DYNAMIC_GROUPS_CLASSES="{{ camac_caluma_dynamic_groups_classes }}"
