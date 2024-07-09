@@ -289,8 +289,17 @@ camac_api_host: "http://{{ camac_python_uwsgi_address }}:{{ camac_python_uwsgi_p
 # Whether to use clamd to scan file uploads
 camac_python_clamd_enabled: false
 
+# Whether to use tcp or a socket to connect to the clamd service
+camac_python_clamd_use_tcp: false
+
 # Tcp address on which clamd is reachable
 camac_python_clamd_tcp_addr: "localhost"
+
+# Socket on which clamd is reachable
+camac_python_clamd_socket: "/var/run/clamav/clamd.ctl"
+
+# If true, uploaded files will be auto rejected if the clamd service is not reachable
+camac_python_clamd_fail_by_default: false
 
 # Address on which the camac-api uWSGI instance listens on
 camac_python_uwsgi_address: "0.0.0.0"
