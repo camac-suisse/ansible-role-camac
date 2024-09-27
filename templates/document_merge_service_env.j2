@@ -40,3 +40,5 @@ HTTPS_PROXY={{ https_proxy }}
 {% if no_proxy and (http_proxy or https_proxy) %}
 NO_PROXY={{ no_proxy }}
 {% endif %}
+
+LD_LIBRARY_PATH=/opt/openssl/lib/

@@ -1,4 +1,26 @@
 ---
+- name: temporary openssl build dir
+  ansible.builtin.tempfile:
+    state: directory
+  register: openssl_build_dir
+
+- name: install custom openssl
+  ansible.builtin.shell:
+    chdir: "{{openssl_build_dir.path}}"
+    cmd: |
+      git clone https://github.com/openssl/openssl.git
+      cd openssl
+      git checkout OpenSSL_1_1_1
+      ./config --prefix=/opt/openssl --openssldir=/opt/openssl/ssl
+      make -j5
+      make install
+      # optional, to be able to uninstall properly (and reinstall
+      # via the generated DEB package file):
+      # checkinstall --pkgname=openssl-custom
+      # Link system certs to custom OpenSSL
+      cd /opt/openssl/ssl/certs/
+      ln -sf /etc/ssl/certs/* .
+    creates: /opt/openssl/ssl/certs
 - name: clone pyenv git repository
   ansible.builtin.git:
     repo: "{{ camac_python_pyenv_git_repository_url }}"
