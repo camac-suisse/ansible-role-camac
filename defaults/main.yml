@@ -258,7 +258,7 @@ camac_python_oidc_username_claim: "preferred_username"
 camac_python_pyenv_install_directory: "{{ camac_python_user_home }}/.pyenv"
 
 # Pyenv Python version that will be used to run uwsgi
-camac_python_pyenv_python_version: "3.8.12"
+camac_python_pyenv_python_version: "3.10.9"
 
 # Url of the official pyenv repository
 camac_python_pyenv_git_repository_url: "https://github.com/pyenv/pyenv"
@@ -268,7 +268,7 @@ camac_python_pyenv_git_repository_url: "https://github.com/pyenv/pyenv"
 camac_python_user_bashrc: "{{ camac_python_user_home}}/.bashrc"
 
 # Pyenv version (corresponds to a valid git tag)
-camac_python_pyenv_version: "v2.2.4"
+camac_python_pyenv_version: "v2.3.8"
 
 # Url of the official pyenv-virtualenv plugin repository
 camac_python_pyenv_virtualenv_git_repository_url: "https://github.com/pyenv/pyenv-virtualenv"
@@ -406,7 +406,7 @@ document_merge_service_user_home: "/home/{{ document_merge_service_user }}"
 document_merge_service_pyenv_install_directory: "{{ document_merge_service_user_home }}/.pyenv"
 
 # Pyenv Python version that will be used to run uwsgi/caluma
-document_merge_service_pyenv_python_version: "3.8.12"
+document_merge_service_pyenv_python_version: "3.10.9"
 
 # Url of the official pyenv repository
 document_merge_service_pyenv_git_repository_url: "https://github.com/pyenv/pyenv"
