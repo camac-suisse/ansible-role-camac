@@ -475,13 +475,19 @@ document_merge_service_media_root: "{{ document_merge_service_basedir }}/templat
 # Where temporary files will be stored
 document_merge_service_database_dir: "{{ document_merge_service_basedir }}/tmp"
 
+# Internal requests
+internal_host_schema: "http://"
+# No default, this needs to be changed per environment!
+# internal_host_address: "localhost"
+internal_host_url: "{{ internal_host_schema }}{{ internal_host_address }}"
+
 # A proxy which the services should use for requests (e.g auth)
 # Either false or protocol://host:port
 http_proxy: false
 https_proxy: false
 
 # Proxy ignores
-no_proxy: "{{ camac_python_uwsgi_address }},{{ document_merge_service_uwsgi_address }}"
+no_proxy: "{{ camac_python_uwsgi_address }},{{ document_merge_service_uwsgi_address }},{{ internal_host_address }}"
 
 # GWR fernet key
 gwr_fernet_key: ""
