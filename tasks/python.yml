@@ -152,6 +152,12 @@
     app_path: "{{ camac_python_docroot }}"
     virtualenv: "{{ camac_python_pyenv_virtualenv_path }}"
 
+- name: build compiles translation data
+  community.general.django_manage:
+    command: compilemessages
+    app_path: "{{ camac_python_docroot }}"
+    virtualenv: "{{ camac_python_pyenv_virtualenv_path }}"
+
 - name: load initial camac data
   community.general.django_manage:
     command: camac_load
