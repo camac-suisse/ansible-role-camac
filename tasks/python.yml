@@ -177,6 +177,12 @@
     app_path: "{{ camac_python_docroot }}"
     virtualenv: "{{ camac_python_pyenv_virtualenv_path }}"
 
+- name: compile camac language files
+  community.general.django_manage:
+    command: compilemessages
+    app_path: "{{ camac_python_docroot }}"
+    virtualenv: "{{ camac_python_pyenv_virtualenv_path }}"
+
 - name: fix permission on basedir
   ansible.builtin.file:
     path: "{{ camac_python_basedir }}"
