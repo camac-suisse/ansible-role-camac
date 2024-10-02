@@ -30,6 +30,7 @@ EMAIL_PORT="{{ camac_python_django_email_port }}"
 DMS_VISIBILITY_CLASSES=document_merge_service.extensions.visibilities.CustomVisibility
 DMS_PERMISSION_CLASSES=document_merge_service.extensions.permissions.CustomPermission
 EXTENSIONS_ARGUMENTS=DJANGO_API={{ camac_portal_uri }},APPLICATION={{ camac_application }}
+DATA_UPLOAD_MAX_NUMBER_FIELDS=2000
 
 {% if http_proxy %}
 HTTP_PROXY={{ http_proxy }}
