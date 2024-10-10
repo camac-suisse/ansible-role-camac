@@ -496,6 +496,10 @@ gwr_housing_stat_base_uri: ""
 gis_url: "https://www.geoservice.apps.be.ch"
 gis_map_url: "https://www.map.apps.be.ch"
 
+# Document merge service extensions
+document_merge_service_ext_service_group_id: "20000"
+document_merge_service_ext_admin_service_ids: ["20029"]
+
 # Import
 dossier_import_client_id: "dossier-import"
 dossier_import_client_secret: ""
