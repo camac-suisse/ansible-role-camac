@@ -32,6 +32,10 @@
   ansible.builtin.shell: "{{ document_merge_service_pyenv_install_directory }}/bin/pyenv install -s {{ document_merge_service_pyenv_python_version }}"
   become: yes
   become_user: "{{ document_merge_service_user }}"
+  environment:
+    CONFIGURE_OPTS: "--with-openssl=/opt/openssl/ --with-openssl-rpath=auto"
+    LDFLAGS: "-Wl,-rpath,/opt/openssl/"
+
 
 - name: check if pyenv virtualenv exists
   ansible.builtin.stat:

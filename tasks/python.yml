@@ -54,6 +54,9 @@
   ansible.builtin.shell: "{{ camac_python_pyenv_install_directory }}/bin/pyenv install -s {{ camac_python_pyenv_python_version }}"
   become: yes
   become_user: "{{ camac_python_user }}"
+  environment:
+    CONFIGURE_OPTS: "--with-openssl=/opt/openssl/ --with-openssl-rpath=auto"
+    LDFLAGS: "-Wl,-rpath,/opt/openssl/"
 
 - name: check if pyenv virtualenv exists
   ansible.builtin.stat:
