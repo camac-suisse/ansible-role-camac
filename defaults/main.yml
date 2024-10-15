@@ -466,6 +466,9 @@ document_merge_service_oidc_bearer_token_revalidation_time: 270
 # Url to the  keycloak userinfo endpoint
 document_merge_service_oidc_userinfo_endpoint: "{{ camac_auth_idp_url }}/realms/{{ camac_auth_idp_realm }}/protocol/openid-connect/userinfo"
 
+# OIDC username claim in document-merge-service
+document_merge_service_oidc_username_claim: "{{ camac_python_oidc_username_claim }}"
+
 # https://github.com/adfinis-sygroup/document-merge-service/issues/94
 document_merge_service_docxtemplate_jinja_extensions: "jinja2.ext.do,jinja2.ext.loopcontrols"
 
