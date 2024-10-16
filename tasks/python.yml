@@ -1,4 +1,9 @@
 ---
+- name: install gettext
+  ansible.builtin.package:
+    name: gettext
+    state: present
+
 - name: temporary openssl build dir
   ansible.builtin.tempfile:
     state: directory
