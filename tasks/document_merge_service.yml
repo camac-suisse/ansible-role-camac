@@ -108,9 +108,11 @@
 - name: install document-merge-service django app dependencies
   ansible.builtin.shell:
     chdir: "{{ document_merge_service_docroot }}"
-    cmd: "{{ document_merge_service_pyenv_virtualenv_path }}/bin/poetry install --no-dev --extras pgsql"
+    cmd: "{{ document_merge_service_pyenv_virtualenv_path }}/bin/poetry install --only main --extras pgsql"
   become: yes
   become_user: "{{ document_merge_service_user }}"
+  environment:
+    PYENV_VERSION: ""
   notify:
     - restart document merge service
 
@@ -152,6 +154,8 @@
     cmd: "{{ document_merge_service_pyenv_virtualenv_path }}/bin/poetry run python {{ document_merge_service_docroot }}/manage.py migrate"
   become: yes
   become_user: "{{ document_merge_service_user }}"
+  environment:
+    PYENV_VERSION: ""
 
 - name: load initial document-merge-service config
   ansible.builtin.shell:
@@ -159,4 +163,6 @@
     cmd: "{{ document_merge_service_pyenv_virtualenv_path }}/bin/poetry run python {{ document_merge_service_docroot }}/manage.py loaddata {{ camac_releasedir }}/camac/document-merge-service/fixtures/dump.json"
   become: yes
   become_user: "{{ document_merge_service_user }}"
+  environment:
+    PYENV_VERSION: ""
   when: document_merge_service_load_data
