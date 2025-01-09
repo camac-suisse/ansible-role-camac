@@ -6,7 +6,7 @@ PATCHED_CONFIG=$(cat  {{ camac_php_docroot }}/public/ember/index.html \
     | python3 -c "import sys, urllib.parse as up; print(up.quote(sys.stdin.read()));")
 
 sed \
-    "s|^<meta name=\"camac-ng/config/environment\".*|<meta name=\"camac-ng/config/environment\" content=\"$PATCHED_CONFIG\" />|" \
+    "s|<meta name=\"camac-ng/config/environment\".*|<meta name=\"camac-ng/config/environment\" content=\"$PATCHED_CONFIG\" />|" \
     -i {{ camac_php_docroot }}/public/ember/index.html
 
 # replace PORTAL_URL in build output from ember-ebau-core
