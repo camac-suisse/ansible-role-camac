@@ -32,6 +32,7 @@ DJANGO_ADMINS="Admin <{{ camac_admin_email }}>"
 DJANGO_REGISTRATION_URL={{ camac_python_django_registration_url }}
 SUPPORT_EMAIL_ADDRESS={{ camac_support_email }}
 GIS_BASE_URL={{ gis_url }}
+DISABLE_MAGIC_BYTE_CHECK_FOR_MIME_TYPES={{ disable_magic_byte_check_for_mime_types | join(",") }}
 
 {% if camac_demo_mode %}
 DEMO_MODE={{ camac_demo_mode }}

@@ -528,3 +528,8 @@ camac_keycloak_db_password: ""
 camac_keycloak_postgres_jdbc_version: "42.4.0"
 camac_keycloak_postgres_jdbc_release: "https://jdbc.postgresql.org/download/postgresql-{{ camac_keycloak_postgres_jdbc_version }}.jar"
 camac_keycloak_postgres_jdbc_jarfile_checksum: "fe25b9c0a2c59458504ec88862853df522ee87f8a02564835d537c29ae4cb125"
+
+# Mime types that will be ignored in the magic byte check
+disable_magic_byte_check_for_mime_types:
+  - application/vnd.openxmlformats-officedocument.wordprocessingml.document
+  - application/vnd.openxmlformats-officedocument.spreadsheetml.sheet
