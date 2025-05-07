@@ -529,3 +529,7 @@ camac_keycloak_postgres_jdbc_jarfile_checksum: "fe25b9c0a2c59458504ec88862853df5
 disable_magic_byte_check_for_mime_types:
   - application/vnd.openxmlformats-officedocument.wordprocessingml.document
   - application/vnd.openxmlformats-officedocument.spreadsheetml.sheet
+
+# Additionally allowed keycloak clients
+keycloak_additional_allowed_clients:
+  - adfinis-lasttests
