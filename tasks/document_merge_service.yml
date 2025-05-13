@@ -36,7 +36,6 @@
     CONFIGURE_OPTS: "--with-openssl=/opt/openssl/ --with-openssl-rpath=auto"
     LDFLAGS: "-Wl,-rpath,/opt/openssl/"
 
-
 - name: check if pyenv virtualenv exists
   ansible.builtin.stat:
     path: "{{ document_merge_service_pyenv_virtualenv_path }}"
@@ -166,3 +165,17 @@
   environment:
     PYENV_VERSION: ""
   when: document_merge_service_load_data
+
+- name: download libreoffice 6.3 archive
+  ansible.builtin.get_url:
+    url: https://downloadarchive.documentfoundation.org/libreoffice/old/6.3.6.2/deb/x86_64/LibreOffice_6.3.6.2_Linux_x86-64_deb.tar.gz
+    dest: /tmp/LibreOffice_6.3.6.2_Linux_x86-64_deb.tar.gz
+
+- name: extract libreoffice 6.3 archive
+  ansible.builtin.unarchive:
+    src: /tmp/LibreOffice_6.3.6.2_Linux_x86-64_deb.tar.gz
+    dest: /tmp/
+    remote_src: yes
+
+- name: install libreoffice 6.3
+  ansible.builtin.command: find /tmp/LibreOffice_6.3.6.2_Linux_x86-64_deb/DEBS/ -name "*.deb" -exec apt install --fix-broken -y {} +
