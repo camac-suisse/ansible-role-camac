@@ -503,6 +503,12 @@ gis_map_url: "https://www.map.apps.be.ch"
 dossier_import_client_id: "dossier-import"
 dossier_import_client_secret: ""
 
+# BE-GEVER
+gever_client_id: "xxx"
+gever_client_secret: "xxx"
+gever_token_url: ""
+gever_api_base_url: ""
+
 # Name of the apache systemd service
 apache_service_name: "apache2"
 
